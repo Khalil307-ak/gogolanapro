@@ -1,0 +1,5 @@
+# 
+User-agent: *
+Disallow: 
+Disallow: /cgi-bin/
+Sitemap: https://github.com/gogolanapro/gogolanaproweb/blob/main/sitemap.xml
