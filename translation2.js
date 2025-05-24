@@ -44,7 +44,17 @@ const translations = {
         "next-steps-projects": "Advanced Projects: Build a web app or an AI tool.",
         footer: "© 2025 Learn Python. All rights reserved.",
         privacy: "Privacy Policy",
-        terms: "Terms of Use"
+        terms: "Terms of Use",
+        "copy-code": "Copy Code",
+        "copy-success": "Code copied!",
+        "form-name": "Name:",
+        "form-email": "Email:",
+        "form-message": "Message:",
+        "form-submit": "Submit",
+        "dropdown-title": "More Options",
+        "dropdown-item1": "Advanced Python",
+        "dropdown-item2": "Python Libraries",
+        "social-media": "Follow Us"
     },
     ar: {
         title: "الأساسيات وكيفية البدء مع بايثون",
@@ -91,18 +101,27 @@ const translations = {
         "next-steps-projects": "مشاريع متقدمة: بناء تطبيق ويب أو أداة ذكاء اصطناعي.",
         footer: "© 2025 تعلم لغة بايتون. جميع الحقوق محفوظة.",
         privacy: "سياسة الخصوصية",
-        terms: "شروط الاستخدام"
+        terms: "شروط الاستخدام",
+        "copy-code": "نسخ الكود",
+        "copy-success": "تم نسخ الكود!",
+        "form-name": "الاسم:",
+        "form-email": "البريد الإلكتروني:",
+        "form-message": "الرسالة:",
+        "form-submit": "إرسال",
+        "dropdown-title": "خيارات إضافية",
+        "dropdown-item1": "بايثون المتقدم",
+        "dropdown-item2": "مكتبات بايثون",
+        "social-media": "تابعنا"
     }
 };
 
-// وظيفة لتحديث الترجمات مع الحفاظ على العناصر الفرعية (مثل <code>)
+// وظيفة لتحديث الترجمات مع الحفاظ على العناصر الفرعية
 function updateTranslations(lang) {
     const elements = document.querySelectorAll('[data-i18n]');
     elements.forEach(el => {
         const key = el.getAttribute('data-i18n');
         const translation = translations[lang][key] || `Translation missing for ${key}`;
         if (el.children.length > 0) {
-            // إذا كان العنصر يحتوي على عناصر فرعية (مثل <code>)، استبدل النص فقط
             const textNode = Array.from(el.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
             if (textNode) {
                 textNode.textContent = translation;
@@ -118,16 +137,36 @@ function updateTranslations(lang) {
     });
 }
 
+// إضافة أزرار نسخ الكود وتحديث الترجمات
+document.addEventListener('DOMContentLoaded', () => {
+    const lang = localStorage.getItem('preferredLanguage') || 'ar';
+    document.getElementById('language-select').value = lang;
+    updateTranslations(lang);
+
+    // إضافة زر نسخ لكل مثال كود
+    document.querySelectorAll('.course-example').forEach(example => {
+        const button = document.createElement('button');
+        button.className = 'copy-button';
+        button.setAttribute('data-i18n', 'copy-code');
+        button.textContent = translations[lang]['copy-code'] || 'Copy Code';
+        button.onclick = () => {
+            const code = example.querySelector('code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert(translations[lang]['copy-success'] || 'Code copied!');
+            });
+        };
+        example.appendChild(button);
+    });
+});
+
 // تغيير اللغة عند اختيار لغة جديدة
 document.getElementById('language-select').addEventListener('change', function() {
     const lang = this.value;
     updateTranslations(lang);
-    localStorage.setItem('preferredLanguage', lang); // حفظ اللغة المفضلة
-});
+    localStorage.setItem('preferredLanguage', lang);
 
-// تحميل اللغة الافتراضية أو المحفوظة عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-    const savedLang = localStorage.getItem('preferredLanguage') || 'ar';
-    document.getElementById('language-select').value = savedLang;
-    updateTranslations(savedLang);
+    // تحديث نص أزرار نسخ الكود
+    document.querySelectorAll('.copy-button').forEach(button => {
+        button.textContent = translations[lang]['copy-code'] || 'Copy Code';
+    });
 });
