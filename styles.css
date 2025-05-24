@@ -1,159 +1,279 @@
-/* CSS الأساسي */
-body {
-    font-family: Arial, sans-serif;
+/* إعادة تعيين الأنماط الافتراضية لضمان التوافق */
+* {
     margin: 0;
     padding: 0;
-    direction: rtl;
-    background-color: #f4f4f4;
+    box-sizing: border-box;
+}
+
+/* تنسيق الجسم الرئيسي مع الخلفية المتحركة */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background: linear-gradient(45deg, #adf371, #71f3d3, #f39f71, #7178f3, #f371e0);
+    background-size: 400% 400%;
+    animation: gradient 20s ease infinite;
     color: #333;
+    min-height: 100vh;
+    direction: rtl;
 }
 
+/* Animation للخلفية */
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* تنسيق الحاوية الرئيسية */
 .container {
-    width: 80%;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 20px;
 }
 
+/* تنسيق الهيدر */
 header {
-    background: #333;
-    color: #fff;
-    padding: 20px 0;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    animation: slideInDown 0.5s ease-out;
 }
 
 header h1 {
     text-align: center;
-    margin: 0;
     font-size: 2.5em;
-    animation: fadeIn 2s ease-in-out;
+    color: #333;
+    margin: 0;
+    padding: 20px 0;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
+/* تنسيق قائمة التنقل */
 nav ul {
     list-style: none;
-    padding: 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
 }
 
 nav ul li {
     display: inline;
-    margin: 0 15px;
 }
 
 nav ul li a {
-    color: #fff;
     text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
     font-size: 1.2em;
-    transition: color 0.3s;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #f4f4f4;
+    color: #0056b3;
+    transform: scale(1.1);
 }
 
+/* تنسيق اختيار اللغة */
 #language-select {
-    display: block;
-    margin: 10px auto;
-    padding: 5px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-section {
-    padding: 20px 0;
+#language-select:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* تنسيق العناوين */
+h1, h2, h3, h4 {
+    color: #222;
+    margin-bottom: 15px;
 }
 
 h2 {
     text-align: center;
     font-size: 2em;
-    margin-bottom: 10px;
-    animation: slideIn 1s ease-in-out;
+    animation: slideInLeft 1s ease-in-out;
 }
 
+h3, h4 {
+    animation: fadeInUp 1s ease-in-out;
+}
+
+/* تنسيق النصوص */
 p {
-    text-align: center;
     font-size: 1.2em;
     margin-bottom: 20px;
-    animation: fadeIn 2s ease-in-out;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
-.course {
-    background: #fff;
-    padding: 15px;
-    margin-bottom: 20px;
+/* تنسيق أمثلة الكود */
+.course-example {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 15px 0;
+    font-family: 'Courier New', Courier, monospace;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-example:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.course-example code {
+    white-space: pre-wrap;
+    display: block;
+}
+
+/* زر نسخ الكود */
+.copy-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    background: #007bff;
+    color: #fff;
+    border: none;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.course:hover {
-    transform: translateY(-10px);
+.copy-button:hover {
+    background: #0056b3;
+    transform: scale(1.05);
 }
 
+/* تنسيق كروت المشاريع */
+.project-card {
+    background: #fff;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* تنسيق الروابط */
+.resource-link {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.resource-link:hover {
+    color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* تنسيق الإعلانات */
+.adsbygoogle {
+    margin: 20px 0;
+}
+
+/* تنسيق التواصل الاجتماعي */
 .social-media {
     text-align: center;
-    padding: 0;
+    padding: 10px 0;
 }
 
 .social-media li {
     display: inline;
-    margin: 0 10px;
+    margin: 0 15px;
 }
 
 .social-media a {
     color: #333;
-    text-decoration: none;
-    font-size: 1.5em;
-    transition: color 0.3s;
+    font-size: 1.8em;
+    transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .social-media a:hover {
-    color: #555;
+    color: #007bff;
+    transform: rotate(10deg) scale(1.2);
 }
 
+/* تنسيق القائمة المنسدلة (Dropdown) */
 .dropdown {
-    text-align: center;
-    margin-top: 20px;
+    position: relative;
+    display: inline-block;
+    margin: 20px 0;
 }
 
 .dropbtn {
     background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 1.1em;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .dropbtn:hover {
     background-color: #555;
+    transform: scale(1.05);
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background-color: #fff;
     min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
     z-index: 1;
+    animation: slideDown 0.3s ease-in-out;
 }
 
 .dropdown-content p {
-    color: black;
+    color: #333;
     padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+    margin: 0;
     text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content p:hover {
+    background-color: #f4f4f4;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
+/* تنسيق النماذج */
 form {
     max-width: 600px;
     margin: 20px auto;
     background: #fff;
     padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 2s ease-in-out;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 1s ease-in-out;
 }
 
 form h3 {
@@ -163,43 +283,90 @@ form h3 {
 
 form label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
-form input, form textarea, form button {
+form input, form textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus, form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
 }
 
 form button {
-    background: #333;
-    color: white;
+    width: 100%;
+    padding: 12px;
+    background: #007bff;
+    color: #fff;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 1.1em;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 form button:hover {
-    background: #555;
+    background: #0056b3;
+    transform: scale(1.03);
 }
 
+/* تنسيق الفوتر */
 footer {
     background: #333;
     color: #fff;
     text-align: center;
     padding: 20px 0;
     margin-top: 20px;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
 footer p {
     margin: 0;
-    font-size: 1em;
 }
 
-/* حركات */
+footer a {
+    color: #71f3d3;
+    text-decoration: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+footer a:hover {
+    color: #adf371;
+    transform: scale(1.05);
+}
+
+/* Animations إضافية */
+@keyframes slideInDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -209,11 +376,66 @@ footer p {
     }
 }
 
-@keyframes slideIn {
+@keyframes fadeInUp {
     from {
-        transform: translateX(-100%);
+        opacity: 0;
+        transform: translateY(20px);
     }
     to {
-        transform: translateX(0);
+        opacity: 1;
+        transform: translateY(0);
     }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* التصميم المتجاوب (Responsive) */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 10px;
+    }
+    header h1 {
+        font-size: 1.8em;
+    }
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    nav ul li a {
+        font-size: 1em;
+    }
+    #language-select {
+        position: static;
+        margin: 10px auto;
+        width: 150px;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    h3, h4 {
+        font-size: 1.2em;
+    }
+    .social-media a {
+        font-size: 1.5em;
+    }
+    .dropdown-content {
+        min-width: 150px;
+    }
+}
+
+/* تحسين الـ accessibility */
+:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
 }
