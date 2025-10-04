@@ -126,7 +126,7 @@ const translations = {
         "policy-updates-title": "تحديثات سياسة الخصوصية",
         "policy-updates-text": "قد نقوم بتحديث سياسة الخصوصية من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة، ونشجعك على مراجعة سياسة الخصوصية بانتظام للبقاء على اطلاع على كيفية حماية معلوماتك.",
         // تم توحيد الإيميل في الاتصال
-        "contact-privacy-text": "إذا كان لديك أي أسئلة أو استفسارات حول سياسة الخصوصية، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>",
+        "contact-privacy-text": "إذا كان لديك أي أسئلة أو استفسارات حول سياسة الخصوصية، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:khalil.akram307@gmail.com\">khalil.akram307@gmail.com</a>",
         
         // محتوى صفحة "شروط الاستخدام" (Terms of Use)
         "terms-page-title": "شروط الاستخدام",
@@ -139,7 +139,7 @@ const translations = {
         "liability-text": "لن نكون مسؤولين عن أي أضرار تنشأ عن استخدامك للموقع. يتم توفير المحتوى \"كما هو\" وبدون أي ضمانات.",
         "modifications-title": "تعديلات على الشروط",
         "modifications-text": "نحتفظ بالحق في تعديل شروط الاستخدام هذه في أي وقت. سيتم نشر التعديلات على هذه الصفحة، ويُعتبر استمرارك في استخدام الموقع بعد نشر التعديلات موافقة منك على هذه التعديلات.",
-        "contact-terms-text": "إذا كان لديك أي أسئلة حول شروط الاستخدام، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>"
+        "contact-terms-text": "إذا كان لديك أي أسئلة حول شروط الاستخدام، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:khalil.akram307@gmail.com\">khalil.akram307@gmail.com</a>"
     },
     // --------------------------------------------------------------------------------
     // الإنجليزية (English) - موحدة ومصححة
@@ -268,7 +268,7 @@ const translations = {
         "policy-updates-title": "Privacy Policy Updates",
         "policy-updates-text": "We may update this Privacy Policy from time to time. Any changes will be posted on this page, and your continued use of the site after such changes constitutes your acceptance of the new terms.",
         // تم توحيد الإيميل في الاتصال
-        "contact-privacy-text": "If you have any questions or concerns about the Privacy Policy, please contact us via the following email: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>",
+        "contact-privacy-text": "If you have any questions or concerns about the Privacy Policy, please contact us via the following email: <a href=\"mailto:khalil.akram307@gmail.com\">khalil.akram307@gmail.com</a>",
 
         // محتوى صفحة "شروط الاستخدام" (Terms of Use)
         "terms-page-title": "Terms of Use",
@@ -281,7 +281,7 @@ const translations = {
         "liability-text": "We will not be liable for any damages arising from your use of the site. The content is provided \"as is\" without any warranties.",
         "modifications-title": "Modifications to Terms",
         "modifications-text": "We reserve the right to modify these terms of use at any time. Changes will be posted on this page, and your continued use of the site after such changes constitutes your acceptance of the new terms.",
-        "contact-terms-text": "If you have any questions about the terms of use, please contact us via the following email: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>"
+        "contact-terms-text": "If you have any questions about the terms of use, please contact us via the following email: <a href=\"mailto:khalil.akram307@gmail.com\">khalil.akram307@gmail.com</a>"
     }
 };
 
@@ -333,3 +333,4 @@ function applyTranslations(lang) {
         }
     });
 }
+
