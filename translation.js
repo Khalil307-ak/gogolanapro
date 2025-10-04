@@ -1,69 +1,166 @@
-// تعريف الترجمات
 const translations = {
-    en: {
-        title: "Data Analysis with Python",
-        "page-title": "Data Analysis with Python",
-        "home": "Home",
-        "about": "About",
-        "courses": "Courses",
-        "contact": "Contact",
-        "section-title": "Data Analysis with Python",
-        "intro": "Python is one of the best languages for data analysis. It provides a set of powerful libraries that make the analysis process easy and efficient.",
-        "libraries": "Libraries Used",
-        "pandas": "Pandas: A powerful library for data manipulation and analysis.",
-        "numpy": "NumPy: A library that provides support for multidimensional arrays and mathematical operations.",
-        "matplotlib": "Matplotlib: A library for plotting and visualizing data.",
-        "seaborn": "Seaborn: A library that provides beautiful and informative statistical graphics.",
-        "example": "Example of Data Analysis",
-        "example-description": "Here is a simple example of how to use the Pandas library to analyze a dataset:",
-        "example-code": "import pandas as pd\n\n# Load the dataset\ndata = pd.read_csv('data.csv')\n\n# Display a summary of the data\nprint(data.head())\n\n# Analyze the data\nprint(data.describe())",
-        "example-explanation": "In this example, we load a dataset from a CSV file and display the first 5 rows of it. We then perform some basic analysis on the data.",
-        "footer": "&copy; 2024 Learn Python. All rights reserved.",
-        "privacy": "Privacy Policy",
-        "terms": "Terms of Use"
-    },
-    ar: {
-        title: "تحليل البيانات ببايتون",
-        "page-title": "تحليل البيانات ببايتون",
+    // --------------------------------------------------------------------------------
+    // العربية (Arabic)
+    // --------------------------------------------------------------------------------
+    "ar": {
+        "title": "تعلم لغة بايتون",
+        "site-title": "تعلم لغة بايتون",
         "home": "الرئيسية",
-        "about": "حول",
+        "about": "حول بايثون",
         "courses": "الدورات",
         "contact": "اتصل بنا",
-        "section-title": "تحليل البيانات ببايتون",
-        "intro": "بايثون هي واحدة من أفضل اللغات لتحليل البيانات. توفر مجموعة من المكتبات القوية التي تجعل عملية التحليل سهلة وفعالة.",
-        "libraries": "المكتبات المستخدمة",
-        "pandas": "Pandas: مكتبة قوية لمعالجة البيانات وتحليلها.",
-        "numpy": "NumPy: مكتبة توفر دعمًا لمصفوفات متعددة الأبعاد والعمليات الرياضية.",
-        "matplotlib": "Matplotlib: مكتبة للرسم البياني والتصور البياني للبيانات.",
-        "seaborn": "Seaborn: مكتبة توفر رسومات بيانية أنيقة ومحسنة لمجموعة من التحليلات.",
-        "example": "مثال على تحليل البيانات",
-        "example-description": "فيما يلي مثال بسيط لكيفية استخدام مكتبة Pandas لتحليل مجموعة بيانات:",
-        "example-code": "import pandas as pd\n\n# تحميل مجموعة البيانات\ndata = pd.read_csv('data.csv')\n\n# عرض نظرة عامة على البيانات\nprint(data.head())\n\n# تحليل البيانات\nprint(data.describe())",
-        "example-explanation": "في هذا المثال، نقوم بتحميل مجموعة بيانات من ملف CSV وعرض أول 5 صفوف منها. ثم نقوم بإجراء تحليل أساسي للبيانات.",
-        "footer": "&copy; 2024 تعلم لغة بايتون. جميع الحقوق محفوظة.",
+        "home-welcome": "مرحباً بكم في موقع تعلم لغة بايتون",
+        "home-description": "هنا ستجد كل الموارد والدورات اللازمة لتعلم لغة بايتون من البداية إلى الاحتراف. ابدأ رحلتك اليوم!",
+        "start-learning": "ابدأ التعلم الآن",
+        "about-title": "حول بايثون",
+        "about-description": "بايتون هي لغة برمجة عالية المستوى، مشهورة بسهولتها وبساطتها. تُستخدم في تطوير البرمجيات، تحليل البيانات، الذكاء الاصطناعي، وتطوير الويب.",
+        "about-features": "تتميز بايتون بمكتبات قوية مثل pandas، numpy، وtensorflow، مما يجعلها مثالية للمبتدئين والمحترفين.",
+        "courses-title": "الدورات",
+        "course-intro": "مقدمة إلى بايثون",
+        "course-intro-desc": "دورة شاملة للمبتدئين، تغطي الأساسيات وكيفية البدء مع بايتون.",
+        "course-oo": "برمجة الكائنات في بايتون",
+        "course-oo-desc": "دورة متقدمة تغطي البرمجة الكائنية وكيفية استخدامها.",
+        "course-data": "تحليل البيانات ببايثون",
+        "course-data-desc": "استخدم مكتبات مثل pandas وmatplotlib لتحليل البيانات.",
+        "contact-title": "اتصل بنا",
+        "contact-description": "تواصلوا معنا عبر وسائل التواصل الاجتماعي أو أرسلوا رسالة!",
+        "form-title": "أرسل لنا رسالة",
+        "form-name": "الاسم:",
+        "form-email": "البريد الإلكتروني:",
+        "form-message": "الرسالة:",
+        "form-submit": "إرسال",
+        "footer": "© 2025 تعلم لغة بايتون. جميع الحقوق محفوظة.",
         "privacy": "سياسة الخصوصية",
-        "terms": "شروط الاستخدام"
+        "terms": "شروط الاستخدام",
+        // محتوى صفحة "برمجة الكائنات"
+        "oo-page-title": "برمجة الكائنات في بايثون",
+        "oo-section-title": "المفاهيم الأساسية لبرمجة الكائنات (OOP)",
+        "oo-intro": "برمجة الكائنات هي نموذج برمجي يستخدم الكائنات (objects) لتنظيم وتحليل البيانات. في بايتون، تعد البرمجة الكائنية وسيلة قوية لتنظيم الشيفرات وجعلها أكثر مرونة وإعادة استخدام.",
+        "oo-concepts": "المفاهيم الأساسية",
+        "oo-classes": "الفصول (Classes): هي القوالب التي يتم إنشاء الكائنات بناءً عليها.",
+        "oo-objects": "الكائنات (Objects): هي مثيلات للفصول وتحتوي على بيانات وسلوكيات.",
+        "oo-inheritance": "الوراثة (Inheritance): هي ميزة تسمح للفصول بترث خصائص وسلوكيات من فصول أخرى.",
+        "oo-polymorphism": "تعدد الأشكال (Polymorphism): هو القدرة على استخدام نفس الاسم لأشياء مختلفة بناءً على السياق.",
+        "oo-example": "مثال على برمجة الكائنات",
+        "oo-example-description": "فيما يلي مثال بسيط يوضح كيفية استخدام البرمجة الكائنية في بايتون:",
+        "oo-example-explanation": "في هذا المثال، قمنا بإنشاء فصل `Animal` وفصل `Dog` الذي يرث من `Animal`. ثم قمنا بإنشاء كائن من فصل `Dog` واستخدامه.",
+        // محتوى صفحة "تحليل البيانات"
+        "data-page-title": "تحليل البيانات ببايثون",
+        "data-section-title": "أساسيات تحليل البيانات ببايثون",
+        "data-intro": "بايثون هي واحدة من أفضل اللغات لتحليل البيانات. توفر مجموعة من المكتبات القوية التي تجعل عملية التحليل سهلة وفعالة.",
+        "data-libraries": "المكتبات المستخدمة",
+        "data-pandas": "Pandas: مكتبة قوية لمعالجة البيانات وتحليلها.",
+        "data-numpy": "NumPy: مكتبة توفر دعمًا لمصفوفات متعددة الأبعاد والعمليات الرياضية.",
+        "data-matplotlib": "Matplotlib: مكتبة للرسم البياني والتصور البياني للبيانات.",
+        "data-seaborn": "Seaborn: مكتبة توفر رسومات بيانية أنيقة ومحسنة لمجموعة من التحليلات.",
+        "data-example": "مثال على تحليل البيانات",
+        "data-example-description": "فيما يلي مثال بسيط لكيفية استخدام مكتبة Pandas لتحليل مجموعة بيانات:",
+        "data-example-explanation": "في هذا المثال، نقوم بتحميل مجموعة بيانات من ملف CSV وعرض أول 5 صفوف منها. ثم نقوم بإجراء تحليل أساسي للبيانات."
+    },
+    // --------------------------------------------------------------------------------
+    // الإنجليزية (English)
+    // --------------------------------------------------------------------------------
+    "en": {
+        "title": "Learn Python Language",
+        "site-title": "Learn Python Language",
+        "home": "Home",
+        "about": "About Python",
+        "courses": "Courses",
+        "contact": "Contact Us",
+        "home-welcome": "Welcome to the Python Learning Website",
+        "home-description": "Here you will find all the resources and courses necessary to learn Python from beginner to professional. Start your journey today!",
+        "start-learning": "Start Learning Now",
+        "about-title": "About Python",
+        "about-description": "Python is a high-level programming language, known for its simplicity and ease of use. It is used in software development, data analysis, artificial intelligence, and web development.",
+        "about-features": "Python features powerful libraries like pandas, numpy, and tensorflow, making it ideal for beginners and professionals.",
+        "courses-title": "Courses",
+        "course-intro": "Introduction to Python",
+        "course-intro-desc": "A comprehensive course for beginners, covering the basics and how to get started with Python.",
+        "course-oo": "Object-Oriented Programming (OOP)",
+        "course-oo-desc": "An advanced course covering object-oriented programming and its usage.",
+        "course-data": "Data Analysis with Python",
+        "course-data-desc": "Use libraries like pandas and matplotlib for data analysis.",
+        "contact-title": "Contact Us",
+        "contact-description": "Connect with us on social media or send us a message!",
+        "form-title": "Send us a message",
+        "form-name": "Name:",
+        "form-email": "Email:",
+        "form-message": "Message:",
+        "form-submit": "Send",
+        "footer": "© 2025 Learn Python Language. All rights reserved.",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Use",
+        // "Object-Oriented Programming" Page Content
+        "oo-page-title": "Object-Oriented Programming in Python",
+        "oo-section-title": "Fundamental Concepts of OOP",
+        "oo-intro": "Object-Oriented Programming (OOP) is a programming paradigm that uses objects to organize and analyze data. In Python, OOP is a powerful way to structure code, making it more flexible and reusable.",
+        "oo-concepts": "Key Concepts",
+        "oo-classes": "Classes: Blueprints from which objects are created.",
+        "oo-objects": "Objects: Instances of classes that contain data and behaviors.",
+        "oo-inheritance": "Inheritance: A feature that allows classes to inherit properties and behaviors from other classes.",
+        "oo-polymorphism": "Polymorphism: The ability to use the same name for different things depending on the context.",
+        "oo-example": "OOP Example",
+        "oo-example-description": "Here is a simple example illustrating how to use object-oriented programming in Python:",
+        "oo-example-explanation": "In this example, we created an `Animal` class and a `Dog` class that inherits from `Animal`. We then created and used an object from the `Dog` class.",
+        // "Data Analysis" Page Content
+        "data-page-title": "Data Analysis with Python",
+        "data-section-title": "Python Data Analysis Basics",
+        "data-intro": "Python is one of the best languages for data analysis. It provides a set of powerful libraries that make the analysis process easy and efficient.",
+        "data-libraries": "Libraries Used",
+        "data-pandas": "Pandas: A powerful library for data manipulation and analysis.",
+        "data-numpy": "NumPy: A library that provides support for multi-dimensional arrays and mathematical operations.",
+        "data-matplotlib": "Matplotlib: A library for graphing and data visualization.",
+        "data-seaborn": "Seaborn: A library that provides elegant and enhanced visualizations for analysis.",
+        "data-example": "Data Analysis Example",
+        "data-example-description": "Here is a simple example of how to use the Pandas library to analyze a dataset:",
+        "data-example-explanation": "In this example, we load a dataset from a CSV file, display the first 5 rows, and then perform basic data analysis."
     }
 };
 
-// وظيفة تغيير اللغة
-document.getElementById('language-select').addEventListener('change', function() {
-    const lang = this.value;
-    const elements = document.querySelectorAll('[data-i18n]');
+document.addEventListener('DOMContentLoaded', function() {
+    const languageSelect = document.getElementById('language-select');
+
+    // 1. Initial setup: Check localStorage or default to 'ar'
+    let currentLang = localStorage.getItem('language') || 'ar';
     
-    elements.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        el.innerHTML = translations[lang][key] || key;
-    });
+    // Ensure the select dropdown reflects the current language
+    if (languageSelect) {
+        languageSelect.value = currentLang;
+    }
+    
+    // Apply translations on load
+    applyTranslations(currentLang);
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
+
+    // 2. Add event listener for language change
+    if (languageSelect) {
+        languageSelect.addEventListener('change', function() {
+            const selectedLang = this.value;
+            localStorage.setItem('language', selectedLang); // Save preference
+            applyTranslations(selectedLang);
+            // Update the HTML direction for correct RTL/LTR display
+            document.documentElement.lang = selectedLang;
+            document.documentElement.dir = (selectedLang === 'ar') ? 'rtl' : 'ltr';
+        });
+    }
 });
 
-// تغيير اللغة إلى الافتراضية عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-    const lang = document.getElementById('language-select').value;
-    const elements = document.querySelectorAll('[data-i18n]');
-    
-    elements.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        el.innerHTML = translations[lang][key] || key;
+
+function applyTranslations(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const translationKey = element.getAttribute('data-i18n');
+        // Handle innerHTML for rich text content
+        if (translations[lang] && translations[lang][translationKey]) {
+            element.innerHTML = translations[lang][translationKey];
+        } else {
+            // Fallback for missing keys (Optional: log an error)
+            console.warn(`Translation key '${translationKey}' missing for language '${lang}'`);
+        }
+
+        // Special handling for 'title'
+        if (translationKey === 'title' && translations[lang]['title']) {
+            document.title = translations[lang]['title'];
+        }
     });
-});
+}
