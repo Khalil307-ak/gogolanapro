@@ -4,7 +4,10 @@
 =====================================================
 */
 /* استخدام خط عربي مناسب مع الخطوط الاحتياطية */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+/*
+تم تحديث هذا السطر لاستيراد خط Merriweather أيضاً
+*/
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Merriweather:wght@400;700&display=swap');
 
 :root {
     --primary-color: #007bff;
@@ -18,7 +21,9 @@
 /* تطبيق التدرج اللوني المتحرك على خلفية الصفحة */
 body {
     margin: 0;
-    font-family: 'Cairo', sans-serif, Arial;
+    /* تم تحديث هذه الخاصية: Merriweather أولاً للغة الإنجليزية (LTR) 
+    */
+    font-family: 'Merriweather', 'Cairo', sans-serif, Arial; 
     color: var(--text-color);
     background: linear-gradient(45deg, #adf371, #71f3d3, #f39f71, #7178f3, #f371e0);
     background-size: 400% 400%;
@@ -31,6 +36,14 @@ body {
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
+
+/*
+تم إضافة هذه القاعدة لضمان استخدام Cairo عندما تكون اللغة عربية (RTL)
+*/
+[dir="rtl"] {
+    font-family: 'Cairo', 'Merriweather', sans-serif, Arial;
+}
+
 
 .container {
     max-width: 1200px;
