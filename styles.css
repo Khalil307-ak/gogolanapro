@@ -1,284 +1,217 @@
-/* إعادة تعيين الأنماط الافتراضية لضمان التوافق */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/*
+=====================================================
+تنظيم الستايل العام والخطوط
+=====================================================
+*/
+/* استخدام خط عربي مناسب مع الخطوط الاحتياطية */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #28a745;
+    --text-color: #333;
+    --background-light: #f4f4f9;
+    --background-dark: #333;
+    --code-bg: #e9ecef;
 }
 
-/* تنسيق الجسم الرئيسي مع الخلفية المتحركة */
+/* تطبيق التدرج اللوني المتحرك على خلفية الصفحة */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    margin: 0;
+    font-family: 'Cairo', sans-serif, Arial;
+    color: var(--text-color);
     background: linear-gradient(45deg, #adf371, #71f3d3, #f39f71, #7178f3, #f371e0);
     background-size: 400% 400%;
-    animation: gradient 20s ease infinite;
-    color: #333;
-    min-height: 100vh;
-    direction: rtl;
+    animation: gradient 15s ease infinite; /* وقت الحركة تم تعديله ليكون أطول وأكثر سلاسة */
+    text-align: right; /* دعم اللغة العربية */
 }
 
-/* Animation للخلفية */
 @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
-/* تنسيق الحاوية الرئيسية */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* تنسيق الهيدر */
+/*
+=====================================================
+ستايل الرأس والقائمة (Header & Nav)
+=====================================================
+*/
 header {
-    background: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    background: rgba(255, 255, 255, 0.95); /* خلفية بيضاء شفافة قليلاً */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    position: sticky; /* لجعل الشريط ثابتاً أثناء التمرير */
     top: 0;
-    z-index: 100;
-    animation: slideInDown 0.5s ease-out;
+    z-index: 1000;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 header h1 {
-    text-align: center;
-    font-size: 2.5em;
-    color: #333;
     margin: 0;
-    padding: 20px 0;
-    animation: fadeIn 1.5s ease-in-out;
+    font-size: 1.8rem;
+    color: var(--primary-color);
 }
 
-/* تنسيق قائمة التنقل */
 nav ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 10px 0;
-}
-
-nav ul li {
-    display: inline;
+    gap: 25px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-    font-size: 1.2em;
-    transition: color 0.3s ease, transform 0.3s ease;
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 10px 0;
+    transition: color 0.3s, border-bottom 0.3s;
 }
 
 nav ul li a:hover {
-    color: #0056b3;
-    transform: scale(1.1);
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
 }
 
-/* تنسيق اختيار اللغة */
 #language-select {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 8px;
+    padding: 8px 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    background: #fff;
-    font-size: 1em;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-right: 15px; /* تباعد عن القائمة في وضع RTL */
 }
 
-#language-select:hover {
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* تنسيق العناوين */
-h1, h2, h3, h4 {
-    color: #222;
-    margin-bottom: 15px;
-}
-
-h2 {
-    text-align: center;
-    font-size: 2em;
-    animation: slideInLeft 1s ease-in-out;
-}
-
-h3, h4 {
-    animation: fadeInUp 1s ease-in-out;
-}
-
-/* تنسيق النصوص */
-p {
-    font-size: 1.2em;
+/*
+=====================================================
+ستايل الأقسام الرئيسية والمحتوى (Main Sections)
+=====================================================
+*/
+main section {
+    padding: 60px 0;
     margin-bottom: 20px;
-    animation: fadeIn 1.5s ease-in-out;
+    background: rgba(255, 255, 255, 0.9); /* خلفية شفافة للمحتوى فوق التدرج اللوني */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
 }
 
-/* تنسيق أمثلة الكود */
-.course-example {
-    background: #f9f9f9;
-    padding: 20px;
+#home.hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+#home h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+#home p {
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 15px 30px;
+    margin-top: 30px;
+    text-decoration: none;
     border-radius: 8px;
-    margin: 15px 0;
-    font-family: 'Courier New', Courier, monospace;
-    position: relative;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.course-example:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.cta-button:hover {
+    background-color: #1e7e34;
+    transform: translateY(-3px);
 }
 
-.course-example code {
-    white-space: pre-wrap;
-    display: block;
+/*
+=====================================================
+ستايل الدورات وبطاقات المشاريع (Courses & Cards)
+=====================================================
+*/
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
 }
 
-/* زر نسخ الكود */
-.copy-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 8px 12px;
-    background: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.copy-button:hover {
-    background: #0056b3;
-    transform: scale(1.05);
-}
-
-/* تنسيق كروت المشاريع */
-.project-card {
+.project-card, .course {
     background: #fff;
-    padding: 20px;
-    margin: 15px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    animation: fadeInUp 1s ease-in-out;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-right: 5px solid var(--primary-color); /* شريط جانبي للتأثير */
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
-/* تنسيق الروابط */
-.resource-link {
-    color: #007bff;
+.course-link {
+    color: var(--primary-color);
     text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
+    font-size: 1.3rem;
+    display: block;
+    margin-bottom: 10px;
 }
 
-.resource-link:hover {
-    color: #0056b3;
-    transform: scale(1.05);
+.course-link:hover {
+    text-decoration: underline;
 }
 
-/* تنسيق الإعلانات */
-.adsbygoogle {
+/*
+=====================================================
+ستايل الكود والأمثلة (Code & Examples)
+=====================================================
+*/
+.course-example, pre {
+    background: #282c34; /* خلفية داكنة للكود */
+    color: #abb2bf;
+    padding: 15px;
+    border-radius: 8px;
     margin: 20px 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    overflow-x: auto;
 }
 
-/* تنسيق التواصل الاجتماعي */
-.social-media {
-    text-align: center;
-    padding: 10px 0;
-}
-
-.social-media li {
-    display: inline;
-    margin: 0 15px;
-}
-
-.social-media a {
-    color: #333;
-    font-size: 1.8em;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.social-media a:hover {
-    color: #007bff;
-    transform: rotate(10deg) scale(1.2);
-}
-
-/* تنسيق القائمة المنسدلة (Dropdown) */
-.dropdown {
-    position: relative;
-    display: inline-block;
-    margin: 20px 0;
-}
-
-.dropbtn {
-    background-color: #333;
-    color: #fff;
-    padding: 12px 24px;
-    font-size: 1.1em;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.dropbtn:hover {
-    background-color: #555;
-    transform: scale(1.05);
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #fff;
-    min-width: 200px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    z-index: 1;
-    animation: slideDown 0.3s ease-in-out;
-}
-
-.dropdown-content p {
-    color: #333;
-    padding: 12px 16px;
-    margin: 0;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-.dropdown-content p:hover {
-    background-color: #f4f4f4;
-}
-
-.dropdown:hover .dropdown-content {
+.course-example code, pre code {
+    white-space: pre-wrap;
+    direction: ltr; /* لضمان عرض الكود بشكل صحيح */
+    text-align: left;
     display: block;
 }
 
-/* تنسيق النماذج */
+/*
+=====================================================
+ستايل صفحة التواصل (Contact Form)
+=====================================================
+*/
 form {
     max-width: 600px;
-    margin: 20px auto;
+    margin: 40px auto 0 auto;
+    padding: 30px;
     background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    animation: fadeInUp 1s ease-in-out;
-}
-
-form h3 {
-    text-align: center;
-    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 form label {
@@ -290,152 +223,99 @@ form label {
 form input, form textarea {
     width: 100%;
     padding: 12px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box;
 }
 
-form input:focus, form textarea:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    outline: none;
-}
-
-form button {
-    width: 100%;
-    padding: 12px;
-    background: #007bff;
-    color: #fff;
+form button[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1.1em;
-    transition: background 0.3s ease, transform 0.3s ease;
+    font-size: 1rem;
+    transition: background-color 0.3s;
 }
 
-form button:hover {
-    background: #0056b3;
-    transform: scale(1.03);
+form button[type="submit"]:hover {
+    background-color: #0056b3;
 }
 
-/* تنسيق الفوتر */
+.social-media {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    padding: 20px 0;
+    list-style: none;
+    margin: 20px 0;
+}
+
+.social-media li a {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    transition: color 0.3s, transform 0.3s;
+}
+
+.social-media li a:hover {
+    color: var(--secondary-color);
+    transform: scale(1.1);
+}
+
+/*
+=====================================================
+ستايل التذييل (Footer)
+=====================================================
+*/
 footer {
-    background: #333;
-    color: #fff;
+    background: var(--background-dark);
+    color: white;
     text-align: center;
     padding: 20px 0;
-    margin-top: 20px;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-footer p {
-    margin: 0;
+    margin-top: 30px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 }
 
 footer a {
-    color: #71f3d3;
+    color: #71f3d3; /* لون الروابط من التدرج الأصلي */
     text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: color 0.3s;
 }
 
 footer a:hover {
+    text-decoration: underline;
     color: #adf371;
-    transform: scale(1.05);
 }
 
-/* Animations إضافية */
-@keyframes slideInDown {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
 
-@keyframes slideInLeft {
-    from {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideDown {
-    from {
-        transform: translateY(-10px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-/* التصميم المتجاوب (Responsive) */
+/*
+=====================================================
+تحسين التجاوب (Media Queries)
+=====================================================
+*/
 @media (max-width: 768px) {
-    .container {
-        width: 90%;
-        padding: 10px;
-    }
-    header h1 {
-        font-size: 1.8em;
-    }
-    nav ul {
+    header .container {
         flex-direction: column;
         text-align: center;
-        gap: 10px;
     }
-    nav ul li a {
-        font-size: 1em;
+    nav {
+        margin-top: 15px;
+    }
+    nav ul {
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
     }
     #language-select {
-        position: static;
-        margin: 10px auto;
-        width: 150px;
+        margin-top: 15px;
+        margin-right: 0;
     }
-    h2 {
-        font-size: 1.5em;
+    #home h2 {
+        font-size: 2rem;
     }
-    h3, h4 {
-        font-size: 1.2em;
+    .courses-grid {
+        grid-template-columns: 1fr;
     }
-    .social-media a {
-        font-size: 1.5em;
-    }
-    .dropdown-content {
-        min-width: 150px;
-    }
-}
-
-/* تحسين الـ accessibility */
-:focus {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
 }
