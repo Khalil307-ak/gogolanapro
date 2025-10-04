@@ -18,7 +18,7 @@ body {
     color: #333;
     line-height: 1.6;
     margin: 0;
-    /* خلفية متدرجة متحركة من كودك السابق */
+    /* خلفية متدرجة متحركة */
     background: linear-gradient(45deg, #adf371, #71f3d3, #f39f71, #7178f3, #f371e0);
     background-size: 400% 400%;
     animation: gradient 5s ease infinite;
