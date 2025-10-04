@@ -55,7 +55,7 @@ Follow these simple steps to run the project locally on your machine:
     ```
 2.  **Navigate:** Change into the project directory:
     ```bash
-    cd [folder-name]
+    cd gogolanapro
     ```
 3.  **Run:** Simply open the `index.html` file in any modern web browser. No local server is required.
 
