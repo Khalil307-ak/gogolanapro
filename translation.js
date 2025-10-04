@@ -1,20 +1,30 @@
 const translations = {
     // --------------------------------------------------------------------------------
-    // العربية (Arabic)
+    // العربية (Arabic) - موحدة ومصححة
     // --------------------------------------------------------------------------------
     "ar": {
+        // مفاتيح عامة (General Keys)
         "title": "تعلم لغة بايتون",
         "site-title": "تعلم لغة بايتون",
         "home": "الرئيسية",
         "about": "حول بايثون",
         "courses": "الدورات",
         "contact": "اتصل بنا",
+        "footer": "© 2025 تعلم لغة بايتون. جميع الحقوق محفوظة.",
+        "privacy": "سياسة الخصوصية",
+        "terms": "شروط الاستخدام",
+
+        // محتوى الصفحة الرئيسية (Home Page)
         "home-welcome": "مرحباً بكم في موقع تعلم لغة بايتون",
         "home-description": "هنا ستجد كل الموارد والدورات اللازمة لتعلم لغة بايتون من البداية إلى الاحتراف. ابدأ رحلتك اليوم!",
         "start-learning": "ابدأ التعلم الآن",
+        
+        // محتوى صفحة حول بايثون (About Page)
         "about-title": "حول بايثون",
         "about-description": "بايتون هي لغة برمجة عالية المستوى، مشهورة بسهولتها وبساطتها. تُستخدم في تطوير البرمجيات، تحليل البيانات، الذكاء الاصطناعي، وتطوير الويب.",
         "about-features": "تتميز بايتون بمكتبات قوية مثل pandas، numpy، وtensorflow، مما يجعلها مثالية للمبتدئين والمحترفين.",
+        
+        // محتوى صفحة الدورات (Courses Page)
         "courses-title": "الدورات",
         "course-intro": "مقدمة إلى بايثون",
         "course-intro-desc": "دورة شاملة للمبتدئين، تغطي الأساسيات وكيفية البدء مع بايتون.",
@@ -22,6 +32,8 @@ const translations = {
         "course-oo-desc": "دورة متقدمة تغطي البرمجة الكائنية وكيفية استخدامها.",
         "course-data": "تحليل البيانات ببايثون",
         "course-data-desc": "استخدم مكتبات مثل pandas وmatplotlib لتحليل البيانات.",
+
+        // محتوى صفحة الاتصال (Contact Page)
         "contact-title": "اتصل بنا",
         "contact-description": "تواصلوا معنا عبر وسائل التواصل الاجتماعي أو أرسلوا رسالة!",
         "form-title": "أرسل لنا رسالة",
@@ -29,35 +41,10 @@ const translations = {
         "form-email": "البريد الإلكتروني:",
         "form-message": "الرسالة:",
         "form-submit": "إرسال",
-        "footer": "© 2025 تعلم لغة بايتون. جميع الحقوق محفوظة.",
-        "privacy": "سياسة الخصوصية",
-        "terms": "شروط الاستخدام",
-        // محتوى صفحة "برمجة الكائنات"
-        "oo-page-title": "برمجة الكائنات في بايثون",
-        "oo-section-title": "المفاهيم الأساسية لبرمجة الكائنات (OOP)",
-        "oo-intro": "برمجة الكائنات هي نموذج برمجي يستخدم الكائنات (objects) لتنظيم وتحليل البيانات. في بايتون، تعد البرمجة الكائنية وسيلة قوية لتنظيم الشيفرات وجعلها أكثر مرونة وإعادة استخدام.",
-        "oo-concepts": "المفاهيم الأساسية",
-        "oo-classes": "الفصول (Classes): هي القوالب التي يتم إنشاء الكائنات بناءً عليها.",
-        "oo-objects": "الكائنات (Objects): هي مثيلات للفصول وتحتوي على بيانات وسلوكيات.",
-        "oo-inheritance": "الوراثة (Inheritance): هي ميزة تسمح للفصول بترث خصائص وسلوكيات من فصول أخرى.",
-        "oo-polymorphism": "تعدد الأشكال (Polymorphism): هو القدرة على استخدام نفس الاسم لأشياء مختلفة بناءً على السياق.",
-        "oo-example": "مثال على برمجة الكائنات",
-        "oo-example-description": "فيما يلي مثال بسيط يوضح كيفية استخدام البرمجة الكائنية في بايتون:",
-        "oo-example-explanation": "في هذا المثال، قمنا بإنشاء فصل `Animal` وفصل `Dog` الذي يرث من `Animal`. ثم قمنا بإنشاء كائن من فصل `Dog` واستخدامه.",
-        // محتوى صفحة "تحليل البيانات"
-        "data-page-title": "تحليل البيانات ببايثون",
-        "data-section-title": "أساسيات تحليل البيانات ببايثون",
-        "data-intro": "بايثون هي واحدة من أفضل اللغات لتحليل البيانات. توفر مجموعة من المكتبات القوية التي تجعل عملية التحليل سهلة وفعالة.",
-        "data-libraries": "المكتبات المستخدمة",
-        "data-pandas": "Pandas: مكتبة قوية لمعالجة البيانات وتحليلها.",
-        "data-numpy": "NumPy: مكتبة توفر دعمًا لمصفوفات متعددة الأبعاد والعمليات الرياضية.",
-        "data-matplotlib": "Matplotlib: مكتبة للرسم البياني والتصور البياني للبيانات.",
-        "data-seaborn": "Seaborn: مكتبة توفر رسومات بيانية أنيقة ومحسنة لمجموعة من التحليلات.",
-        "data-example": "مثال على تحليل البيانات",
-        "data-example-description": "فيما يلي مثال بسيط لكيفية استخدام مكتبة Pandas لتحليل مجموعة بيانات:",
-        "data-example-explanation": "في هذا المثال، نقوم بتحميل مجموعة بيانات من ملف CSV وعرض أول 5 صفوف منها. ثم نقوم بإجراء تحليل أساسي للبيانات."
-         "page-title": "الأساسيات وكيفية البدء مع بايثون",
-        "section-title": "الأساسيات وكيفية البدء مع بايثون",
+
+        // محتوى صفحة "مقدمة إلى بايثون" (Intro Course)
+        "page-title": "الأساسيات وكيفية البدء مع بايثون", // (مفتاح العنوان للصفحة)
+        "section-title": "الأساسيات وكيفية البدء مع بايثون", // (مفتاح العنوان داخل الصفحة)
         "intro": "بايثون هي لغة برمجة قوية وسهلة التعلم تُستخدم في تطوير الويب، تحليل البيانات، الذكاء الاصطناعي، وتعلم الآلة. في هذا الدليل، سنتناول الأساسيات التي تحتاجها لبدء رحلتك مع بايثون، بما في ذلك التثبيت، كتابة الكود، وتطبيق مشاريع عملية بسيطة.",
         "why-python": "لماذا تتعلم بايثون؟",
         "why-python-desc": "بايثون تتميز بسهولة بناء الجملة، مما يجعلها مثالية للمبتدئين. كما أنها تحتوي على مكتبات قوية مثل pandas، numpy، وtensorflow التي تُستخدم في مجالات متقدمة. بايثون هي الخيار الأول للعديد من الشركات مثل Google وNetflix.",
@@ -95,7 +82,35 @@ const translations = {
         "next-steps-desc": "بعد إتقان الأساسيات، جرب هذه المواضيع المتقدمة:",
         "next-steps-oop": "البرمجة الكائنية (OOP): تعلم الكلاسات والوراثة.",
         "next-steps-libraries": "مكتبات بايثون: جرب pandas لتحليل البيانات أو flask لتطوير الويب.",
-        "next-steps-projects": "مشاريع متقدمة: بناء تطبيق ويب أو أداة ذكاء اصطناعي."
+        "next-steps-projects": "مشاريع متقدمة: بناء تطبيق ويب أو أداة ذكاء اصطناعي.",
+
+        // محتوى صفحة "برمجة الكائنات" (OOP Course)
+        "oo-page-title": "برمجة الكائنات في بايثون",
+        "oo-section-title": "المفاهيم الأساسية لبرمجة الكائنات (OOP)",
+        "oo-intro": "برمجة الكائنات هي نموذج برمجي يستخدم الكائنات (objects) لتنظيم وتحليل البيانات. في بايتون، تعد البرمجة الكائنية وسيلة قوية لتنظيم الشيفرات وجعلها أكثر مرونة وإعادة استخدام.",
+        "oo-concepts": "المفاهيم الأساسية",
+        "oo-classes": "الفصول (Classes): هي القوالب التي يتم إنشاء الكائنات بناءً عليها.",
+        "oo-objects": "الكائنات (Objects): هي مثيلات للفصول وتحتوي على بيانات وسلوكيات.",
+        "oo-inheritance": "الوراثة (Inheritance): هي ميزة تسمح للفصول بترث خصائص وسلوكيات من فصول أخرى.",
+        "oo-polymorphism": "تعدد الأشكال (Polymorphism): هو القدرة على استخدام نفس الاسم لأشياء مختلفة بناءً على السياق.",
+        "oo-example": "مثال على برمجة الكائنات",
+        "oo-example-description": "فيما يلي مثال بسيط يوضح كيفية استخدام البرمجة الكائنية في بايتون:",
+        "oo-example-explanation": "في هذا المثال، قمنا بإنشاء فصل `Animal` وفصل `Dog` الذي يرث من `Animal`. ثم قمنا بإنشاء كائن من فصل `Dog` واستخدامه.",
+
+        // محتوى صفحة "تحليل البيانات" (Data Analysis Course)
+        "data-page-title": "تحليل البيانات ببايثون",
+        "data-section-title": "أساسيات تحليل البيانات ببايثون",
+        "data-intro": "بايثون هي واحدة من أفضل اللغات لتحليل البيانات. توفر مجموعة من المكتبات القوية التي تجعل عملية التحليل سهلة وفعالة.",
+        "data-libraries": "المكتبات المستخدمة",
+        "data-pandas": "Pandas: مكتبة قوية لمعالجة البيانات وتحليلها.",
+        "data-numpy": "NumPy: مكتبة توفر دعمًا لمصفوفات متعددة الأبعاد والعمليات الرياضية.",
+        "data-matplotlib": "Matplotlib: مكتبة للرسم البياني والتصور البياني للبيانات.",
+        "data-seaborn": "Seaborn: مكتبة توفر رسومات بيانية أنيقة ومحسنة لمجموعة من التحليلات.",
+        "data-example": "مثال على تحليل البيانات",
+        "data-example-description": "فيما يلي مثال بسيط لكيفية استخدام مكتبة Pandas لتحليل مجموعة بيانات:",
+        "data-example-explanation": "في هذا المثال، نقوم بتحميل مجموعة بيانات من ملف CSV وعرض أول 5 صفوف منها. ثم نقوم بإجراء تحليل أساسي للبيانات.",
+
+        // محتوى صفحة "سياسة الخصوصية" (Privacy Policy)
         "privacy-page-title": "سياسة الخصوصية",
         "privacy-title": "سياسة الخصوصية",
         "intro-title": "مقدمة",
@@ -110,9 +125,11 @@ const translations = {
         "cookies-text": "نستخدم ملفات تعريف الارتباط لتحسين تجربتك على موقعنا. يمكنك تعطيل ملفات تعريف الارتباط من خلال إعدادات المتصفح الخاص بك، ولكن قد يؤثر ذلك على قدرتك على استخدام بعض الميزات على موقعنا.",
         "policy-updates-title": "تحديثات سياسة الخصوصية",
         "policy-updates-text": "قد نقوم بتحديث سياسة الخصوصية من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة، ونشجعك على مراجعة سياسة الخصوصية بانتظام للبقاء على اطلاع على كيفية حماية معلوماتك.",
-        "contact-title": "الاتصال بنا",
-        "contact-text": "إذا كان لديك أي أسئلة أو استفسارات حول سياسة الخصوصية، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>"
-         "terms-page-title": "شروط الاستخدام",
+        // تم توحيد الإيميل في الاتصال
+        "contact-privacy-text": "إذا كان لديك أي أسئلة أو استفسارات حول سياسة الخصوصية، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>",
+        
+        // محتوى صفحة "شروط الاستخدام" (Terms of Use)
+        "terms-page-title": "شروط الاستخدام",
         "terms-title": "شروط الاستخدام",
         "usage-title": "استخدام الموقع",
         "usage-text": "يجوز لك استخدام هذا الموقع فقط لأغراض قانونية ووفقًا لشروط الاستخدام هذه. يُمنع استخدام الموقع بأي طريقة تنتهك أي قانون أو لائحة محلية أو دولية.",
@@ -121,27 +138,35 @@ const translations = {
         "liability-title": "تحديد المسؤولية",
         "liability-text": "لن نكون مسؤولين عن أي أضرار تنشأ عن استخدامك للموقع. يتم توفير المحتوى \"كما هو\" وبدون أي ضمانات.",
         "modifications-title": "تعديلات على الشروط",
-        "modifications-text": "نحتفظ بالحق في تعديل شروط الاستخدام هذه في أي وقت. سيتم نشر التعديلات على هذه الصفحة، ويُعتبر استمرارك في استخدام الموقع بعد نشر التعديلات موافقة منك على هذه التعديلات."
-  
-  
- 
+        "modifications-text": "نحتفظ بالحق في تعديل شروط الاستخدام هذه في أي وقت. سيتم نشر التعديلات على هذه الصفحة، ويُعتبر استمرارك في استخدام الموقع بعد نشر التعديلات موافقة منك على هذه التعديلات.",
+        "contact-terms-text": "إذا كان لديك أي أسئلة حول شروط الاستخدام، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>"
     },
     // --------------------------------------------------------------------------------
-    // الإنجليزية (English)
+    // الإنجليزية (English) - موحدة ومصححة
     // --------------------------------------------------------------------------------
     "en": {
+        // مفاتيح عامة (General Keys)
         "title": "Learn Python Language",
         "site-title": "Learn Python Language",
         "home": "Home",
         "about": "About Python",
         "courses": "Courses",
         "contact": "Contact Us",
+        "footer": "© 2025 Learn Python Language. All rights reserved.",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Use",
+
+        // محتوى الصفحة الرئيسية (Home Page)
         "home-welcome": "Welcome to the Python Learning Website",
         "home-description": "Here you will find all the resources and courses necessary to learn Python from beginner to professional. Start your journey today!",
         "start-learning": "Start Learning Now",
+
+        // محتوى صفحة حول بايثون (About Page)
         "about-title": "About Python",
         "about-description": "Python is a high-level programming language, known for its simplicity and ease of use. It is used in software development, data analysis, artificial intelligence, and web development.",
         "about-features": "Python features powerful libraries like pandas, numpy, and tensorflow, making it ideal for beginners and professionals.",
+
+        // محتوى صفحة الدورات (Courses Page)
         "courses-title": "Courses",
         "course-intro": "Introduction to Python",
         "course-intro-desc": "A comprehensive course for beginners, covering the basics and how to get started with Python.",
@@ -149,6 +174,8 @@ const translations = {
         "course-oo-desc": "An advanced course covering object-oriented programming and its usage.",
         "course-data": "Data Analysis with Python",
         "course-data-desc": "Use libraries like pandas and matplotlib for data analysis.",
+        
+        // محتوى صفحة الاتصال (Contact Page)
         "contact-title": "Contact Us",
         "contact-description": "Connect with us on social media or send us a message!",
         "form-title": "Send us a message",
@@ -156,33 +183,8 @@ const translations = {
         "form-email": "Email:",
         "form-message": "Message:",
         "form-submit": "Send",
-        "footer": "© 2025 Learn Python Language. All rights reserved.",
-        "privacy": "Privacy Policy",
-        "terms": "Terms of Use",
-        // "Object-Oriented Programming" Page Content
-        "oo-page-title": "Object-Oriented Programming in Python",
-        "oo-section-title": "Fundamental Concepts of OOP",
-        "oo-intro": "Object-Oriented Programming (OOP) is a programming paradigm that uses objects to organize and analyze data. In Python, OOP is a powerful way to structure code, making it more flexible and reusable.",
-        "oo-concepts": "Key Concepts",
-        "oo-classes": "Classes: Blueprints from which objects are created.",
-        "oo-objects": "Objects: Instances of classes that contain data and behaviors.",
-        "oo-inheritance": "Inheritance: A feature that allows classes to inherit properties and behaviors from other classes.",
-        "oo-polymorphism": "Polymorphism: The ability to use the same name for different things depending on the context.",
-        "oo-example": "OOP Example",
-        "oo-example-description": "Here is a simple example illustrating how to use object-oriented programming in Python:",
-        "oo-example-explanation": "In this example, we created an `Animal` class and a `Dog` class that inherits from `Animal`. We then created and used an object from the `Dog` class.",
-        // "Data Analysis" Page Content
-        "data-page-title": "Data Analysis with Python",
-        "data-section-title": "Python Data Analysis Basics",
-        "data-intro": "Python is one of the best languages for data analysis. It provides a set of powerful libraries that make the analysis process easy and efficient.",
-        "data-libraries": "Libraries Used",
-        "data-pandas": "Pandas: A powerful library for data manipulation and analysis.",
-        "data-numpy": "NumPy: A library that provides support for multi-dimensional arrays and mathematical operations.",
-        "data-matplotlib": "Matplotlib: A library for graphing and data visualization.",
-        "data-seaborn": "Seaborn: A library that provides elegant and enhanced visualizations for analysis.",
-        "data-example": "Data Analysis Example",
-        "data-example-description": "Here is a simple example of how to use the Pandas library to analyze a dataset:",
-        "data-example-explanation": "In this example, we load a dataset from a CSV file, display the first 5 rows, and then perform basic data analysis."
+
+        // محتوى صفحة "مقدمة إلى بايثون" (Intro Course)
         "page-title": "Python Basics and Getting Started",
         "section-title": "Python Basics and Getting Started",
         "intro": "Python is a powerful and easy-to-learn programming language used in web development, data analysis, artificial intelligence, and machine learning. In this guide, we will cover the basics you need to start your journey with Python, including installation, writing code, and simple practical projects.",
@@ -222,7 +224,35 @@ const translations = {
         "next-steps-desc": "After mastering the basics, try these advanced topics:",
         "next-steps-oop": "Object-Oriented Programming (OOP): Learn classes and inheritance.",
         "next-steps-libraries": "Python Libraries: Try pandas for data analysis or flask for web development.",
-        "next-steps-projects": "Advanced Projects: Build a web application or an AI tool."
+        "next-steps-projects": "Advanced Projects: Build a web application or an AI tool.",
+
+        // محتوى صفحة "برمجة الكائنات" (OOP Course)
+        "oo-page-title": "Object-Oriented Programming in Python",
+        "oo-section-title": "Fundamental Concepts of OOP",
+        "oo-intro": "Object-Oriented Programming (OOP) is a programming paradigm that uses objects to organize and analyze data. In Python, OOP is a powerful way to structure code, making it more flexible and reusable.",
+        "oo-concepts": "Key Concepts",
+        "oo-classes": "Classes: Blueprints from which objects are created.",
+        "oo-objects": "Objects: Instances of classes that contain data and behaviors.",
+        "oo-inheritance": "Inheritance: A feature that allows classes to inherit properties and behaviors from other classes.",
+        "oo-polymorphism": "Polymorphism: The ability to use the same name for different things depending on the context.",
+        "oo-example": "OOP Example",
+        "oo-example-description": "Here is a simple example illustrating how to use object-oriented programming in Python:",
+        "oo-example-explanation": "In this example, we created an `Animal` class and a `Dog` class that inherits from `Animal`. We then created and used an object from the `Dog` class.",
+        
+        // محتوى صفحة "تحليل البيانات" (Data Analysis Course)
+        "data-page-title": "Data Analysis with Python",
+        "data-section-title": "Python Data Analysis Basics",
+        "data-intro": "Python is one of the best languages for data analysis. It provides a set of powerful libraries that make the analysis process easy and efficient.",
+        "data-libraries": "Libraries Used",
+        "data-pandas": "Pandas: A powerful library for data manipulation and analysis.",
+        "data-numpy": "NumPy: A library that provides support for multi-dimensional arrays and mathematical operations.",
+        "data-matplotlib": "Matplotlib: A library for graphing and data visualization.",
+        "data-seaborn": "Seaborn: A library that provides elegant and enhanced visualizations for analysis.",
+        "data-example": "Data Analysis Example",
+        "data-example-description": "Here is a simple example of how to use the Pandas library to analyze a dataset:",
+        "data-example-explanation": "In this example, we load a dataset from a CSV file, display the first 5 rows, and then perform basic data analysis.",
+
+        // محتوى صفحة "سياسة الخصوصية" (Privacy Policy)
         "privacy-page-title": "Privacy Policy",
         "privacy-title": "Privacy Policy",
         "intro-title": "Introduction",
@@ -237,8 +267,10 @@ const translations = {
         "cookies-text": "We use cookies to improve your experience on our site. You can disable cookies through your browser settings, but this may affect your ability to use some features on our site.",
         "policy-updates-title": "Privacy Policy Updates",
         "policy-updates-text": "We may update this Privacy Policy from time to time. Any changes will be posted on this page, and your continued use of the site after such changes constitutes your acceptance of the new terms.",
-        "contact-title": "Contact Us",
-        "contact-text": "If you have any questions or concerns about the Privacy Policy, please contact us via the following email: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>"
+        // تم توحيد الإيميل في الاتصال
+        "contact-privacy-text": "If you have any questions or concerns about the Privacy Policy, please contact us via the following email: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>",
+
+        // محتوى صفحة "شروط الاستخدام" (Terms of Use)
         "terms-page-title": "Terms of Use",
         "terms-title": "Terms of Use",
         "usage-title": "Website Usage",
@@ -248,9 +280,8 @@ const translations = {
         "liability-title": "Limitation of Liability",
         "liability-text": "We will not be liable for any damages arising from your use of the site. The content is provided \"as is\" without any warranties.",
         "modifications-title": "Modifications to Terms",
-        "modifications-text": "We reserve the right to modify these terms of use at any time. Changes will be posted on this page, and your continued use of the site after such changes constitutes your acceptance of the new terms."
- 
-  
+        "modifications-text": "We reserve the right to modify these terms of use at any time. Changes will be posted on this page, and your continued use of the site after such changes constitutes your acceptance of the new terms.",
+        "contact-terms-text": "If you have any questions about the terms of use, please contact us via the following email: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>"
     }
 };
 
@@ -287,6 +318,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function applyTranslations(lang) {
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const translationKey = element.getAttribute('data-i18n');
+        
         // Handle innerHTML for rich text content
         if (translations[lang] && translations[lang][translationKey]) {
             element.innerHTML = translations[lang][translationKey];
@@ -295,12 +327,9 @@ function applyTranslations(lang) {
             console.warn(`Translation key '${translationKey}' missing for language '${lang}'`);
         }
 
-        // Special handling for 'title'
-        if (translationKey === 'title' && translations[lang]['title']) {
-            document.title = translations[lang]['title'];
+        // Special handling for 'title' (Updates the browser tab title)
+        if (translationKey.includes('title') && translations[lang][translationKey]) {
+            document.title = translations[lang][translationKey];
         }
     });
 }
-
-
-
