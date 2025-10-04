@@ -51,7 +51,7 @@ Follow these simple steps to run the project locally on your machine:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone [Your Repository Link Here]
+    git clone https://github.com/Khalil307-ak/gogolanapro.git
     ```
 2.  **Navigate:** Change into the project directory:
     ```bash
