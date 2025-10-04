@@ -111,7 +111,18 @@ const translations = {
         "policy-updates-title": "تحديثات سياسة الخصوصية",
         "policy-updates-text": "قد نقوم بتحديث سياسة الخصوصية من وقت لآخر. سيتم نشر أي تغييرات على هذه الصفحة، ونشجعك على مراجعة سياسة الخصوصية بانتظام للبقاء على اطلاع على كيفية حماية معلوماتك.",
         "contact-title": "الاتصال بنا",
-        "contact-text": "إذا كان لديك أي أسئلة أو استفسارات حول سياسة الخصوصية، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:gogolanapro@zohomail.com\">gogolanapro@zohomail.com</a>"
+        "contact-text": "إذا كان لديك أي أسئلة أو استفسارات حول سياسة الخصوصية، يرجى الاتصال بنا عبر البريد الإلكتروني التالي: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>"
+         "terms-page-title": "شروط الاستخدام",
+        "terms-title": "شروط الاستخدام",
+        "usage-title": "استخدام الموقع",
+        "usage-text": "يجوز لك استخدام هذا الموقع فقط لأغراض قانونية ووفقًا لشروط الاستخدام هذه. يُمنع استخدام الموقع بأي طريقة تنتهك أي قانون أو لائحة محلية أو دولية.",
+        "ip-title": "الملكية الفكرية",
+        "ip-text": "جميع المحتويات الموجودة على هذا الموقع، بما في ذلك النصوص والرسومات والصور والشعارات، محمية بموجب قوانين حقوق الطبع والنشر والعلامات التجارية. يُمنع إعادة إنتاج أو توزيع أي جزء من الموقع بدون إذن خطي مسبق من المالك.",
+        "liability-title": "تحديد المسؤولية",
+        "liability-text": "لن نكون مسؤولين عن أي أضرار تنشأ عن استخدامك للموقع. يتم توفير المحتوى \"كما هو\" وبدون أي ضمانات.",
+        "modifications-title": "تعديلات على الشروط",
+        "modifications-text": "نحتفظ بالحق في تعديل شروط الاستخدام هذه في أي وقت. سيتم نشر التعديلات على هذه الصفحة، ويُعتبر استمرارك في استخدام الموقع بعد نشر التعديلات موافقة منك على هذه التعديلات."
+  
   
  
     },
@@ -227,8 +238,18 @@ const translations = {
         "policy-updates-title": "Privacy Policy Updates",
         "policy-updates-text": "We may update this Privacy Policy from time to time. Any changes will be posted on this page, and your continued use of the site after such changes constitutes your acceptance of the new terms.",
         "contact-title": "Contact Us",
-        "contact-text": "If you have any questions or concerns about the Privacy Policy, please contact us via the following email: <a href=\"mailto:gogolanapro@zohomail.com\">gogolanapro@zohomail.com</a>"
-    
+        "contact-text": "If you have any questions or concerns about the Privacy Policy, please contact us via the following email: <a href=\"mailto:khalil.akram30@gmail.com\">khalil.akram30@gmail.com</a>"
+        "terms-page-title": "Terms of Use",
+        "terms-title": "Terms of Use",
+        "usage-title": "Website Usage",
+        "usage-text": "You may use this site only for lawful purposes and in accordance with these Terms of Use. Use of the site in any way that violates any local or international law or regulation is prohibited.",
+        "ip-title": "Intellectual Property",
+        "ip-text": "All content on this site, including text, graphics, images, and logos, is protected by copyright and trademark laws. Reproduction or distribution of any part of the site without prior written permission from the owner is prohibited.",
+        "liability-title": "Limitation of Liability",
+        "liability-text": "We will not be liable for any damages arising from your use of the site. The content is provided \"as is\" without any warranties.",
+        "modifications-title": "Modifications to Terms",
+        "modifications-text": "We reserve the right to modify these terms of use at any time. Changes will be posted on this page, and your continued use of the site after such changes constitutes your acceptance of the new terms."
+ 
   
     }
 };
@@ -280,5 +301,6 @@ function applyTranslations(lang) {
         }
     });
 }
+
 
 
