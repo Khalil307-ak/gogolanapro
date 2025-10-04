@@ -1,57 +1,63 @@
 /*
-=====================================================
-تنظيم الستايل العام والخطوط
-=====================================================
+================================================================================
+  1. استيراد الخطوط من جوجل (Google Fonts)
+  نستخدم خط Cairo للغة العربية، وخط Merriweather للغة الإنجليزية (اللاتينية).
+================================================================================
 */
-/* استخدام خط عربي مناسب مع الخطوط الاحتياطية */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Merriweather:wght@400;700&display=swap');
 
-:root {
-    --primary-color: #007bff;
-    --secondary-color: #28a745;
-    --text-color: #333;
-    --background-light: #f4f4f9;
-    --background-dark: #333;
-    --code-bg: #e9ecef;
-}
 
-/* تطبيق التدرج اللوني المتحرك على خلفية الصفحة */
+/*
+================================================================================
+  2. تنسيقات عامة (General Styles)
+================================================================================
+*/
 body {
+    /* تطبيق خط Merriweather كنص أساسي (للانجليزية) */
+    font-family: 'Merriweather', 'Cairo', sans-serif;
+    color: #333;
+    line-height: 1.6;
     margin: 0;
-    font-family: 'Cairo', sans-serif, Arial;
-    color: var(--text-color);
+    /* خلفية متدرجة متحركة من كودك السابق */
     background: linear-gradient(45deg, #adf371, #71f3d3, #f39f71, #7178f3, #f371e0);
     background-size: 400% 400%;
-    animation: gradient 15s ease infinite; /* وقت الحركة تم تعديله ليكون أطول وأكثر سلاسة */
-    text-align: right; /* دعم اللغة العربية */
+    animation: gradient 5s ease infinite;
 }
 
+/* الحركة التدرجية */
 @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* تطبيق الخط العربي Cairo بشكل صريح على الـ RTL (الاتجاه من اليمين لليسار) */
+[dir="rtl"] {
+    font-family: 'Cairo', 'Merriweather', sans-serif;
+}
+
+
+/* ================================================================================
+   3. تنسيقات الـ Header والـ Navigation
+   ================================================================================
+*/
+header {
+    background-color: #2c3e50; /* لون غامق مناسب */
+    color: white;
+    padding: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-}
-
-/*
-=====================================================
-ستايل الرأس والقائمة (Header & Nav)
-=====================================================
-*/
-header {
-    background: rgba(255, 255, 255, 0.95); /* خلفية بيضاء شفافة قليلاً */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    position: sticky; /* لجعل الشريط ثابتاً أثناء التمرير */
-    top: 0;
-    z-index: 1000;
-}
-
-header .container {
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -59,263 +65,172 @@ header .container {
 
 header h1 {
     margin: 0;
-    font-size: 1.8rem;
-    color: var(--primary-color);
+    font-size: 1.8em;
+    font-weight: 700;
 }
 
-nav ul {
+header nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-    gap: 25px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: var(--text-color);
-    font-weight: 600;
-    padding: 10px 0;
-    transition: color 0.3s, border-bottom 0.3s;
-}
-
-nav ul li a:hover {
-    color: var(--primary-color);
-    border-bottom: 2px solid var(--primary-color);
-}
-
-#language-select {
-    padding: 8px 12px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    margin-right: 15px; /* تباعد عن القائمة في وضع RTL */
-}
-
-/*
-=====================================================
-ستايل الأقسام الرئيسية والمحتوى (Main Sections)
-=====================================================
-*/
-main section {
-    padding: 60px 0;
-    margin-bottom: 20px;
-    background: rgba(255, 255, 255, 0.9); /* خلفية شفافة للمحتوى فوق التدرج اللوني */
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.05);
-}
-
-#home.hero {
-    min-height: 70vh;
-    display: flex;
     align-items: center;
-    text-align: center;
 }
 
-#home h2 {
-    font-size: 2.5rem;
-    color: var(--primary-color);
-    margin-bottom: 20px;
+header nav ul li {
+    margin-left: 20px; /* استخدام margin-left للدعم العربي */
 }
 
-#home p {
-    font-size: 1.2rem;
-    color: var(--text-color);
-}
-
-.cta-button {
-    display: inline-block;
-    background-color: var(--secondary-color);
+header nav ul li a {
     color: white;
-    padding: 15px 30px;
-    margin-top: 30px;
     text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-    transition: background-color 0.3s, transform 0.3s;
+    font-weight: 400;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+    padding-bottom: 5px;
 }
 
-.cta-button:hover {
-    background-color: #1e7e34;
-    transform: translateY(-3px);
+header nav ul li a:hover,
+header nav ul li.active a {
+    color: #f1c40f; /* لون أصفر جذاب */
+    border-bottom: 2px solid #f1c40f;
 }
 
-/*
-=====================================================
-ستايل الدورات وبطاقات المشاريع (Courses & Cards)
-=====================================================
-*/
-.courses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.project-card, .course {
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    border-right: 5px solid var(--primary-color); /* شريط جانبي للتأثير */
-}
-
-.project-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-.course-link {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: 1.3rem;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.course-link:hover {
-    text-decoration: underline;
-}
-
-/*
-=====================================================
-ستايل الكود والأمثلة (Code & Examples)
-=====================================================
-*/
-.course-example, pre {
-    background: #282c34; /* خلفية داكنة للكود */
-    color: #abb2bf;
-    padding: 15px;
-    border-radius: 8px;
-    margin: 20px 0;
-    font-family: 'Consolas', 'Courier New', monospace;
-    overflow-x: auto;
-}
-
-.course-example code, pre code {
-    white-space: pre-wrap;
-    direction: ltr; /* لضمان عرض الكود بشكل صحيح */
-    text-align: left;
-    display: block;
-}
-
-/*
-=====================================================
-ستايل صفحة التواصل (Contact Form)
-=====================================================
-*/
-form {
-    max-width: 600px;
-    margin: 40px auto 0 auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-form input, form textarea {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
+/* تنسيق قائمة اختيار اللغة */
+#language-select {
+    margin-left: 20px;
+    padding: 5px 10px;
     border-radius: 5px;
-    box-sizing: border-box;
-}
-
-form button[type="submit"] {
-    background-color: var(--primary-color);
+    border: 1px solid white;
+    background-color: #34495e;
     color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s;
-}
-
-form button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-.social-media {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    padding: 20px 0;
-    list-style: none;
-    margin: 20px 0;
-}
-
-.social-media li a {
-    color: var(--primary-color);
-    font-size: 2.5rem;
-    transition: color 0.3s, transform 0.3s;
-}
-
-.social-media li a:hover {
-    color: var(--secondary-color);
-    transform: scale(1.1);
 }
 
 /*
-=====================================================
-ستايل التذييل (Footer)
-=====================================================
+================================================================================
+  4. تنسيقات المحتوى الرئيسي (Main Content)
+================================================================================
+*/
+main {
+    padding: 40px 0;
+    min-height: 60vh;
+}
+
+section {
+    margin-bottom: 40px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #2c3e50;
+    border-bottom: 2px solid #f1c40f;
+    padding-bottom: 10px;
+    margin-top: 0;
+    font-size: 1.6em;
+}
+
+/*
+================================================================================
+  5. تنسيقات الـ Footer
+================================================================================
 */
 footer {
-    background: var(--background-dark);
-    color: white;
+    background-color: #333;
+    color: #ecf0f1;
     text-align: center;
     padding: 20px 0;
-    margin-top: 30px;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    font-size: 0.9em;
 }
 
 footer a {
-    color: #71f3d3; /* لون الروابط من التدرج الأصلي */
+    color: #f1c40f;
     text-decoration: none;
-    transition: color 0.3s;
+    margin: 0 5px;
 }
 
 footer a:hover {
     text-decoration: underline;
-    color: #adf371;
 }
 
+/* تنسيق أيقونات التواصل الاجتماعي */
+.social-icons {
+    margin-top: 15px;
+}
+
+.social-icons a {
+    font-size: 24px;
+    margin: 0 10px;
+    color: #ecf0f1;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #f1c40f;
+}
 
 /*
-=====================================================
-تحسين التجاوب (Media Queries)
-=====================================================
+================================================================================
+  6. تنسيقات إضافية للصفحات (مثل صفحات الدورات)
+================================================================================
+*/
+.course-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.course-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.course-item h3 {
+    color: #2980b9;
+    margin-top: 0;
+}
+
+/* ================================================================================
+   7. الاستجابة (Media Queries)
+   ================================================================================
 */
 @media (max-width: 768px) {
-    header .container {
+    .container {
         flex-direction: column;
         text-align: center;
     }
-    nav {
+
+    header nav {
         margin-top: 15px;
     }
-    nav ul {
-        gap: 10px;
+
+    header nav ul {
         justify-content: center;
-        flex-wrap: wrap;
+        margin-bottom: 10px;
     }
-    #language-select {
-        margin-top: 15px;
-        margin-right: 0;
+
+    header nav ul li {
+        margin: 0 10px;
     }
-    #home h2 {
-        font-size: 2rem;
+
+    .course-list {
+        flex-direction: column;
+        align-items: center;
     }
-    .courses-grid {
-        grid-template-columns: 1fr;
+
+    .course-item {
+        width: 90%;
     }
 }
