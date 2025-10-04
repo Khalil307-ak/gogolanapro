@@ -9,104 +9,14 @@
     <meta property="og:description" content="دليل شامل لتعلم أساسيات Python مع أمثلة عملية ومشاريع بسيطة للمبتدئين.">
     <meta property="og:image" content="https://khalil307-ak.github.io/gogolanapro/gogolanapropng.png">
     <link rel="icon" href="gogolanapropng.png" type="image/png">
-    <title data-i18n="title">الأساسيات وكيفية البدء مع بايثون</title>
+    
+    <title data-i18n="page-title">الأساسيات وكيفية البدء مع بايثون</title>
+    
     <link rel="stylesheet" href="styles.css">
-    <script src="translation2.js" defer></script>
-    <!-- AdSense Script -->
+    
+    <script src="translation.js" defer></script>
+    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6734955325699280" crossorigin="anonymous"></script>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(45deg, #adf371, #71f3d3, #f39f71, #7178f3, #f371e0);
-            background-size: 400% 400%;
-            animation: gradient 20s ease infinite;
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        header {
-            background: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        nav ul li a {
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        nav ul li a:hover {
-            text-decoration: underline;
-        }
-        #language-select {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-        .course-example {
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            font-family: 'Courier New', Courier, monospace;
-        }
-        .course-example code {
-            white-space: pre-wrap;
-        }
-        .resource-link {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .resource-link:hover {
-            text-decoration: underline;
-        }
-        .project-card {
-            background: #fff;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        footer {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            margin-top: 20px;
-        }
-        footer a {
-            color: #71f3d3;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column;
-                text-align: center;
-            }
-            #language-select {
-                position: static;
-                margin: 10px auto;
-                display: block;
-            }
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -114,10 +24,10 @@
             <h1 data-i18n="page-title">الأساسيات وكيفية البدء مع بايثون</h1>
             <nav>
                 <ul>
-                    <li><a href="index.html" data-i18n="home" aria-label="الانتقال إلى الصفحة الرئيسية">الرئيسية</a></li>
-                    <li><a href="about.html" data-i18n="about" aria-label="الانتقال إلى صفحة حول">حول</a></li>
-                    <li><a href="courses.html" data-i18n="courses" aria-label="الانتقال إلى صفحة الدورات">الدورات</a></li>
-                    <li><a href="contact.html" data-i18n="contact" aria-label="الانتقال إلى صفحة الاتصال">اتصل بنا</a></li>
+                    <li><a href="index.html#home" data-i18n="home" aria-label="الانتقال إلى الصفحة الرئيسية">الرئيسية</a></li>
+                    <li><a href="index.html#about" data-i18n="about" aria-label="الانتقال إلى صفحة حول">حول</a></li>
+                    <li><a href="index.html#courses" data-i18n="courses" aria-label="الانتقال إلى صفحة الدورات">الدورات</a></li>
+                    <li><a href="index.html#contact" data-i18n="contact" aria-label="الانتقال إلى صفحة الاتصال">اتصل بنا</a></li>
                 </ul>
                 <select id="language-select" aria-label="اختيار اللغة">
                     <option value="ar">العربية</option>
@@ -128,14 +38,14 @@
     </header>
 
     <main>
-        <section>
+        <section class="animate__animated animate__fadeInUp"> 
             <div class="container">
                 <h2 data-i18n="section-title">الأساسيات وكيفية البدء مع بايثون</h2>
-                <!-- AdSense Ad -->
+                
                 <ins class="adsbygoogle"
-                     style="display:block"
+                     style="display:block; margin: 20px 0;"
                      data-ad-client="ca-pub-6734955325699280"
-                     data-ad-slot="your-ad-slot"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
@@ -156,45 +66,37 @@
                     <li data-i18n="verify-install">تحقق من التثبيت باستخدام الأمر: <code>python3 --version</code> أو <code>python --version</code>.</li>
                 </ul>
 
-                <h3 data-i18n="first-steps">خطAnime
-طوات البداية الأولى</h3>
+                <h3 data-i18n="first-steps">خطوات البداية الأولى</h3>
                 <p data-i18n="first-steps-desc">ابدأ بكتابة برامج بسيطة لفهم بناء الجملة في بايثون:</p>
-                <div class="course-example">
-                    <code>
+                <pre><code>
 # أول برنامج بايثون
 print("Hello, World!")
-                    </code>
-                </div>
+                </code></pre>
                 <p data-i18n="run-code">احفظ الكود في ملف <code>hello.py</code> وشغله باستخدام الأمر <code>python3 hello.py</code>.</p>
                 
                 <h3 data-i18n="basic-syntax">أساسيات بناء الجملة</h3>
                 <p data-i18n="basic-syntax-desc">بايثون يعتمد على بساطة الكود. إليك بعض الأمثلة الأساسية:</p>
                 <ul>
                     <li data-i18n="variables">المتغيرات:
-                        <div class="course-example">
-                            <code>
+                        <pre><code>
 # تعريف متغيرات
 name = "Khalil"
 age = 25
 print(f"مرحبًا، {name}! عمرك {age} سنة.")
-                            </code>
-                        </div>
+                        </code></pre>
                     </li>
                     <li data-i18n="conditionals">الشروط:
-                        <div class="course-example">
-                            <code>
+                        <pre><code>
 # جملة شرطية
 age = 18
 if age >= 18:
     print("أنت بالغ!")
 else:
     print("أنت قاصر!")
-                            </code>
-                        </div>
+                        </code></pre>
                     </li>
                     <li data-i18n="loops">الحلقات:
-                        <div class="course-example">
-                            <code>
+                        <pre><code>
 # حلقة for
 for i in range(5):
     print(f"الرقم: {i}")
@@ -204,40 +106,34 @@ count = 0
 while count < 5:
     print(f"العد: {count}")
     count += 1
-                            </code>
-                        </div>
+                        </code></pre>
                     </li>
                 </ul>
 
                 <h3 data-i18n="functions">الدوال</h3>
                 <p data-i18n="functions-desc">الدوال تتيح إعادة استخدام الكود. مثال:</p>
-                <div class="course-example">
-                    <code>
+                <pre><code>
 def greet(name):
     return f"مرحبًا، {name}!"
 print(greet("Khalil"))
-                    </code>
-                </div>
+                </code></pre>
 
                 <h3 data-i18n="lists">القوائم (Lists)</h3>
                 <p data-i18n="lists-desc">القوائم تُستخدم لتخزين مجموعة من البيانات:</p>
-                <div class="course-example">
-                    <code>
+                <pre><code>
 # إنشاء قائمة
 fruits = ["تفاح", "موز", "برتقال"]
 print(fruits[0])  # طباعة: تفاح
 fruits.append("عنب")  # إضافة عنصر
 print(fruits)  # طباعة: ['تفاح', 'موز', 'برتقال', 'عنب']
-                    </code>
-                </div>
+                </code></pre>
 
                 <h3 data-i18n="projects">مشاريع عملية</h3>
                 <p data-i18n="projects-desc">جرب هذه المشاريع البسيطة لتطبيق مهاراتك:</p>
-                <div class="project-card">
+                <div class="project-card animate__animated animate__zoomIn">
                     <h4 data-i18n="project-calculator">حاسبة بسيطة</h4>
                     <p data-i18n="project-calculator-desc">اكتب برنامجًا يطلب من المستخدم إدخال رقمين وعملية حسابية:</p>
-                    <div class="course-example">
-                        <code>
+                    <pre><code>
 num1 = float(input("أدخل الرقم الأول: "))
 op = input("أدخل العملية (+, -, *, /): ")
 num2 = float(input("أدخل الرقم الثاني: "))
@@ -251,14 +147,12 @@ elif op == "/":
     print(num1 / num2)
 else:
     print("عملية غير صالحة!")
-                        </code>
-                    </div>
+                    </code></pre>
                 </div>
-                <div class="project-card">
+                <div class="project-card animate__animated animate__zoomIn">
                     <h4 data-i18n="project-game">لعبة تخمين الأرقام</h4>
                     <p data-i18n="project-game-desc">برنامج يختار رقمًا عشوائيًا ويطلب من المستخدم تخمينه:</p>
-                    <div class="course-example">
-                        <code>
+                    <pre><code>
 import random
 secret_number = random.randint(1, 100)
 guess = 0
@@ -269,17 +163,16 @@ while guess != secret_number:
     elif guess > secret_number:
         print("الرقم أصغر!")
 print("مبروك! لقد خمنت الرقم!")
-                        </code>
-                    </div>
+                    </code></pre>
                 </div>
 
                 <h3 data-i18n="resources">موارد تعليمية</h3>
                 <p data-i18n="resources-desc">استكشف هذه الموارد لتعلم المزيد:</p>
                 <ul>
-                    <li><a href="https://www.python.org/doc/" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="الوثائق الرسمية لبايثون">الوثائق الرسمية لبايثون</a></li>
-                    <li><a href="https://www.codecademy.com/learn/learn-python-3" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="دورة بايثون على Codecademy">Codecademy - تعلم بايثون</a></li>
-                    <li><a href="https://www.coursera.org/courses?query=python" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="دورات بايثون على Coursera">Coursera - دورات بايثون</a></li>
-                    <li><a href="https://realpython.com/" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="موقع Real Python">Real Python - دروس متقدمة</a></li>
+                    <li><a href="https://www.python.org/doc/" target="_blank" rel="noopener noreferrer" class="resource-link" data-i18n="resource-docs" aria-label="الوثائق الرسمية لبايثون">الوثائق الرسمية لبايثون</a></li>
+                    <li><a href="https://www.codecademy.com/learn/learn-python-3" target="_blank" rel="noopener noreferrer" class="resource-link" data-i18n="resource-codecademy" aria-label="دورة بايثون على Codecademy">Codecademy - تعلم بايثون</a></li>
+                    <li><a href="https://www.coursera.org/courses?query=python" target="_blank" rel="noopener noreferrer" class="resource-link" data-i18n="resource-coursera" aria-label="دورات بايثون على Coursera">Coursera - دورات بايثون</a></li>
+                    <li><a href="https://realpython.com/" target="_blank" rel="noopener noreferrer" class="resource-link" data-i18n="resource-realpython" aria-label="موقع Real Python">Real Python - دروس متقدمة</a></li>
                 </ul>
 
                 <h3 data-i18n="next-steps">الخطوات التالية</h3>
