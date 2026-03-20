@@ -1,55 +1,88 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="title">تحليل البيانات ببايتون</title>
-    <link rel="website icon" href="gogolanapropng.png">
+    <meta name="description" content="تعلم تحليل البيانات ببايثون — pandas وnumpy وmatplotlib وseaborn مع أمثلة ومشاريع حقيقية.">
+    <meta name="google-adsense-account" content="ca-pub-6734955325699280">
+    <title>تحليل البيانات ببايثون — دليل شامل</title>
+    <link rel="icon" href="gogolanapropng.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
-    <script src="translation.js" defer></script>
-<!-- إضافة شيفرة AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-xxxxxxxxxxxxxxxx",
-            enable_page_level_ads: true
-        });
-    </script>
-<meta name="google-adsense-account" content="ca-pub-6734955325699280">
-     <style>
-        body {
-            margin: 0;
-            height: 100vh;
-            background: linear-gradient(45deg, #adf371, #71f3d3, #f39f71, #7178f3,#f371e0);
-            background-size: 400% 400%;
-            animation: gradient 5s ease infinite; /* تم تقليل الوقت إلى 5 ثوانٍ */
-        }
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6734955325699280" crossorigin="anonymous"></script>
+    <style>
+        .lesson-hero{background:linear-gradient(135deg,#0a1628 0%,#0d2137 50%,#0a3d2b 100%);color:white;padding:60px 0 40px;text-align:center}
+        .lesson-hero h2{font-size:2.2rem;color:#00d4aa;margin-bottom:12px}
+        .lesson-hero p{font-size:1.1rem;color:#8ab4c8;max-width:700px;margin:0 auto 24px}
+        .objectives-box{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+        .objective-tag{background:rgba(0,212,170,.12);border:1px solid #00d4aa;color:#00d4aa;padding:6px 14px;border-radius:20px;font-size:.88rem}
+        .lesson-nav-bar{background:#0a1628;position:sticky;top:70px;z-index:900;overflow-x:auto;white-space:nowrap;border-bottom:1px solid #1a3a4a}
+        .lesson-nav-bar ul{display:inline-flex;list-style:none;margin:0;padding:0}
+        .lesson-nav-bar ul li a{display:block;padding:14px 18px;color:#8ab4c8;text-decoration:none;font-size:.88rem;border-bottom:3px solid transparent;transition:all .3s}
+        .lesson-nav-bar ul li a:hover,.lesson-nav-bar ul li a.active{color:#00d4aa;border-bottom-color:#00d4aa}
+        .lesson-content{max-width:900px;margin:0 auto;padding:40px 20px}
+        .lesson-section{margin-bottom:60px;scroll-margin-top:130px}
+        .lesson-section h3{font-size:1.6rem;color:#0a3d2b;border-right:5px solid #00d4aa;padding-right:16px;margin-bottom:20px}
+        .lesson-section h4{font-size:1.15rem;color:#1a3a4a;margin:25px 0 10px;font-weight:700}
+        .lesson-section p,.lesson-section li{font-size:1.03rem;line-height:2;color:#444}
+        .tip-box,.warning-box,.info-box{border-radius:10px;padding:16px 18px;margin:20px 0;display:flex;gap:14px;align-items:flex-start}
+        .tip-box{background:#e8faf6;border-right:4px solid #00d4aa}
+        .warning-box{background:#fff8e1;border-right:4px solid #f39c12}
+        .info-box{background:#e8f0fe;border-right:4px solid #4285f4}
+        .tip-box .icon{color:#00d4aa;font-size:1.3rem;margin-top:3px}
+        .warning-box .icon{color:#f39c12;font-size:1.3rem;margin-top:3px}
+        .info-box .icon{color:#4285f4;font-size:1.3rem;margin-top:3px}
+        .tip-box strong,.warning-box strong,.info-box strong{display:block;margin-bottom:5px}
+        .code-block{position:relative;background:#0d1117;border:1px solid #1a3a4a;border-radius:10px;overflow:hidden;margin:16px 0;direction:ltr}
+        .code-header{background:#0a1f30;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;direction:rtl;border-bottom:1px solid #1a3a4a}
+        .code-lang{color:#00d4aa;font-size:.82rem;font-weight:bold}
+        .copy-btn{background:transparent;border:1px solid #1a3a4a;color:#8ab4c8;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.78rem;transition:all .2s}
+        .copy-btn:hover{border-color:#00d4aa;color:#00d4aa}
+        .code-block pre{margin:0;padding:20px;background:transparent;color:#e6edf3;font-size:.93rem;overflow-x:auto}
+        .code-block pre code{direction:ltr;text-align:left;display:block;font-family:'Fira Code','Consolas',monospace;line-height:1.7}
+        .c-kw{color:#ff7b72}.c-fn{color:#79c0ff}.c-str{color:#a5d6ff}.c-num{color:#f8c555}.c-cmt{color:#6e7681;font-style:italic}.c-var{color:#e6edf3}.c-op{color:#00d4aa}.c-cls{color:#ffa657}.c-attr{color:#d2a8ff}
+        .lib-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:20px 0}
+        .lib-card{background:white;border:2px solid #e0f7f4;border-radius:12px;padding:20px;text-align:center;transition:all .3s;box-shadow:0 2px 10px rgba(0,212,170,.06)}
+        .lib-card:hover{border-color:#00d4aa;transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,212,170,.15)}
+        .lib-card .icon{font-size:2.5rem;display:block;margin-bottom:10px}
+        .lib-card h4{color:#0a3d2b;margin:0 0 6px;font-size:1.05rem}
+        .lib-card p{color:#666;font-size:.86rem;margin:0;line-height:1.5}
+        .lib-card code{background:#e8faf6;color:#00d4aa;padding:2px 8px;border-radius:4px;font-size:.82rem;display:block;margin-top:8px}
+        .output-box{background:#f0fff8;border:2px dashed #00d4aa;border-radius:8px;padding:14px 18px;margin:10px 0;direction:ltr;text-align:left;font-family:'Consolas',monospace;font-size:.88rem;color:#1a3a4a;overflow-x:auto}
+        .output-box::before{content:"📤 الإخراج:";direction:rtl;text-align:right;display:block;color:#00d4aa;font-family:inherit;font-weight:bold;margin-bottom:8px;font-size:.82rem}
+        .data-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9rem;direction:ltr;text-align:left}
+        .data-table th{background:#0a3d2b;color:white;padding:10px 14px}
+        .data-table td{padding:8px 14px;border-bottom:1px solid #e0f7f4}
+        .data-table tr:nth-child(even){background:#f0fff8}
+        .challenge-card{background:linear-gradient(135deg,#0a1628,#0a3d2b);color:white;padding:26px;border-radius:12px;margin:28px 0;border:1px solid #1a5a3a}
+        .challenge-card h4{color:#00d4aa;font-size:1.15rem;margin-bottom:10px}
+        .challenge-card p,.challenge-card li{color:#8ab4c8;line-height:1.9}
+        .solution-btn{background:#00d4aa;color:#0a1628;border:none;padding:9px 22px;border-radius:6px;cursor:pointer;margin-top:14px;font-size:.9rem;font-weight:bold;transition:background .2s}
+        .solution-btn:hover{background:#00b894}
+        .solution-content{display:none;margin-top:14px}
+        .solution-content.visible{display:block}
+        .steps-list{counter-reset:steps;list-style:none;padding:0}
+        .steps-list li{counter-increment:steps;padding:12px 16px 12px 12px;padding-right:56px;position:relative;background:#f8fffe;border:1px solid #e0f7f4;border-radius:8px;margin-bottom:10px}
+        .steps-list li::before{content:counter(steps);position:absolute;right:16px;top:50%;transform:translateY(-50%);background:#00d4aa;color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:.9rem}
+        .lesson-end{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#e8faf6,#e8f0fe);border-radius:16px;margin-top:40px}
+        .lesson-end h3{color:#0a3d2b;font-size:1.5rem}
+        .back-btn{display:inline-block;background:#00d4aa;color:#0a1628;padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:16px;transition:all .3s}
+        .back-btn:hover{background:#0a3d2b;color:white;transform:translateX(4px)}
+        @media(max-width:768px){.lesson-hero h2{font-size:1.5rem}.lesson-content{padding:20px 12px}.lib-grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1 data-i18n="page-title">تحليل البيانات ببايتون</h1>
+            <h1>📊 تحليل البيانات ببايثون</h1>
             <nav>
                 <ul>
-                    <li><a href="index.html" data-i18n="home">الرئيسية</a></li>
-                    <li><a href="index.html" data-i18n="about">حول</a></li>
-                    <li><a href="index.html" data-i18n="courses">الدورات</a></li>
-                    <li><a href="index.html" data-i18n="contact">اتصل بنا</a></li>
+                    <li><a href="index.html" data-i18n="nav-home">الرئيسية</a></li>
+                    <li><a href="mo9adima.html">الأساسيات</a></li>
+                    <li><a href="kainat.html">OOP</a></li>
                 </ul>
-                <select id="language-select">
+                <select id="language-select" aria-label="اختيار اللغة">
                     <option value="ar">العربية</option>
                     <option value="en">English</option>
                 </select>
@@ -57,61 +90,558 @@
         </div>
     </header>
 
-    <main>
-        <section>
-            <div class="container">
-                <h2 data-i18n="section-title">تحليل البيانات ببايتون</h2>
-<!-- إعلان AdSense -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-xxxxxxxxxxxxxxxx"
-                     data-ad-slot="xxxxxxxxxx"
-                     data-ad-format="auto"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-
-                <p data-i18n="intro">بايثون هي واحدة من أفضل اللغات لتحليل البيانات. توفر مجموعة من المكتبات القوية التي تجعل عملية التحليل سهلة وفعالة.</p>
-
-                <h3 data-i18n="libraries">المكتبات المستخدمة</h3>
-                <ul>
-                    <li data-i18n="pandas">Pandas: مكتبة قوية لمعالجة البيانات وتحليلها.</li>
-                    <li data-i18n="numpy">NumPy: مكتبة توفر دعمًا لمصفوفات متعددة الأبعاد والعمليات الرياضية.</li>
-                    <li data-i18n="matplotlib">Matplotlib: مكتبة للرسم البياني والتصور البياني للبيانات.</li>
-                    <li data-i18n="seaborn">Seaborn: مكتبة توفر رسومات بيانية أنيقة ومحسنة لمجموعة من التحليلات.</li>
-                </ul>
-
-                <h3 data-i18n="example">مثال على تحليل البيانات</h3>
-                <p data-i18n="example-description">فيما يلي مثال بسيط لكيفية استخدام مكتبة Pandas لتحليل مجموعة بيانات:</p>
-                <pre><code data-i18n="example-code">import pandas as pd
-
-# تحميل مجموعة البيانات
-data = pd.read_csv('data.csv')
-
-# عرض نظرة عامة على البيانات
-print(data.head())
-
-# تحليل البيانات
-print(data.describe())</code></pre>
-                <p data-i18n="example-explanation">في هذا المثال، نقوم بتحميل مجموعة بيانات من ملف CSV وعرض أول 5 صفوف منها. ثم نقوم بإجراء تحليل أساسي للبيانات.</p>
+    <div class="lesson-hero">
+        <div class="container">
+            <h2>📊 تحليل البيانات ببايثون</h2>
+            <p>من الصفر إلى رسم مخططات احترافية وتحليل ملفات CSV حقيقية — مع pandas وnumpy وmatplotlib.</p>
+            <div class="objectives-box">
+                <span class="objective-tag">🐼 pandas</span>
+                <span class="objective-tag">🔢 numpy</span>
+                <span class="objective-tag">📈 matplotlib</span>
+                <span class="objective-tag">🌊 seaborn</span>
+                <span class="objective-tag">📂 قراءة CSV</span>
+                <span class="objective-tag">🧹 تنظيف البيانات</span>
+                <span class="objective-tag">🚀 مشروع حقيقي</span>
             </div>
-        </section>
+        </div>
+    </div>
+
+    <nav class="lesson-nav-bar">
+        <ul>
+            <li><a href="#why">١. لماذا؟</a></li>
+            <li><a href="#install">٢. التثبيت</a></li>
+            <li><a href="#numpy">٣. NumPy</a></li>
+            <li><a href="#pandas-intro">٤. Pandas أساسيات</a></li>
+            <li><a href="#dataframe">٥. DataFrame</a></li>
+            <li><a href="#cleaning">٦. تنظيف البيانات</a></li>
+            <li><a href="#analysis">٧. التحليل</a></li>
+            <li><a href="#matplotlib">٨. Matplotlib</a></li>
+            <li><a href="#seaborn">٩. Seaborn</a></li>
+            <li><a href="#project">🚀 مشروع</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <ins class="adsbygoogle" style="display:block;margin:16px auto;max-width:900px;"
+             data-ad-client="ca-pub-6734955325699280" data-ad-slot="YOUR_AD_SLOT_ID"
+             data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+        <div class="lesson-content">
+
+            <!-- ١ لماذا تحليل البيانات -->
+            <div class="lesson-section" id="why">
+                <h3>١. لماذا تحليل البيانات؟</h3>
+                <p>البيانات موجودة في كل مكان: مبيعات المحلات، نتائج الطلاب، الطقس، الأسهم، وسائل التواصل الاجتماعي. تحليل البيانات ببايثون يتيح لك استخلاص معلومات مفيدة من هذه الأرقام بسرعة وبدقة.</p>
+
+                <div class="lib-grid">
+                    <div class="lib-card">
+                        <span class="icon">🐼</span>
+                        <h4>pandas</h4>
+                        <p>للتعامل مع جداول البيانات — قراءة، تصفية، تجميع</p>
+                        <code>import pandas as pd</code>
+                    </div>
+                    <div class="lib-card">
+                        <span class="icon">🔢</span>
+                        <h4>NumPy</h4>
+                        <p>للعمليات الرياضية على المصفوفات بسرعة فائقة</p>
+                        <code>import numpy as np</code>
+                    </div>
+                    <div class="lib-card">
+                        <span class="icon">📈</span>
+                        <h4>Matplotlib</h4>
+                        <p>لرسم المخططات والتصورات البيانية</p>
+                        <code>import matplotlib.pyplot as plt</code>
+                    </div>
+                    <div class="lib-card">
+                        <span class="icon">🌊</span>
+                        <h4>Seaborn</h4>
+                        <p>مخططات إحصائية جميلة ومتقدمة</p>
+                        <code>import seaborn as sns</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ٢ التثبيت -->
+            <div class="lesson-section" id="install">
+                <h3>٢. تثبيت المكتبات</h3>
+                <p>افتح Terminal أو CMD وثبّت كل المكتبات بأمر واحد:</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Shell / Terminal</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code>pip install pandas numpy matplotlib seaborn</code></pre>
+                </div>
+                <p>تحقق من التثبيت:</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd
+<span class="c-kw">import</span> numpy <span class="c-kw">as</span> np
+<span class="c-kw">import</span> matplotlib.pyplot <span class="c-kw">as</span> plt
+<span class="c-kw">import</span> seaborn <span class="c-kw">as</span> sns
+
+<span class="c-fn">print</span>(<span class="c-str">f"pandas  : {pd.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"numpy   : {np.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">"✅ كل المكتبات جاهزة!"</span>)</code></pre>
+                </div>
+                <div class="info-box">
+                    <span class="icon"><i class="fas fa-info-circle"></i></span>
+                    <div><strong>نصيحة:</strong> استخدم <strong>Jupyter Notebook</strong> أو <strong>VS Code</strong> مع امتداد Python لتشغيل كودك والحصول على مخططات مباشرة في الواجهة. ثبّت Jupyter بـ: <code>pip install jupyter</code></div>
+                </div>
+            </div>
+
+            <!-- ٣ NumPy -->
+            <div class="lesson-section" id="numpy">
+                <h3>٣. NumPy — أساس الحسابات العلمية</h3>
+                <p>NumPy أسرع بكثير من القوائم العادية في العمليات الرياضية. تستخدمها pandas داخلياً.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — NumPy أساسيات</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> numpy <span class="c-kw">as</span> np
+
+<span class="c-cmt"># إنشاء مصفوفة</span>
+<span class="c-var">grades</span> <span class="c-op">=</span> np<span class="c-op">.</span><span class="c-fn">array</span>([<span class="c-num">18</span>, <span class="c-num">15</span>, <span class="c-num">19</span>, <span class="c-num">14</span>, <span class="c-num">17</span>, <span class="c-num">20</span>, <span class="c-num">12</span>, <span class="c-num">16</span>])
+
+<span class="c-cmt"># عمليات إحصائية سريعة</span>
+<span class="c-fn">print</span>(<span class="c-str">f"المعدل    : {np.mean(grades):.2f}"</span>)     <span class="c-cmt"># 16.375</span>
+<span class="c-fn">print</span>(<span class="c-str">f"الوسيط    : {np.median(grades)}"</span>)       <span class="c-cmt"># 16.5</span>
+<span class="c-fn">print</span>(<span class="c-str">f"الانحراف  : {np.std(grades):.2f}"</span>)       <span class="c-cmt"># 2.52</span>
+<span class="c-fn">print</span>(<span class="c-str">f"الأعلى    : {np.max(grades)}"</span>)           <span class="c-cmt"># 20</span>
+<span class="c-fn">print</span>(<span class="c-str">f"الأدنى    : {np.min(grades)}"</span>)           <span class="c-cmt"># 12</span>
+<span class="c-fn">print</span>(<span class="c-str">f"المجموع   : {np.sum(grades)}"</span>)           <span class="c-cmt"># 131</span>
+
+<span class="c-cmt"># عمليات على كل العناصر دفعة</span>
+<span class="c-var">bonus</span>    <span class="c-op">=</span> <span class="c-var">grades</span> <span class="c-op">+</span> <span class="c-num">2</span>      <span class="c-cmt"># [20, 17, 21, ...]</span>
+<span class="c-var">percent</span> <span class="c-op">=</span> <span class="c-var">grades</span> <span class="c-op">/</span> <span class="c-num">20</span> <span class="c-op">*</span> <span class="c-num">100</span>  <span class="c-cmt"># نسبة مئوية</span>
+
+<span class="c-cmt"># تصفية: من نجح (≥ 10)?</span>
+<span class="c-var">passed</span> <span class="c-op">=</span> <span class="c-var">grades</span>[<span class="c-var">grades</span> <span class="c-op">&gt;=</span> <span class="c-num">10</span>]
+<span class="c-fn">print</span>(<span class="c-str">f"الناجحون : {passed}"</span>)
+
+<span class="c-cmt"># مصفوفة 2D (جدول)</span>
+<span class="c-var">matrix</span> <span class="c-op">=</span> np<span class="c-op">.</span><span class="c-fn">array</span>([[<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>],
+                   [<span class="c-num">4</span>, <span class="c-num">5</span>, <span class="c-num">6</span>],
+                   [<span class="c-num">7</span>, <span class="c-num">8</span>, <span class="c-num">9</span>]])
+<span class="c-fn">print</span>(<span class="c-var">matrix</span><span class="c-op">.</span><span class="c-var">shape</span>)   <span class="c-cmt"># (3, 3)</span>
+<span class="c-fn">print</span>(np<span class="c-op">.</span><span class="c-fn">sum</span>(<span class="c-var">matrix</span>, axis<span class="c-op">=</span><span class="c-num">0</span>))  <span class="c-cmt"># مجموع الأعمدة</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٤ pandas أساسيات -->
+            <div class="lesson-section" id="pandas-intro">
+                <h3>٤. pandas — إنشاء البيانات</h3>
+                <p>pandas لديها بنيتان رئيسيتان: <strong>Series</strong> (عمود واحد) و<strong>DataFrame</strong> (جدول كامل).</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Series و DataFrame</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd
+
+<span class="c-cmt"># Series — عمود واحد</span>
+<span class="c-var">prices</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-cls">Series</span>([<span class="c-num">25</span>, <span class="c-num">50</span>, <span class="c-num">15</span>, <span class="c-num">80</span>],
+                    index<span class="c-op">=</span>[<span class="c-str">"تفاح"</span>, <span class="c-str">"موز"</span>, <span class="c-str">"برتقال"</span>, <span class="c-str">"مانجو"</span>])
+<span class="c-fn">print</span>(<span class="c-var">prices</span>[<span class="c-str">"موز"</span>])       <span class="c-cmt"># 50</span>
+<span class="c-fn">print</span>(<span class="c-var">prices</span><span class="c-op">.</span><span class="c-fn">mean</span>())       <span class="c-cmt"># 42.5</span>
+<span class="c-fn">print</span>(<span class="c-var">prices</span>[<span class="c-var">prices</span> <span class="c-op">&gt;</span> <span class="c-num">30</span>]) <span class="c-cmt"># موز ومانجو</span>
+
+<span class="c-cmt"># DataFrame — جدول كامل</span>
+<span class="c-var">data</span> <span class="c-op">=</span> {
+    <span class="c-str">"name"</span>   <span class="c-op">:</span> [<span class="c-str">"خليل"</span>, <span class="c-str">"فاطمة"</span>, <span class="c-str">"أحمد"</span>, <span class="c-str">"سارة"</span>, <span class="c-str">"يوسف"</span>],
+    <span class="c-str">"age"</span>    <span class="c-op">:</span> [<span class="c-num">14</span>, <span class="c-num">15</span>, <span class="c-num">13</span>, <span class="c-num">16</span>, <span class="c-num">14</span>],
+    <span class="c-str">"grade"</span>  <span class="c-op">:</span> [<span class="c-num">18</span>, <span class="c-num">19</span>, <span class="c-num">14</span>, <span class="c-num">17</span>, <span class="c-num">15</span>],
+    <span class="c-str">"city"</span>   <span class="c-op">:</span> [<span class="c-str">"مراكش"</span>, <span class="c-str">"الرباط"</span>, <span class="c-str">"فاس"</span>, <span class="c-str">"مراكش"</span>, <span class="c-str">"الدار البيضاء"</span>]
+}
+
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-cls">DataFrame</span>(<span class="c-var">data</span>)
+<span class="c-fn">print</span>(<span class="c-var">df</span>)</code></pre>
+                </div>
+                <div class="output-box">name    age  grade           city
+0   خليل   14     18         مراكش
+1  فاطمة   15     19         الرباط
+2   أحمد   13     14           فاس
+3   سارة   16     17         مراكش
+4  يوسف   14     15  الدار البيضاء</div>
+            </div>
+
+            <!-- ٥ DataFrame عمليات -->
+            <div class="lesson-section" id="dataframe">
+                <h3>٥. التعامل مع DataFrame</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — عمليات DataFrame</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># معلومات عامة</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">shape</span>)            <span class="c-cmt"># (5, 4) — 5 صفوف، 4 أعمدة</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">dtypes</span>)           <span class="c-cmt"># نوع كل عمود</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">describe</span>())       <span class="c-cmt"># إحصاءات تلقائية</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">head</span>(<span class="c-num">3</span>))          <span class="c-cmt"># أول 3 صفوف</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">tail</span>(<span class="c-num">2</span>))          <span class="c-cmt"># آخر صفين</span>
+
+<span class="c-cmt"># الوصول للأعمدة</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span>[<span class="c-str">"grade"</span>])          <span class="c-cmt"># عمود الدرجات</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span>[[<span class="c-str">"name"</span>, <span class="c-str">"grade"</span>]]) <span class="c-cmt"># عمودان</span>
+
+<span class="c-cmt"># الوصول للصفوف</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">iloc</span>[<span class="c-num">0</span>])           <span class="c-cmt"># الصف الأول (بالرقم)</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">loc</span>[<span class="c-num">2</span>])            <span class="c-cmt"># الصف بالمؤشر</span>
+
+<span class="c-cmt"># التصفية</span>
+<span class="c-var">top_students</span> <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-var">df</span>[<span class="c-str">"grade"</span>] <span class="c-op">&gt;=</span> <span class="c-num">17</span>]
+<span class="c-fn">print</span>(<span class="c-var">top_students</span>)
+
+<span class="c-var">marrakech</span> <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-var">df</span>[<span class="c-str">"city"</span>] <span class="c-op">==</span> <span class="c-str">"مراكش"</span>]
+
+<span class="c-cmt"># إضافة عمود جديد</span>
+<span class="c-var">df</span>[<span class="c-str">"passed"</span>] <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-str">"grade"</span>] <span class="c-op">&gt;=</span> <span class="c-num">10</span>
+<span class="c-var">df</span>[<span class="c-str">"percent"</span>] <span class="c-op">=</span> (<span class="c-var">df</span>[<span class="c-str">"grade"</span>] <span class="c-op">/</span> <span class="c-num">20</span> <span class="c-op">*</span> <span class="c-num">100</span>)<span class="c-op">.</span><span class="c-fn">round</span>(<span class="c-num">1</span>)
+
+<span class="c-cmt"># ترتيب</span>
+<span class="c-var">sorted_df</span> <span class="c-op">=</span> <span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">sort_values</span>(<span class="c-str">"grade"</span>, ascending<span class="c-op">=</span><span class="c-kw">False</span>)
+
+<span class="c-cmt"># التجميع — groupby</span>
+<span class="c-var">city_avg</span> <span class="c-op">=</span> <span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">groupby</span>(<span class="c-str">"city"</span>)[<span class="c-str">"grade"</span>]<span class="c-op">.</span><span class="c-fn">mean</span>()
+<span class="c-fn">print</span>(<span class="c-var">city_avg</span>)</code></pre>
+                </div>
+
+                <h4>قراءة وكتابة الملفات</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — CSV وExcel</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># قراءة CSV</span>
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-fn">read_csv</span>(<span class="c-str">"students.csv"</span>)
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-fn">read_csv</span>(<span class="c-str">"students.csv"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>)  <span class="c-cmt"># للعربية</span>
+
+<span class="c-cmt"># قراءة Excel</span>
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-fn">read_excel</span>(<span class="c-str">"data.xlsx"</span>, sheet_name<span class="c-op">=</span><span class="c-str">"Sheet1"</span>)
+
+<span class="c-cmt"># حفظ النتائج</span>
+<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">to_csv</span>(<span class="c-str">"results.csv"</span>, index<span class="c-op">=</span><span class="c-kw">False</span>)
+<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">to_excel</span>(<span class="c-str">"results.xlsx"</span>, index<span class="c-op">=</span><span class="c-kw">False</span>)</code></pre>
+                </div>
+            </div>
+
+            <!-- ٦ تنظيف البيانات -->
+            <div class="lesson-section" id="cleaning">
+                <h3>٦. تنظيف البيانات (Data Cleaning)</h3>
+                <p>في الواقع، 80% من وقت تحليل البيانات يُصرف على تنظيفها! البيانات الحقيقية غالباً فيها قيم مفقودة أو مكررة أو خاطئة.</p>
+
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — تنظيف البيانات</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd
+<span class="c-kw">import</span> numpy <span class="c-kw">as</span> np
+
+<span class="c-cmt"># بيانات "قذرة" للاختبار</span>
+<span class="c-var">data</span> <span class="c-op">=</span> {
+    <span class="c-str">"name"</span>  <span class="c-op">:</span> [<span class="c-str">"خليل"</span>, <span class="c-str">"أحمد"</span>, <span class="c-kw">None</span>, <span class="c-str">"سارة"</span>, <span class="c-str">"أحمد"</span>],
+    <span class="c-str">"grade"</span> <span class="c-op">:</span> [<span class="c-num">18</span>, np<span class="c-op">.</span><span class="c-var">nan</span>, <span class="c-num">15</span>, <span class="c-num">17</span>, np<span class="c-op">.</span><span class="c-var">nan</span>],
+    <span class="c-str">"city"</span>  <span class="c-op">:</span> [<span class="c-str">"  مراكش  "</span>, <span class="c-str">"الرباط"</span>, <span class="c-str">"فاس"</span>, <span class="c-str">"MARRAKECH"</span>, <span class="c-str">"الرباط"</span>]
+}
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-cls">DataFrame</span>(<span class="c-var">data</span>)
+
+<span class="c-cmt"># ١. الكشف عن القيم المفقودة</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">isnull</span>()<span class="c-op">.</span><span class="c-fn">sum</span>())   <span class="c-cmt"># عدد الفراغات في كل عمود</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">isnull</span>()<span class="c-op">.</span><span class="c-fn">sum</span>()<span class="c-op">.</span><span class="c-fn">sum</span>())  <span class="c-cmt"># إجمالي الفراغات</span>
+
+<span class="c-cmt"># ٢. التعامل مع القيم المفقودة</span>
+<span class="c-var">df</span>[<span class="c-str">"grade"</span>]<span class="c-op">.</span><span class="c-fn">fillna</span>(<span class="c-var">df</span>[<span class="c-str">"grade"</span>]<span class="c-op">.</span><span class="c-fn">mean</span>(), inplace<span class="c-op">=</span><span class="c-kw">True</span>)  <span class="c-cmt"># ملء بالمعدل</span>
+<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">dropna</span>(subset<span class="c-op">=</span>[<span class="c-str">"name"</span>], inplace<span class="c-op">=</span><span class="c-kw">True</span>)            <span class="c-cmt"># حذف صفوف بدون اسم</span>
+
+<span class="c-cmt"># ٣. إزالة التكرار</span>
+<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">drop_duplicates</span>(subset<span class="c-op">=</span>[<span class="c-str">"name"</span>], inplace<span class="c-op">=</span><span class="c-kw">True</span>)
+
+<span class="c-cmt"># ٤. تنظيف النصوص</span>
+<span class="c-var">df</span>[<span class="c-str">"city"</span>] <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-str">"city"</span>]<span class="c-op">.</span><span class="c-fn">str</span><span class="c-op">.</span><span class="c-fn">strip</span>()    <span class="c-cmt"># إزالة المسافات</span>
+<span class="c-var">df</span>[<span class="c-str">"city"</span>] <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-str">"city"</span>]<span class="c-op">.</span><span class="c-fn">str</span><span class="c-op">.</span><span class="c-fn">lower</span>()    <span class="c-cmt"># تحويل للأحرف الصغيرة</span>
+<span class="c-var">df</span>[<span class="c-str">"name"</span>]  <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-str">"name"</span>]<span class="c-op">.</span><span class="c-fn">str</span><span class="c-op">.</span><span class="c-fn">strip</span>()
+
+<span class="c-cmt"># ٥. إعادة تعيين الفهرس</span>
+<span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">reset_index</span>(drop<span class="c-op">=</span><span class="c-kw">True</span>, inplace<span class="c-op">=</span><span class="c-kw">True</span>)
+
+<span class="c-fn">print</span>(<span class="c-str">"\nبعد التنظيف:"</span>)
+<span class="c-fn">print</span>(<span class="c-var">df</span>)</code></pre>
+                </div>
+                <div class="warning-box">
+                    <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+                    <div><strong>تحذير:</strong> لا تحذف قيماً مفقودة قبل أن تفهم لماذا هي مفقودة! أحياناً القيمة المفقودة نفسها معلومة مهمة.</div>
+                </div>
+            </div>
+
+            <!-- ٧ التحليل -->
+            <div class="lesson-section" id="analysis">
+                <h3>٧. التحليل الإحصائي مع pandas</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — التحليل الشامل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd
+
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-cls">DataFrame</span>({
+    <span class="c-str">"student"</span> <span class="c-op">:</span> [<span class="c-str">"خليل"</span>,<span class="c-str">"فاطمة"</span>,<span class="c-str">"أحمد"</span>,<span class="c-str">"سارة"</span>,<span class="c-str">"يوسف"</span>,<span class="c-str">"رنا"</span>],
+    <span class="c-str">"math"</span>    <span class="c-op">:</span> [<span class="c-num">18</span>, <span class="c-num">19</span>, <span class="c-num">12</span>, <span class="c-num">15</span>, <span class="c-num">17</span>, <span class="c-num">14</span>],
+    <span class="c-str">"arabic"</span>  <span class="c-op">:</span> [<span class="c-num">16</span>, <span class="c-num">18</span>, <span class="c-num">14</span>, <span class="c-num">19</span>, <span class="c-num">15</span>, <span class="c-num">17</span>],
+    <span class="c-str">"science"</span> <span class="c-op">:</span> [<span class="c-num">17</span>, <span class="c-num">16</span>, <span class="c-num">13</span>, <span class="c-num">18</span>, <span class="c-num">16</span>, <span class="c-num">15</span>]
+})
+
+<span class="c-cmt"># حساب المعدل لكل طالب</span>
+<span class="c-var">df</span>[<span class="c-str">"average"</span>] <span class="c-op">=</span> <span class="c-var">df</span>[[<span class="c-str">"math"</span>,<span class="c-str">"arabic"</span>,<span class="c-str">"science"</span>]]<span class="c-op">.</span><span class="c-fn">mean</span>(axis<span class="c-op">=</span><span class="c-num">1</span>)<span class="c-op">.</span><span class="c-fn">round</span>(<span class="c-num">2</span>)
+
+<span class="c-cmt"># تحديد التقدير</span>
+<span class="c-kw">def</span> <span class="c-fn">get_rank</span>(<span class="c-var">avg</span>)<span class="c-op">:</span>
+    <span class="c-kw">if</span>   <span class="c-var">avg</span> <span class="c-op">&gt;=</span> <span class="c-num">18</span><span class="c-op">:</span> <span class="c-kw">return</span> <span class="c-str">"ممتاز 🌟"</span>
+    <span class="c-kw">elif</span> <span class="c-var">avg</span> <span class="c-op">&gt;=</span> <span class="c-num">15</span><span class="c-op">:</span> <span class="c-kw">return</span> <span class="c-str">"جيد جداً 👍"</span>
+    <span class="c-kw">elif</span> <span class="c-var">avg</span> <span class="c-op">&gt;=</span> <span class="c-num">12</span><span class="c-op">:</span> <span class="c-kw">return</span> <span class="c-str">"جيد 😊"</span>
+    <span class="c-kw">elif</span> <span class="c-var">avg</span> <span class="c-op">&gt;=</span> <span class="c-num">10</span><span class="c-op">:</span> <span class="c-kw">return</span> <span class="c-str">"مقبول 😐"</span>
+    <span class="c-kw">else</span><span class="c-op">:</span>           <span class="c-kw">return</span> <span class="c-str">"راسب ❌"</span>
+
+<span class="c-var">df</span>[<span class="c-str">"rank"</span>] <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-str">"average"</span>]<span class="c-op">.</span><span class="c-fn">apply</span>(<span class="c-fn">get_rank</span>)
+
+<span class="c-cmt"># إحصاءات المواد</span>
+<span class="c-fn">print</span>(<span class="c-str">"📊 معدل كل مادة:"</span>)
+<span class="c-fn">print</span>(<span class="c-var">df</span>[[<span class="c-str">"math"</span>,<span class="c-str">"arabic"</span>,<span class="c-str">"science"</span>]]<span class="c-op">.</span><span class="c-fn">describe</span>())
+
+<span class="c-cmt"># الطالب الأول</span>
+<span class="c-var">best</span> <span class="c-op">=</span> <span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">loc</span>[<span class="c-var">df</span>[<span class="c-str">"average"</span>]<span class="c-op">.</span><span class="c-fn">idxmax</span>()]
+<span class="c-fn">print</span>(<span class="c-str">f"🏆 الأول: {best['student']} ({best['average']})"</span>)
+
+<span class="c-cmt"># عدد كل تقدير</span>
+<span class="c-fn">print</span>(<span class="c-var">df</span>[<span class="c-str">"rank"</span>]<span class="c-op">.</span><span class="c-fn">value_counts</span>())</code></pre>
+                </div>
+            </div>
+
+            <!-- ٨ Matplotlib -->
+            <div class="lesson-section" id="matplotlib">
+                <h3>٨. Matplotlib — رسم المخططات</h3>
+                <p>matplotlib تحول أرقامك إلى مخططات بصرية يسهل فهمها. إليك أشهر أنواع المخططات:</p>
+
+                <h4>مخطط الأعمدة (Bar Chart)</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Bar Chart</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> matplotlib.pyplot <span class="c-kw">as</span> plt
+<span class="c-kw">import</span> matplotlib <span class="c-kw">as</span> mpl
+
+<span class="c-cmt"># دعم العربية (اختياري)</span>
+mpl<span class="c-op">.</span><span class="c-fn">rcParams</span>[<span class="c-str">'font.family'</span>] <span class="c-op">=</span> <span class="c-str">'DejaVu Sans'</span>
+
+<span class="c-var">students</span> <span class="c-op">=</span> [<span class="c-str">"Khalil"</span>, <span class="c-str">"Fatima"</span>, <span class="c-str">"Ahmed"</span>, <span class="c-str">"Sara"</span>, <span class="c-str">"Youssef"</span>]
+<span class="c-var">grades</span>   <span class="c-op">=</span> [<span class="c-num">18</span>, <span class="c-num">19</span>, <span class="c-num">14</span>, <span class="c-num">17</span>, <span class="c-num">15</span>]
+<span class="c-var">colors</span>   <span class="c-op">=</span> [<span class="c-str">"#00d4aa"</span> <span class="c-kw">if</span> <span class="c-var">g</span> <span class="c-op">&gt;=</span> <span class="c-num">15</span> <span class="c-kw">else</span> <span class="c-str">"#ff7675"</span> <span class="c-kw">for</span> <span class="c-var">g</span> <span class="c-kw">in</span> <span class="c-var">grades</span>]
+
+plt<span class="c-op">.</span><span class="c-fn">figure</span>(figsize<span class="c-op">=</span>(<span class="c-num">10</span>, <span class="c-num">5</span>))
+plt<span class="c-op">.</span><span class="c-fn">bar</span>(<span class="c-var">students</span>, <span class="c-var">grades</span>, color<span class="c-op">=</span><span class="c-var">colors</span>, edgecolor<span class="c-op">=</span><span class="c-str">"white"</span>)
+plt<span class="c-op">.</span><span class="c-fn">axhline</span>(y<span class="c-op">=</span><span class="c-num">10</span>, color<span class="c-op">=</span><span class="c-str">"red"</span>, linestyle<span class="c-op">=</span><span class="c-str">"--"</span>, label<span class="c-op">=</span><span class="c-str">"حد النجاح"</span>)
+plt<span class="c-op">.</span><span class="c-fn">title</span>(<span class="c-str">"Student Grades"</span>, fontsize<span class="c-op">=</span><span class="c-num">16</span>)
+plt<span class="c-op">.</span><span class="c-fn">xlabel</span>(<span class="c-str">"Students"</span>)
+plt<span class="c-op">.</span><span class="c-fn">ylabel</span>(<span class="c-str">"Grade /20"</span>)
+plt<span class="c-op">.</span><span class="c-fn">ylim</span>(<span class="c-num">0</span>, <span class="c-num">22</span>)
+plt<span class="c-op">.</span><span class="c-fn">legend</span>()
+plt<span class="c-op">.</span><span class="c-fn">tight_layout</span>()
+plt<span class="c-op">.</span><span class="c-fn">show</span>()</code></pre>
+                </div>
+
+                <h4>مخطط الخط (Line Chart)</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Line Chart</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># تتبع درجات طالب على 6 شهور</span>
+<span class="c-var">months</span>  <span class="c-op">=</span> [<span class="c-str">"Sep"</span>,<span class="c-str">"Oct"</span>,<span class="c-str">"Nov"</span>,<span class="c-str">"Dec"</span>,<span class="c-str">"Jan"</span>,<span class="c-str">"Feb"</span>]
+<span class="c-var">khalil</span>  <span class="c-op">=</span> [<span class="c-num">12</span>, <span class="c-num">14</span>, <span class="c-num">15</span>, <span class="c-num">16</span>, <span class="c-num">17</span>, <span class="c-num">18</span>]
+<span class="c-var">fatima</span>  <span class="c-op">=</span> [<span class="c-num">18</span>, <span class="c-num">17</span>, <span class="c-num">19</span>, <span class="c-num">18</span>, <span class="c-num">20</span>, <span class="c-num">19</span>]
+
+plt<span class="c-op">.</span><span class="c-fn">figure</span>(figsize<span class="c-op">=</span>(<span class="c-num">10</span>, <span class="c-num">5</span>))
+plt<span class="c-op">.</span><span class="c-fn">plot</span>(<span class="c-var">months</span>, <span class="c-var">khalil</span>, <span class="c-str">"o-"</span>, color<span class="c-op">=</span><span class="c-str">"#00d4aa"</span>, label<span class="c-op">=</span><span class="c-str">"Khalil"</span>, linewidth<span class="c-op">=</span><span class="c-num">2</span>)
+plt<span class="c-op">.</span><span class="c-fn">plot</span>(<span class="c-var">months</span>, <span class="c-var">fatima</span>, <span class="c-str">"s-"</span>, color<span class="c-op">=</span><span class="c-str">"#ff7675"</span>, label<span class="c-op">=</span><span class="c-str">"Fatima"</span>, linewidth<span class="c-op">=</span><span class="c-num">2</span>)
+plt<span class="c-op">.</span><span class="c-fn">fill_between</span>(<span class="c-var">months</span>, <span class="c-var">khalil</span>, alpha<span class="c-op">=</span><span class="c-num">0.1</span>, color<span class="c-op">=</span><span class="c-str">"#00d4aa"</span>)
+plt<span class="c-op">.</span><span class="c-fn">title</span>(<span class="c-str">"Grade Progress"</span>, fontsize<span class="c-op">=</span><span class="c-num">16</span>)
+plt<span class="c-op">.</span><span class="c-fn">legend</span>()
+plt<span class="c-op">.</span><span class="c-fn">grid</span>(<span class="c-kw">True</span>, alpha<span class="c-op">=</span><span class="c-num">0.3</span>)
+plt<span class="c-op">.</span><span class="c-fn">show</span>()</code></pre>
+                </div>
+
+                <h4>مخطط الدائرة (Pie Chart)</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Pie Chart</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-var">ranks</span>  <span class="c-op">=</span> [<span class="c-str">"Excellent"</span>, <span class="c-str">"Very Good"</span>, <span class="c-str">"Good"</span>, <span class="c-str">"Pass"</span>, <span class="c-str">"Fail"</span>]
+<span class="c-var">counts</span> <span class="c-op">=</span> [<span class="c-num">5</span>, <span class="c-num">12</span>, <span class="c-num">8</span>, <span class="c-num">4</span>, <span class="c-num">2</span>]
+<span class="c-var">colors</span> <span class="c-op">=</span> [<span class="c-str">"#00d4aa"</span>, <span class="c-str">"#0984e3"</span>, <span class="c-str">"#fdcb6e"</span>, <span class="c-str">"#e17055"</span>, <span class="c-str">"#d63031"</span>]
+
+plt<span class="c-op">.</span><span class="c-fn">figure</span>(figsize<span class="c-op">=</span>(<span class="c-num">8</span>, <span class="c-num">6</span>))
+plt<span class="c-op">.</span><span class="c-fn">pie</span>(<span class="c-var">counts</span>, labels<span class="c-op">=</span><span class="c-var">ranks</span>, colors<span class="c-op">=</span><span class="c-var">colors</span>,
+        autopct<span class="c-op">=</span><span class="c-str">"%1.1f%%"</span>, startangle<span class="c-op">=</span><span class="c-num">90</span>,
+        explode<span class="c-op">=</span>[<span class="c-num">0.05</span>]<span class="c-op">*</span><span class="c-num">5</span>)
+plt<span class="c-op">.</span><span class="c-fn">title</span>(<span class="c-str">"Grade Distribution"</span>, fontsize<span class="c-op">=</span><span class="c-num">16</span>)
+plt<span class="c-op">.</span><span class="c-fn">show</span>()</code></pre>
+                </div>
+            </div>
+
+            <!-- ٩ Seaborn -->
+            <div class="lesson-section" id="seaborn">
+                <h3>٩. Seaborn — مخططات إحصائية جميلة</h3>
+                <p>Seaborn مبنية على matplotlib لكنها أجمل وأسهل للمخططات الإحصائية.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Seaborn</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> seaborn <span class="c-kw">as</span> sns
+<span class="c-kw">import</span> matplotlib.pyplot <span class="c-kw">as</span> plt
+<span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd
+
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-cls">DataFrame</span>({
+    <span class="c-str">"student"</span><span class="c-op">:</span> [<span class="c-str">"K"</span>,<span class="c-str">"F"</span>,<span class="c-str">"A"</span>,<span class="c-str">"S"</span>,<span class="c-str">"Y"</span>],
+    <span class="c-str">"math"</span>   <span class="c-op">:</span> [<span class="c-num">18</span>,<span class="c-num">19</span>,<span class="c-num">12</span>,<span class="c-num">15</span>,<span class="c-num">17</span>],
+    <span class="c-str">"arabic"</span> <span class="c-op">:</span> [<span class="c-num">16</span>,<span class="c-num">18</span>,<span class="c-num">14</span>,<span class="c-num">19</span>,<span class="c-num">15</span>],
+    <span class="c-str">"science"</span><span class="c-op">:</span> [<span class="c-num">17</span>,<span class="c-num">16</span>,<span class="c-num">13</span>,<span class="c-num">18</span>,<span class="c-num">16</span>]
+})
+
+<span class="c-cmt"># هيتماب — لمعرفة الارتباط بين المواد</span>
+<span class="c-var">correlation</span> <span class="c-op">=</span> <span class="c-var">df</span>[[<span class="c-str">"math"</span>,<span class="c-str">"arabic"</span>,<span class="c-str">"science"</span>]]<span class="c-op">.</span><span class="c-fn">corr</span>()
+
+plt<span class="c-op">.</span><span class="c-fn">figure</span>(figsize<span class="c-op">=</span>(<span class="c-num">6</span>,<span class="c-num">4</span>))
+sns<span class="c-op">.</span><span class="c-fn">heatmap</span>(<span class="c-var">correlation</span>, annot<span class="c-op">=</span><span class="c-kw">True</span>, cmap<span class="c-op">=</span><span class="c-str">"YlOrRd"</span>, fmt<span class="c-op">=</span><span class="c-str">".2f"</span>)
+plt<span class="c-op">.</span><span class="c-fn">title</span>(<span class="c-str">"Correlation Between Subjects"</span>)
+plt<span class="c-op">.</span><span class="c-fn">show</span>()
+
+<span class="c-cmt"># Boxplot — توزيع الدرجات</span>
+<span class="c-var">df_melted</span> <span class="c-op">=</span> <span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">melt</span>(id_vars<span class="c-op">=</span>[<span class="c-str">"student"</span>],
+                     var_name<span class="c-op">=</span><span class="c-str">"subject"</span>,
+                     value_name<span class="c-op">=</span><span class="c-str">"grade"</span>)
+
+plt<span class="c-op">.</span><span class="c-fn">figure</span>(figsize<span class="c-op">=</span>(<span class="c-num">8</span>,<span class="c-num">5</span>))
+sns<span class="c-op">.</span><span class="c-fn">boxplot</span>(data<span class="c-op">=</span><span class="c-var">df_melted</span>, x<span class="c-op">=</span><span class="c-str">"subject"</span>, y<span class="c-op">=</span><span class="c-str">"grade"</span>,
+             palette<span class="c-op">=</span><span class="c-str">"Set2"</span>)
+plt<span class="c-op">.</span><span class="c-fn">title</span>(<span class="c-str">"Grade Distribution by Subject"</span>)
+plt<span class="c-op">.</span><span class="c-fn">show</span>()
+
+<span class="c-cmt"># Scatter — علاقة مادتين</span>
+plt<span class="c-op">.</span><span class="c-fn">figure</span>(figsize<span class="c-op">=</span>(<span class="c-num">6</span>,<span class="c-num">5</span>))
+sns<span class="c-op">.</span><span class="c-fn">scatterplot</span>(data<span class="c-op">=</span><span class="c-var">df</span>, x<span class="c-op">=</span><span class="c-str">"math"</span>, y<span class="c-op">=</span><span class="c-str">"science"</span>,
+                 s<span class="c-op">=</span><span class="c-num">100</span>, color<span class="c-op">=</span><span class="c-str">"#00d4aa"</span>)
+plt<span class="c-op">.</span><span class="c-fn">title</span>(<span class="c-str">"Math vs Science Grades"</span>)
+plt<span class="c-op">.</span><span class="c-fn">show</span>()</code></pre>
+                </div>
+            </div>
+
+            <!-- مشروع -->
+            <div class="lesson-section" id="project">
+                <h3>🚀 المشروع النهائي — تحليل نتائج صف دراسي كامل</h3>
+                <p>مشروع حقيقي يجمع كل ما تعلمته: إنشاء بيانات، تنظيف، تحليل، ومخططات.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — school_analysis.py</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># ============================
+# 📊 تحليل نتائج صف دراسي
+# ============================</span>
+
+<span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd
+<span class="c-kw">import</span> numpy <span class="c-kw">as</span> np
+<span class="c-kw">import</span> matplotlib.pyplot <span class="c-kw">as</span> plt
+
+<span class="c-cmt"># ١. إنشاء البيانات (في الواقع ستقرأها من CSV)</span>
+np<span class="c-op">.</span>random<span class="c-op">.</span><span class="c-fn">seed</span>(<span class="c-num">42</span>)
+<span class="c-var">n</span> <span class="c-op">=</span> <span class="c-num">30</span>
+
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-cls">DataFrame</span>({
+    <span class="c-str">"id"</span>     <span class="c-op">:</span> <span class="c-fn">range</span>(<span class="c-num">1</span>, <span class="c-var">n</span><span class="c-op">+</span><span class="c-num">1</span>),
+    <span class="c-str">"math"</span>   <span class="c-op">:</span> np<span class="c-op">.</span>random<span class="c-op">.</span><span class="c-fn">randint</span>(<span class="c-num">6</span>, <span class="c-num">21</span>, <span class="c-var">n</span>),
+    <span class="c-str">"arabic"</span> <span class="c-op">:</span> np<span class="c-op">.</span>random<span class="c-op">.</span><span class="c-fn">randint</span>(<span class="c-num">8</span>, <span class="c-num">21</span>, <span class="c-var">n</span>),
+    <span class="c-str">"science"</span><span class="c-op">:</span> np<span class="c-op">.</span>random<span class="c-op">.</span><span class="c-fn">randint</span>(<span class="c-num">7</span>, <span class="c-num">21</span>, <span class="c-var">n</span>),
+    <span class="c-str">"english"</span><span class="c-op">:</span> np<span class="c-op">.</span>random<span class="c-op">.</span><span class="c-fn">randint</span>(<span class="c-num">5</span>, <span class="c-num">21</span>, <span class="c-var">n</span>)
+})
+
+<span class="c-cmt"># ٢. حساب المعدل والتقدير</span>
+<span class="c-var">subjects</span> <span class="c-op">=</span> [<span class="c-str">"math"</span>, <span class="c-str">"arabic"</span>, <span class="c-str">"science"</span>, <span class="c-str">"english"</span>]
+<span class="c-var">df</span>[<span class="c-str">"average"</span>] <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-var">subjects</span>]<span class="c-op">.</span><span class="c-fn">mean</span>(axis<span class="c-op">=</span><span class="c-num">1</span>)<span class="c-op">.</span><span class="c-fn">round</span>(<span class="c-num">2</span>)
+<span class="c-var">df</span>[<span class="c-str">"status"</span>]  <span class="c-op">=</span> df[<span class="c-str">"average"</span>]<span class="c-op">.</span><span class="c-fn">apply</span>(<span class="c-kw">lambda</span> x<span class="c-op">:</span> <span class="c-str">"Pass"</span> <span class="c-kw">if</span> x <span class="c-op">&gt;=</span> <span class="c-num">10</span> <span class="c-kw">else</span> <span class="c-str">"Fail"</span>)
+
+<span class="c-cmt"># ٣. ملخص الصف</span>
+<span class="c-fn">print</span>(<span class="c-str">"="</span><span class="c-op">*</span><span class="c-num">40</span>)
+<span class="c-fn">print</span>(<span class="c-str">" 📊 Class Analysis Report"</span>)
+<span class="c-fn">print</span>(<span class="c-str">"="</span><span class="c-op">*</span><span class="c-num">40</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Total students : {len(df)}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Passed         : {(df['status']=='Pass').sum()}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Failed         : {(df['status']=='Fail').sum()}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Class average  : {df['average'].mean():.2f}/20"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Highest grade  : {df['average'].max()}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Lowest  grade  : {df['average'].min()}"</span>)
+<span class="c-fn">print</span>()
+
+<span class="c-fn">print</span>(<span class="c-str">"Subject averages:"</span>)
+<span class="c-kw">for</span> <span class="c-var">s</span> <span class="c-kw">in</span> <span class="c-var">subjects</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"  {s:8}: {df[s].mean():.2f}"</span>)
+
+<span class="c-cmt"># ٤. رسم الرسوم البيانية</span>
+<span class="c-var">fig</span>, <span class="c-var">axes</span> <span class="c-op">=</span> plt<span class="c-op">.</span><span class="c-fn">subplots</span>(<span class="c-num">2</span>, <span class="c-num">2</span>, figsize<span class="c-op">=</span>(<span class="c-num">12</span>, <span class="c-num">9</span>))
+<span class="c-var">fig</span><span class="c-op">.</span><span class="c-fn">suptitle</span>(<span class="c-str">"📊 Class Analysis Dashboard"</span>, fontsize<span class="c-op">=</span><span class="c-num">16</span>)
+
+<span class="c-cmt"># مخطط الأعمدة — معدلات المواد</span>
+<span class="c-var">subject_avgs</span> <span class="c-op">=</span> [<span class="c-var">df</span>[<span class="c-var">s</span>]<span class="c-op">.</span><span class="c-fn">mean</span>() <span class="c-kw">for</span> <span class="c-var">s</span> <span class="c-kw">in</span> <span class="c-var">subjects</span>]
+<span class="c-var">axes</span>[<span class="c-num">0</span>,<span class="c-num">0</span>]<span class="c-op">.</span><span class="c-fn">bar</span>(<span class="c-var">subjects</span>, <span class="c-var">subject_avgs</span>, color<span class="c-op">=</span>[<span class="c-str">"#00d4aa"</span>,<span class="c-str">"#0984e3"</span>,<span class="c-str">"#fdcb6e"</span>,<span class="c-str">"#e17055"</span>])
+<span class="c-var">axes</span>[<span class="c-num">0</span>,<span class="c-num">0</span>]<span class="c-op">.</span><span class="c-fn">set_title</span>(<span class="c-str">"Subject Averages"</span>)
+<span class="c-var">axes</span>[<span class="c-num">0</span>,<span class="c-num">0</span>]<span class="c-op">.</span><span class="c-fn">set_ylim</span>(<span class="c-num">0</span>, <span class="c-num">20</span>)
+
+<span class="c-cmt"># الدائرة — نجاح ورسوب</span>
+<span class="c-var">status_counts</span> <span class="c-op">=</span> <span class="c-var">df</span>[<span class="c-str">"status"</span>]<span class="c-op">.</span><span class="c-fn">value_counts</span>()
+<span class="c-var">axes</span>[<span class="c-num">0</span>,<span class="c-num">1</span>]<span class="c-op">.</span><span class="c-fn">pie</span>(<span class="c-var">status_counts</span>, labels<span class="c-op">=</span><span class="c-var">status_counts</span><span class="c-op">.</span><span class="c-var">index</span>,
+                autopct<span class="c-op">=</span><span class="c-str">"%1.0f%%"</span>, colors<span class="c-op">=</span>[<span class="c-str">"#00d4aa"</span>,<span class="c-str">"#d63031"</span>])
+<span class="c-var">axes</span>[<span class="c-num">0</span>,<span class="c-num">1</span>]<span class="c-op">.</span><span class="c-fn">set_title</span>(<span class="c-str">"Pass vs Fail"</span>)
+
+<span class="c-cmt"># هيستوغرام — توزيع المعدلات</span>
+<span class="c-var">axes</span>[<span class="c-num">1</span>,<span class="c-num">0</span>]<span class="c-op">.</span><span class="c-fn">hist</span>(<span class="c-var">df</span>[<span class="c-str">"average"</span>], bins<span class="c-op">=</span><span class="c-num">8</span>, color<span class="c-op">=</span><span class="c-str">"#0984e3"</span>, edgecolor<span class="c-op">=</span><span class="c-str">"white"</span>)
+<span class="c-var">axes</span>[<span class="c-num">1</span>,<span class="c-num">0</span>]<span class="c-op">.</span><span class="c-fn">axvline</span>(<span class="c-var">df</span>[<span class="c-str">"average"</span>]<span class="c-op">.</span><span class="c-fn">mean</span>(), color<span class="c-op">=</span><span class="c-str">"red"</span>, linestyle<span class="c-op">=</span><span class="c-str">"--"</span>, label<span class="c-op">=</span><span class="c-str">"Mean"</span>)
+<span class="c-var">axes</span>[<span class="c-num">1</span>,<span class="c-num">0</span>]<span class="c-op">.</span><span class="c-fn">set_title</span>(<span class="c-str">"Grade Distribution"</span>)
+<span class="c-var">axes</span>[<span class="c-num">1</span>,<span class="c-num">0</span>]<span class="c-op">.</span><span class="c-fn">legend</span>()
+
+<span class="c-cmt"># Scatter — رياضيات vs علوم</span>
+<span class="c-var">axes</span>[<span class="c-num">1</span>,<span class="c-num">1</span>]<span class="c-op">.</span><span class="c-fn">scatter</span>(<span class="c-var">df</span>[<span class="c-str">"math"</span>], <span class="c-var">df</span>[<span class="c-str">"science"</span>], alpha<span class="c-op">=</span><span class="c-num">0.7</span>, color<span class="c-op">=</span><span class="c-str">"#fdcb6e"</span>)
+<span class="c-var">axes</span>[<span class="c-num">1</span>,<span class="c-num">1</span>]<span class="c-op">.</span><span class="c-fn">set_title</span>(<span class="c-str">"Math vs Science"</span>)
+<span class="c-var">axes</span>[<span class="c-num">1</span>,<span class="c-num">1</span>]<span class="c-op">.</span><span class="c-fn">set_xlabel</span>(<span class="c-str">"Math"</span>)
+<span class="c-var">axes</span>[<span class="c-num">1</span>,<span class="c-num">1</span>]<span class="c-op">.</span><span class="c-fn">set_ylabel</span>(<span class="c-str">"Science"</span>)
+
+plt<span class="c-op">.</span><span class="c-fn">tight_layout</span>()
+plt<span class="c-op">.</span><span class="c-fn">savefig</span>(<span class="c-str">"class_analysis.png"</span>, dpi<span class="c-op">=</span><span class="c-num">150</span>)  <span class="c-cmt"># حفظ الصورة</span>
+plt<span class="c-op">.</span><span class="c-fn">show</span>()
+<span class="c-fn">print</span>(<span class="c-str">"✅ تم حفظ المخططات في class_analysis.png"</span>)</code></pre>
+                </div>
+
+                <div class="challenge-card">
+                    <h4>🏆 تحدي إضافي</h4>
+                    <p>عدّل المشروع بحيث:</p>
+                    <ul>
+                        <li>يقرأ البيانات من ملف CSV حقيقي بدل إنشائها</li>
+                        <li>يطبع أسماء أعلى 3 طلاب فقط</li>
+                        <li>يحفظ تقرير النص في ملف <code>report.txt</code></li>
+                    </ul>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block" style="margin-top:12px;">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-cmt"># قراءة من CSV</span>
+<span class="c-var">df</span> <span class="c-op">=</span> pd<span class="c-op">.</span><span class="c-fn">read_csv</span>(<span class="c-str">"students.csv"</span>)
+
+<span class="c-cmt"># أعلى 3 طلاب</span>
+<span class="c-var">top3</span> <span class="c-op">=</span> <span class="c-var">df</span><span class="c-op">.</span><span class="c-fn">nlargest</span>(<span class="c-num">3</span>, <span class="c-str">"average"</span>)
+<span class="c-fn">print</span>(<span class="c-str">"🏆 أعلى 3 طلاب:"</span>)
+<span class="c-kw">for</span> <span class="c-var">i</span>, (<span class="c-var">_</span>, <span class="c-var">row</span>) <span class="c-kw">in</span> <span class="c-fn">enumerate</span>(<span class="c-var">top3</span><span class="c-op">.</span><span class="c-fn">iterrows</span>(), <span class="c-num">1</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"  {i}. Student {row['id']}: {row['average']}/20"</span>)
+
+<span class="c-cmt"># حفظ التقرير</span>
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"report.txt"</span>, <span class="c-str">"w"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">write</span>(<span class="c-str">f"Total: {len(df)}\n"</span>)
+    <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">write</span>(<span class="c-str">f"Average: {df['average'].mean():.2f}\n"</span>)
+    <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">write</span>(<span class="c-str">f"Passed: {(df['status']=='Pass').sum()}\n"</span>)
+<span class="c-fn">print</span>(<span class="c-str">"✅ تم حفظ التقرير"</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lesson-end">
+                <h3>🎉 أتقنت تحليل البيانات ببايثون!</h3>
+                <p>الآن تعرف pandas وnumpy وmatplotlib وseaborn — مهارات مطلوبة جداً في سوق العمل.</p>
+                <p style="margin-top:8px;color:#555;">عودة إلى البداية؟ راجع الدروس السابقة لتعميق فهمك.</p>
+                <a href="mo9adima.html" class="back-btn">← العودة للأساسيات</a>
+            </div>
+        </div>
     </main>
 
     <footer>
-<!-- شعار Clicky مع الرابط -->
-        <a title="Privacy-friendly Web Analytics" href="https://clicky.com/101461170">
-            <img alt="Clicky" src="//static.getclicky.com/media/links/badge.gif" border="0" />
-        </a>
-
         <div class="container">
-            <p data-i18n="footer">&copy; 2024 تعلم لغة بايتون. جميع الحقوق محفوظة.</p>
-            <p><a href="سياسة الخصوصية.html" data-i18n="privacy">سياسة الخصوصية</a> | <a href="شروط الاستخدام.html" data-i18n="terms">شروط الاستخدام</a></p>
+            <p data-i18n="footer-text">© 2025 تعلم لغة بايثون. جميع الحقوق محفوظة.</p>
+            <p><a href="privacy.html" data-i18n="footer-privacy">سياسة الخصوصية</a> | <a href="terms.html" data-i18n="footer-terms">شروط الاستخدام</a></p>
         </div>
     </footer>
-<!-- تضمين الشيفرة البرمجية لتتبع Clicky -->
-    <script async data-id="101461170" src="//static.getclicky.com/js"></script>
-
+    <script src="i18n.js" defer></script>
+    <script>
+        function copyCode(btn){const code=btn.closest('.code-block').querySelector('code').innerText;navigator.clipboard.writeText(code).then(()=>{btn.textContent='تم ✓';setTimeout(()=>btn.textContent='نسخ',2000);});}
+        const sections=document.querySelectorAll('.lesson-section');
+        const navLinks=document.querySelectorAll('.lesson-nav-bar a');
+        window.addEventListener('scroll',()=>{let cur='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-160)cur=s.id;});navLinks.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+cur)a.classList.add('active');});});
+    </script>
 </body>
 </html>
 
