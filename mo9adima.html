@@ -3,31 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="دليل شامل لتعلم أساسيات Python من الصفر إلى الاحتراف مع أمثلة عملية، موارد تعليمية، ومشاريع بسيطة للمبتدئين.">
-    <meta name="keywords" content="تعلم بايثون, برمجة بايثون, أساسيات بايثون, تحليل بيانات, تعلم الآلة, دورات بايثون">
-    <meta property="og:title" content="تعلم لغة بايثون - الأساسيات والخطوات الأولى">
-    <meta property="og:description" content="دليل شامل لتعلم أساسيات Python مع أمثلة عملية ومشاريع بسيطة للمبتدئين.">
-    <meta property="og:image" content="https://khalil307-ak.github.io/gogolanapro/gogolanapropng.png">
+    <meta name="description" content="دليل شامل لتعلم أساسيات Python — المتغيرات، الشروط، الحلقات، الدوال، القوائم، والمزيد مع أمثلة عملية.">
+    <meta name="google-adsense-account" content="ca-pub-6734955325699280">
+    <title>مقدمة إلى بايثون — الدرس الكامل للمبتدئين</title>
     <link rel="icon" href="gogolanapropng.png" type="image/png">
-    
-    <title data-i18n="page-title">الأساسيات وكيفية البدء مع بايثون</title>
-    
     <link rel="stylesheet" href="styles.css">
-    
-    <script src="translation.js" defer></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6734955325699280" crossorigin="anonymous"></script>
+    <style>
+        .lesson-hero{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:white;padding:60px 0 40px;text-align:center}
+        .lesson-hero h2{font-size:2.2rem;color:#e94560;margin-bottom:12px}
+        .lesson-hero p{font-size:1.1rem;color:#a8b2d8;max-width:700px;margin:0 auto 24px}
+        .objectives-box{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+        .objective-tag{background:rgba(233,69,96,.15);border:1px solid #e94560;color:#e94560;padding:6px 14px;border-radius:20px;font-size:.88rem}
+        .lesson-nav-bar{background:#1a1a2e;position:sticky;top:70px;z-index:900;overflow-x:auto;white-space:nowrap}
+        .lesson-nav-bar ul{display:inline-flex;list-style:none;margin:0;padding:0}
+        .lesson-nav-bar ul li a{display:block;padding:14px 18px;color:#a8b2d8;text-decoration:none;font-size:.88rem;border-bottom:3px solid transparent;transition:all .3s}
+        .lesson-nav-bar ul li a:hover,.lesson-nav-bar ul li a.active{color:#e94560;border-bottom-color:#e94560}
+        .lesson-content{max-width:900px;margin:0 auto;padding:40px 20px}
+        .lesson-section{margin-bottom:60px;scroll-margin-top:130px}
+        .lesson-section h3{font-size:1.6rem;color:#0f3460;border-right:5px solid #e94560;padding-right:16px;margin-bottom:20px}
+        .lesson-section h4{font-size:1.15rem;color:#333;margin:25px 0 10px;font-weight:700}
+        .lesson-section p,.lesson-section li{font-size:1.03rem;line-height:2;color:#444}
+        .tip-box,.warning-box,.info-box,.exercise-box{border-radius:10px;padding:16px 18px;margin:20px 0;display:flex;gap:14px;align-items:flex-start}
+        .tip-box{background:#e8f8f0;border-right:4px solid #28a745}
+        .warning-box{background:#fff8e1;border-right:4px solid #f39c12}
+        .info-box{background:#e8f0fe;border-right:4px solid #4285f4}
+        .tip-box .icon{color:#28a745;font-size:1.3rem;margin-top:3px}
+        .warning-box .icon{color:#f39c12;font-size:1.3rem;margin-top:3px}
+        .info-box .icon{color:#4285f4;font-size:1.3rem;margin-top:3px}
+        .tip-box strong,.warning-box strong,.info-box strong{display:block;margin-bottom:5px}
+        .code-block{position:relative;background:#1e1e2e;border-radius:10px;overflow:hidden;margin:16px 0;direction:ltr}
+        .code-header{background:#2d2d44;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;direction:rtl}
+        .code-lang{color:#e94560;font-size:.82rem;font-weight:bold}
+        .copy-btn{background:transparent;border:1px solid #555;color:#aaa;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.78rem;transition:all .2s}
+        .copy-btn:hover{border-color:#e94560;color:#e94560}
+        .code-block pre{margin:0;padding:20px;background:transparent;color:#cdd6f4;font-size:.93rem;overflow-x:auto}
+        .code-block pre code{direction:ltr;text-align:left;display:block;font-family:'Fira Code','Consolas',monospace;line-height:1.7}
+        .c-kw{color:#cba6f7}.c-fn{color:#89b4fa}.c-str{color:#a6e3a1}.c-num{color:#fab387}.c-cmt{color:#6c7086;font-style:italic}.c-var{color:#cdd6f4}.c-op{color:#89dceb}
+        .compare-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.93rem}
+        .compare-table th{background:#0f3460;color:white;padding:11px 14px;text-align:right}
+        .compare-table td{padding:9px 14px;border-bottom:1px solid #e0e0e0}
+        .compare-table tr:nth-child(even){background:#f8f9fa}
+        .compare-table tr:hover{background:#e8f0fe}
+        .challenge-card{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:white;padding:26px;border-radius:12px;margin:28px 0}
+        .challenge-card h4{color:#e94560;font-size:1.15rem;margin-bottom:10px}
+        .challenge-card p,.challenge-card li{color:#a8b2d8;line-height:1.9}
+        .solution-btn{background:#e94560;color:white;border:none;padding:9px 22px;border-radius:6px;cursor:pointer;margin-top:14px;font-size:.9rem;transition:background .2s}
+        .solution-btn:hover{background:#c73652}
+        .solution-content{display:none;margin-top:14px}
+        .solution-content.visible{display:block}
+        .lesson-end{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#e8f0fe,#fce8ff);border-radius:16px;margin-top:40px}
+        .lesson-end h3{color:#0f3460;font-size:1.5rem}
+        .next-lesson-btn{display:inline-block;background:#e94560;color:white;padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:16px;transition:all .3s}
+        .next-lesson-btn:hover{background:#0f3460;transform:translateX(-4px)}
+        @media(max-width:768px){.lesson-hero h2{font-size:1.5rem}.lesson-content{padding:20px 12px}.lesson-section h3{font-size:1.25rem}}
+    </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1 data-i18n="page-title">الأساسيات وكيفية البدء مع بايثون</h1>
+            <h1>🐍 مقدمة إلى بايثون</h1>
             <nav>
                 <ul>
-                    <li><a href="index.html#home" data-i18n="home" aria-label="الانتقال إلى الصفحة الرئيسية">الرئيسية</a></li>
-                    <li><a href="index.html#about" data-i18n="about" aria-label="الانتقال إلى صفحة حول">حول</a></li>
-                    <li><a href="index.html#courses" data-i18n="courses" aria-label="الانتقال إلى صفحة الدورات">الدورات</a></li>
-                    <li><a href="index.html#contact" data-i18n="contact" aria-label="الانتقال إلى صفحة الاتصال">اتصل بنا</a></li>
+                    <li><a href="index.html" data-i18n="nav-home">الرئيسية</a></li>
+                    <li><a href="index.html#courses" data-i18n="nav-courses">الدورات</a></li>
+                    <li><a href="kainat.html">OOP</a></li>
+                    <li><a href="byanat.html">تحليل البيانات</a></li>
                 </ul>
                 <select id="language-select" aria-label="اختيار اللغة">
                     <option value="ar">العربية</option>
@@ -37,167 +80,479 @@
         </div>
     </header>
 
-    <main>
-        <section class="animate__animated animate__fadeInUp"> 
-            <div class="container">
-                <h2 data-i18n="section-title">الأساسيات وكيفية البدء مع بايثون</h2>
-                
-                <ins class="adsbygoogle"
-                     style="display:block; margin: 20px 0;"
-                     data-ad-client="ca-pub-6734955325699280"
-                     data-ad-slot="YOUR_AD_SLOT_ID"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-
-                <p data-i18n="intro">بايثون هي لغة برمجة قوية وسهلة التعلم تُستخدم في تطوير الويب، تحليل البيانات، الذكاء الاصطناعي، وتعلم الآلة. في هذا الدليل، سنتناول الأساسيات التي تحتاجها لبدء رحلتك مع بايثون، بما في ذلك التثبيت، كتابة الكود، وتطبيق مشاريع عملية بسيطة.</p>
-                
-                <h3 data-i18n="why-python">لماذا تتعلم بايثون؟</h3>
-                <p data-i18n="why-python-desc">بايثون تتميز بسهولة بناء الجملة، مما يجعلها مثالية للمبتدئين. كما أنها تحتوي على مكتبات قوية مثل <code>pandas</code>، <code>numpy</code>، و<code>tensorflow</code> التي تُستخدم في مجالات متقدمة. بايثون هي الخيار الأول للعديد من الشركات مثل Google وNetflix.</p>
-
-                <h3 data-i18n="installation">تثبيت بايثون</h3>
-                <p data-i18n="installation-desc">للبدء، قم بتحميل أحدث نسخة من بايثون من <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer" class="resource-link" aria-label="تحميل بايثون من الموقع الرسمي">موقع بايثون الرسمي</a>. اتبع الخطوات التالية:</p>
-                <ul>
-                    <li data-i18n="install-windows">لنظام ويندوز: قم بتنزيل المثبت وتأكد من تحديد خيار "إضافة بايثون إلى PATH".</li>
-                    <li data-i18n="install-mac">لنظام macOS: استخدم Homebrew (<code>brew install python</code>) أو المثبت من الموقع الرسمي.</li>
-                    <li data-i18n="install-linux">لنظام لينكس: استخدم الأمر <code>sudo apt install python3</code> (لأوبونتو) أو مدير الحزم الخاص بنظامك.</li>
-                    <li data-i18n="verify-install">تحقق من التثبيت باستخدام الأمر: <code>python3 --version</code> أو <code>python --version</code>.</li>
-                </ul>
-
-                <h3 data-i18n="first-steps">خطوات البداية الأولى</h3>
-                <p data-i18n="first-steps-desc">ابدأ بكتابة برامج بسيطة لفهم بناء الجملة في بايثون:</p>
-                <pre><code>
-# أول برنامج بايثون
-print("Hello, World!")
-                </code></pre>
-                <p data-i18n="run-code">احفظ الكود في ملف <code>hello.py</code> وشغله باستخدام الأمر <code>python3 hello.py</code>.</p>
-                
-                <h3 data-i18n="basic-syntax">أساسيات بناء الجملة</h3>
-                <p data-i18n="basic-syntax-desc">بايثون يعتمد على بساطة الكود. إليك بعض الأمثلة الأساسية:</p>
-                <ul>
-                    <li data-i18n="variables">المتغيرات:
-                        <pre><code>
-# تعريف متغيرات
-name = "Khalil"
-age = 25
-print(f"مرحبًا، {name}! عمرك {age} سنة.")
-                        </code></pre>
-                    </li>
-                    <li data-i18n="conditionals">الشروط:
-                        <pre><code>
-# جملة شرطية
-age = 18
-if age >= 18:
-    print("أنت بالغ!")
-else:
-    print("أنت قاصر!")
-                        </code></pre>
-                    </li>
-                    <li data-i18n="loops">الحلقات:
-                        <pre><code>
-# حلقة for
-for i in range(5):
-    print(f"الرقم: {i}")
-
-# حلقة while
-count = 0
-while count < 5:
-    print(f"العد: {count}")
-    count += 1
-                        </code></pre>
-                    </li>
-                </ul>
-
-                <h3 data-i18n="functions">الدوال</h3>
-                <p data-i18n="functions-desc">الدوال تتيح إعادة استخدام الكود. مثال:</p>
-                <pre><code>
-def greet(name):
-    return f"مرحبًا، {name}!"
-print(greet("Khalil"))
-                </code></pre>
-
-                <h3 data-i18n="lists">القوائم (Lists)</h3>
-                <p data-i18n="lists-desc">القوائم تُستخدم لتخزين مجموعة من البيانات:</p>
-                <pre><code>
-# إنشاء قائمة
-fruits = ["تفاح", "موز", "برتقال"]
-print(fruits[0])  # طباعة: تفاح
-fruits.append("عنب")  # إضافة عنصر
-print(fruits)  # طباعة: ['تفاح', 'موز', 'برتقال', 'عنب']
-                </code></pre>
-
-                <h3 data-i18n="projects">مشاريع عملية</h3>
-                <p data-i18n="projects-desc">جرب هذه المشاريع البسيطة لتطبيق مهاراتك:</p>
-                <div class="project-card animate__animated animate__zoomIn">
-                    <h4 data-i18n="project-calculator">حاسبة بسيطة</h4>
-                    <p data-i18n="project-calculator-desc">اكتب برنامجًا يطلب من المستخدم إدخال رقمين وعملية حسابية:</p>
-                    <pre><code>
-num1 = float(input("أدخل الرقم الأول: "))
-op = input("أدخل العملية (+, -, *, /): ")
-num2 = float(input("أدخل الرقم الثاني: "))
-if op == "+":
-    print(num1 + num2)
-elif op == "-":
-    print(num1 - num2)
-elif op == "*":
-    print(num1 * num2)
-elif op == "/":
-    print(num1 / num2)
-else:
-    print("عملية غير صالحة!")
-                    </code></pre>
-                </div>
-                <div class="project-card animate__animated animate__zoomIn">
-                    <h4 data-i18n="project-game">لعبة تخمين الأرقام</h4>
-                    <p data-i18n="project-game-desc">برنامج يختار رقمًا عشوائيًا ويطلب من المستخدم تخمينه:</p>
-                    <pre><code>
-import random
-secret_number = random.randint(1, 100)
-guess = 0
-while guess != secret_number:
-    guess = int(input("خمن الرقم (1-100): "))
-    if guess < secret_number:
-        print("الرقم أكبر!")
-    elif guess > secret_number:
-        print("الرقم أصغر!")
-print("مبروك! لقد خمنت الرقم!")
-                    </code></pre>
-                </div>
-
-                <h3 data-i18n="resources">موارد تعليمية</h3>
-                <p data-i18n="resources-desc">استكشف هذه الموارد لتعلم المزيد:</p>
-                <ul>
-                    <li><a href="https://www.python.org/doc/" target="_blank" rel="noopener noreferrer" class="resource-link" data-i18n="resource-docs" aria-label="الوثائق الرسمية لبايثون">الوثائق الرسمية لبايثون</a></li>
-                    <li><a href="https://www.codecademy.com/learn/learn-python-3" target="_blank" rel="noopener noreferrer" class="resource-link" data-i18n="resource-codecademy" aria-label="دورة بايثون على Codecademy">Codecademy - تعلم بايثون</a></li>
-                    <li><a href="https://www.coursera.org/courses?query=python" target="_blank" rel="noopener noreferrer" class="resource-link" data-i18n="resource-coursera" aria-label="دورات بايثون على Coursera">Coursera - دورات بايثون</a></li>
-                    <li><a href="https://realpython.com/" target="_blank" rel="noopener noreferrer" class="resource-link" data-i18n="resource-realpython" aria-label="موقع Real Python">Real Python - دروس متقدمة</a></li>
-                </ul>
-
-                <h3 data-i18n="next-steps">الخطوات التالية</h3>
-                <p data-i18n="next-steps-desc">بعد إتقان الأساسيات، جرب هذه المواضيع المتقدمة:</p>
-                <ul>
-                    <li data-i18n="next-steps-oop">البرمجة الكائنية (OOP): تعلم الكلاسات والوراثة.</li>
-                    <li data-i18n="next-steps-libraries">مكتبات بايثون: جرب <code>pandas</code> لتحليل البيانات أو <code>flask</code> لتطوير الويب.</li>
-                    <li data-i18n="next-steps-projects">مشاريع متقدمة: بناء تطبيق ويب أو أداة ذكاء اصطناعي.</li>
-                </ul>
+    <div class="lesson-hero">
+        <div class="container">
+            <h2>🐍 مقدمة إلى بايثون — من الصفر إلى الأساسيات</h2>
+            <p>دليل شامل ومبسط يأخذك خطوة بخطوة في تعلم لغة بايثون، مع أمثلة حقيقية وتمارين عملية وتحديات لاختبار نفسك.</p>
+            <div class="objectives-box">
+                <span class="objective-tag">📦 المتغيرات وأنواع البيانات</span>
+                <span class="objective-tag">🔀 الشروط والتفرعات</span>
+                <span class="objective-tag">🔁 الحلقات</span>
+                <span class="objective-tag">⚙️ الدوال</span>
+                <span class="objective-tag">📋 القوائم والقواميس</span>
+                <span class="objective-tag">⚠️ معالجة الأخطاء</span>
             </div>
-        </section>
+        </div>
+    </div>
+
+    <nav class="lesson-nav-bar">
+        <ul>
+            <li><a href="#intro">١. البداية</a></li>
+            <li><a href="#variables">٢. المتغيرات</a></li>
+            <li><a href="#operators">٣. العمليات</a></li>
+            <li><a href="#conditions">٤. الشروط</a></li>
+            <li><a href="#loops">٥. الحلقات</a></li>
+            <li><a href="#functions">٦. الدوال</a></li>
+            <li><a href="#lists">٧. القوائم</a></li>
+            <li><a href="#dicts">٨. القواميس</a></li>
+            <li><a href="#errors">٩. الأخطاء</a></li>
+            <li><a href="#project">🚀 مشروع</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <ins class="adsbygoogle" style="display:block;margin:16px auto;max-width:900px;"
+             data-ad-client="ca-pub-6734955325699280" data-ad-slot="YOUR_AD_SLOT_ID"
+             data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+        <div class="lesson-content">
+
+            <!-- ١ -->
+            <div class="lesson-section" id="intro">
+                <h3>١. لماذا بايثون؟ وكيف تبدأ؟</h3>
+                <p>بايثون لغة برمجة مفتوحة المصدر، كودها يشبه اللغة الإنجليزية العادية مما يجعلها الأسهل للمبتدئين. في نفس الوقت تستخدمها كبرى الشركات كـ Google وNetflix وNASA.</p>
+                <div class="info-box">
+                    <span class="icon"><i class="fas fa-info-circle"></i></span>
+                    <div><strong>ما الذي تستطيع بناءه ببايثون؟</strong>مواقع ويب، تطبيقات ذكاء اصطناعي، أدوات تحليل بيانات، ألعاب، سكريبتات أتمتة، روبوتات تيليغرام، وأكثر بكثير.</div>
+                </div>
+                <h4>تثبيت بايثون</h4>
+                <p>اذهب إلى <a href="https://www.python.org/downloads/" target="_blank" rel="noopener noreferrer" style="color:#e94560;font-weight:bold;">python.org/downloads</a> وحمّل أحدث نسخة. خلال التثبيت <strong>تأكد من تحديد خيار "Add Python to PATH"</strong> ثم تحقق:</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Shell</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># في Terminal أو CMD</span>
+python --version
+<span class="c-cmt"># يجب أن تظهر: Python 3.x.x</span></code></pre>
+                </div>
+                <h4>أول برنامج لك</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — hello.py</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-fn">print</span>(<span class="c-str">"مرحباً بالعالم! 🌍"</span>)
+<span class="c-fn">print</span>(<span class="c-str">"أنا أتعلم بايثون الآن 🐍"</span>)</code></pre>
+                </div>
+                <p>شغّله: <code>python hello.py</code> — إذا ظهرت الرسالة تهانينا! 🎉</p>
+                <div class="tip-box">
+                    <span class="icon"><i class="fas fa-lightbulb"></i></span>
+                    <div><strong>نصيحة:</strong> لا تحفظ الكود! افهمه وغيّر فيه وجرب — هذا أفضل طريقة للتعلم الحقيقي.</div>
+                </div>
+            </div>
+
+            <!-- ٢ -->
+            <div class="lesson-section" id="variables">
+                <h3>٢. المتغيرات وأنواع البيانات</h3>
+                <p>المتغير هو صندوق تحفظ فيه بياناتك. في بايثون لا تحتاج لتحديد النوع — بايثون يعرفه تلقائياً.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — أنواع البيانات</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># نص (str)</span>
+<span class="c-var">name</span>  <span class="c-op">=</span> <span class="c-str">"خليل"</span>
+<span class="c-var">city</span>  <span class="c-op">=</span> <span class="c-str">"مراكش"</span>
+
+<span class="c-cmt"># رقم صحيح (int)</span>
+<span class="c-var">age</span>   <span class="c-op">=</span> <span class="c-num">14</span>
+<span class="c-var">year</span>  <span class="c-op">=</span> <span class="c-num">2025</span>
+
+<span class="c-cmt"># رقم عشري (float)</span>
+<span class="c-var">grade</span>  <span class="c-op">=</span> <span class="c-num">17.5</span>
+<span class="c-var">height</span> <span class="c-op">=</span> <span class="c-num">1.75</span>
+
+<span class="c-cmt"># قيمة منطقية (bool)</span>
+<span class="c-var">is_student</span> <span class="c-op">=</span> <span class="c-kw">True</span>
+<span class="c-var">is_tired</span>   <span class="c-op">=</span> <span class="c-kw">False</span>
+
+<span class="c-cmt"># طباعة مع f-string</span>
+<span class="c-fn">print</span>(<span class="c-str">f"مرحباً </span><span class="c-op">{</span><span class="c-var">name</span><span class="c-op">}</span><span class="c-str">، عمرك </span><span class="c-op">{</span><span class="c-var">age</span><span class="c-op">}</span><span class="c-str"> من </span><span class="c-op">{</span><span class="c-var">city</span><span class="c-op">}</span><span class="c-str">"</span>)
+<span class="c-fn">print</span>(<span class="c-fn">type</span>(<span class="c-var">age</span>))   <span class="c-cmt"># &lt;class 'int'&gt;</span>
+<span class="c-fn">print</span>(<span class="c-fn">type</span>(<span class="c-var">name</span>))  <span class="c-cmt"># &lt;class 'str'&gt;</span></code></pre>
+                </div>
+                <h4>تحويل أنواع البيانات</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — type conversion</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># input() يرجع نصاً دائماً — حوّله لرقم</span>
+<span class="c-var">age</span>   <span class="c-op">=</span> <span class="c-fn">int</span>(<span class="c-fn">input</span>(<span class="c-str">"أدخل عمرك: "</span>))
+<span class="c-var">price</span> <span class="c-op">=</span> <span class="c-fn">float</span>(<span class="c-fn">input</span>(<span class="c-str">"أدخل السعر: "</span>))
+
+<span class="c-cmt"># رقم إلى نص</span>
+<span class="c-var">msg</span> <span class="c-op">=</span> <span class="c-str">"عمري "</span> <span class="c-op">+</span> <span class="c-fn">str</span>(<span class="c-var">age</span>) <span class="c-op">+</span> <span class="c-str">" سنة"</span>
+<span class="c-fn">print</span>(<span class="c-var">msg</span>)</code></pre>
+                </div>
+                <div class="warning-box">
+                    <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+                    <div><strong>تنبيه!</strong> <code>"عمري " + 14</code> سيعطي خطأ. يجب: <code>"عمري " + str(14)</code> أو استخدم f-string: <code>f"عمري {age}"</code></div>
+                </div>
+            </div>
+
+            <!-- ٣ -->
+            <div class="lesson-section" id="operators">
+                <h3>٣. العمليات الحسابية والمقارنة</h3>
+                <table class="compare-table">
+                    <thead><tr><th>العملية</th><th>الرمز</th><th>مثال</th><th>النتيجة</th></tr></thead>
+                    <tbody>
+                        <tr><td>جمع</td><td><code>+</code></td><td><code>10 + 3</code></td><td><code>13</code></td></tr>
+                        <tr><td>طرح</td><td><code>-</code></td><td><code>10 - 3</code></td><td><code>7</code></td></tr>
+                        <tr><td>ضرب</td><td><code>*</code></td><td><code>10 * 3</code></td><td><code>30</code></td></tr>
+                        <tr><td>قسمة</td><td><code>/</code></td><td><code>10 / 3</code></td><td><code>3.333</code></td></tr>
+                        <tr><td>قسمة صحيحة</td><td><code>//</code></td><td><code>10 // 3</code></td><td><code>3</code></td></tr>
+                        <tr><td>باقي القسمة</td><td><code>%</code></td><td><code>10 % 3</code></td><td><code>1</code></td></tr>
+                        <tr><td>قوة / أس</td><td><code>**</code></td><td><code>2 ** 8</code></td><td><code>256</code></td></tr>
+                    </tbody>
+                </table>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — أمثلة</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># هل العدد زوجي؟</span>
+<span class="c-var">n</span> <span class="c-op">=</span> <span class="c-num">14</span>
+<span class="c-fn">print</span>(<span class="c-var">n</span> <span class="c-op">%</span> <span class="c-num">2</span> <span class="c-op">==</span> <span class="c-num">0</span>)   <span class="c-cmt"># True</span>
+
+<span class="c-cmt"># اختصارات</span>
+<span class="c-var">score</span> <span class="c-op">=</span> <span class="c-num">10</span>
+<span class="c-var">score</span> <span class="c-op">+=</span> <span class="c-num">5</span>   <span class="c-cmt"># 15</span>
+<span class="c-var">score</span> <span class="c-op">*=</span> <span class="c-num">2</span>   <span class="c-cmt"># 30</span>
+<span class="c-fn">print</span>(<span class="c-var">score</span>)
+
+<span class="c-cmt"># تقريب رقم عشري</span>
+<span class="c-var">avg</span> <span class="c-op">=</span> <span class="c-num">17.666</span>
+<span class="c-fn">print</span>(<span class="c-fn">round</span>(<span class="c-var">avg</span>, <span class="c-num">2</span>))    <span class="c-cmt"># 17.67</span>
+<span class="c-fn">print</span>(<span class="c-str">f"</span><span class="c-op">{</span><span class="c-var">avg</span><span class="c-op">:.1f</span><span class="c-op">}</span><span class="c-str">"</span>)    <span class="c-cmt"># 17.7</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٤ -->
+            <div class="lesson-section" id="conditions">
+                <h3>٤. الشروط (if / elif / else)</h3>
+                <p>الشروط تجعل برنامجك يتخذ قرارات بناءً على البيانات.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — الشروط</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-var">age</span> <span class="c-op">=</span> <span class="c-fn">int</span>(<span class="c-fn">input</span>(<span class="c-str">"أدخل عمرك: "</span>))
+
+<span class="c-kw">if</span> <span class="c-var">age</span> <span class="c-op">&gt;=</span> <span class="c-num">18</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"أنت بالغ ✅"</span>)
+<span class="c-kw">elif</span> <span class="c-var">age</span> <span class="c-op">&gt;=</span> <span class="c-num">13</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"أنت مراهق 🧑"</span>)
+<span class="c-kw">else</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"أنت طفل 🧒"</span>)
+
+<span class="c-cmt"># مثال and / or</span>
+<span class="c-var">user</span> <span class="c-op">=</span> <span class="c-fn">input</span>(<span class="c-str">"المستخدم: "</span>)
+<span class="c-var">pwd</span>  <span class="c-op">=</span> <span class="c-fn">input</span>(<span class="c-str">"كلمة المرور: "</span>)
+
+<span class="c-kw">if</span> <span class="c-var">user</span> <span class="c-op">==</span> <span class="c-str">"admin"</span> <span class="c-kw">and</span> <span class="c-var">pwd</span> <span class="c-op">==</span> <span class="c-str">"1234"</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"مرحباً في لوحة التحكم 🎛️"</span>)
+<span class="c-kw">else</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"بيانات خاطئة ❌"</span>)</code></pre>
+                </div>
+                <table class="compare-table">
+                    <thead><tr><th>الرمز</th><th>المعنى</th><th>مثال → نتيجة</th></tr></thead>
+                    <tbody>
+                        <tr><td><code>==</code></td><td>يساوي</td><td><code>5 == 5</code> → True</td></tr>
+                        <tr><td><code>!=</code></td><td>لا يساوي</td><td><code>5 != 3</code> → True</td></tr>
+                        <tr><td><code>&gt;=</code></td><td>أكبر أو يساوي</td><td><code>5 >= 5</code> → True</td></tr>
+                        <tr><td><code>and</code></td><td>كلاهما صحيح</td><td><code>True and True</code> → True</td></tr>
+                        <tr><td><code>or</code></td><td>أحدهما صحيح</td><td><code>True or False</code> → True</td></tr>
+                        <tr><td><code>not</code></td><td>نفي</td><td><code>not True</code> → False</td></tr>
+                    </tbody>
+                </table>
+                <div class="challenge-card">
+                    <h4>🏆 تحدي — نظام تقديرات المدرسة</h4>
+                    <p>اكتب برنامجاً يطلب الدرجة (0-20) ثم يطبع: 18+ ممتاز، 15+ جيد جداً، 12+ جيد، 10+ مقبول، أقل راسب.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block" style="margin-top:12px;">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-var">grade</span> <span class="c-op">=</span> <span class="c-fn">float</span>(<span class="c-fn">input</span>(<span class="c-str">"أدخل درجتك: "</span>))
+<span class="c-kw">if</span>   <span class="c-var">grade</span> <span class="c-op">&gt;=</span> <span class="c-num">18</span><span class="c-op">:</span> <span class="c-fn">print</span>(<span class="c-str">"ممتاز 🌟"</span>)
+<span class="c-kw">elif</span> <span class="c-var">grade</span> <span class="c-op">&gt;=</span> <span class="c-num">15</span><span class="c-op">:</span> <span class="c-fn">print</span>(<span class="c-str">"جيد جداً 👍"</span>)
+<span class="c-kw">elif</span> <span class="c-var">grade</span> <span class="c-op">&gt;=</span> <span class="c-num">12</span><span class="c-op">:</span> <span class="c-fn">print</span>(<span class="c-str">"جيد 😊"</span>)
+<span class="c-kw">elif</span> <span class="c-var">grade</span> <span class="c-op">&gt;=</span> <span class="c-num">10</span><span class="c-op">:</span> <span class="c-fn">print</span>(<span class="c-str">"مقبول 😐"</span>)
+<span class="c-kw">else</span><span class="c-op">:</span>              <span class="c-fn">print</span>(<span class="c-str">"راسب ❌"</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ٥ -->
+            <div class="lesson-section" id="loops">
+                <h3>٥. الحلقات (Loops)</h3>
+                <p>الحلقات تكرر الكود دون أن تكتبه مرات كثيرة. نوعان: <code>for</code> لعدد معروف، و<code>while</code> لشرط معين.</p>
+                <h4>حلقة for</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — for</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># 1 إلى 5</span>
+<span class="c-kw">for</span> <span class="c-var">i</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">1</span>, <span class="c-num">6</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"رقم: </span><span class="c-op">{</span><span class="c-var">i</span><span class="c-op">}</span><span class="c-str">"</span>)   <span class="c-cmt"># 1 2 3 4 5</span>
+
+<span class="c-cmt"># range(start, stop, step)</span>
+<span class="c-kw">for</span> <span class="c-var">i</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">0</span>, <span class="c-num">20</span>, <span class="c-num">5</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">i</span>)      <span class="c-cmt"># 0 5 10 15</span>
+
+<span class="c-cmt"># المرور على قائمة</span>
+<span class="c-var">fruits</span> <span class="c-op">=</span> [<span class="c-str">"تفاح"</span>, <span class="c-str">"موز"</span>, <span class="c-str">"برتقال"</span>]
+<span class="c-kw">for</span> <span class="c-var">f</span> <span class="c-kw">in</span> <span class="c-var">fruits</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"🍎 </span><span class="c-op">{</span><span class="c-var">f</span><span class="c-op">}</span><span class="c-str">"</span>)
+
+<span class="c-cmt"># مع رقم الترتيب</span>
+<span class="c-kw">for</span> <span class="c-var">i</span>, <span class="c-var">f</span> <span class="c-kw">in</span> <span class="c-fn">enumerate</span>(<span class="c-var">fruits</span>, <span class="c-num">1</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"</span><span class="c-op">{</span><span class="c-var">i</span><span class="c-op">}</span><span class="c-str">. </span><span class="c-op">{</span><span class="c-var">f</span><span class="c-op">}</span><span class="c-str">"</span>)</code></pre>
+                </div>
+                <h4>حلقة while</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — while</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># لعبة تخمين بسيطة</span>
+<span class="c-kw">import</span> random
+<span class="c-var">secret</span>   <span class="c-op">=</span> random<span class="c-op">.</span><span class="c-fn">randint</span>(<span class="c-num">1</span>, <span class="c-num">10</span>)
+<span class="c-var">attempts</span> <span class="c-op">=</span> <span class="c-num">0</span>
+
+<span class="c-kw">while</span> <span class="c-kw">True</span><span class="c-op">:</span>
+    <span class="c-var">guess</span> <span class="c-op">=</span> <span class="c-fn">int</span>(<span class="c-fn">input</span>(<span class="c-str">"خمن (1-10): "</span>))
+    <span class="c-var">attempts</span> <span class="c-op">+=</span> <span class="c-num">1</span>
+    <span class="c-kw">if</span> <span class="c-var">guess</span> <span class="c-op">&lt;</span> <span class="c-var">secret</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"أكبر! ⬆️"</span>)
+    <span class="c-kw">elif</span> <span class="c-var">guess</span> <span class="c-op">&gt;</span> <span class="c-var">secret</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"أصغر! ⬇️"</span>)
+    <span class="c-kw">else</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"🎉 صح! في </span><span class="c-op">{</span><span class="c-var">attempts</span><span class="c-op">}</span><span class="c-str"> محاولة"</span>)
+        <span class="c-kw">break</span></code></pre>
+                </div>
+                <div class="warning-box">
+                    <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+                    <div><strong>تجنب الحلقة اللانهائية!</strong> في <code>while</code> تأكد أن الشرط سيصبح False في نقطة ما. إذا علق البرنامج اضغط <code>Ctrl+C</code>.</div>
+                </div>
+            </div>
+
+            <!-- ٦ -->
+            <div class="lesson-section" id="functions">
+                <h3>٦. الدوال (Functions)</h3>
+                <p>الدالة كتلة كود يمكن استدعاؤها متى أردت. بدل كتابة نفس الكود 10 مرات — اكتبه مرة وادعه.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — الدوال</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># دالة بسيطة</span>
+<span class="c-kw">def</span> <span class="c-fn">greet</span>(<span class="c-var">name</span>, <span class="c-var">country</span><span class="c-op">=</span><span class="c-str">"المغرب"</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"مرحباً </span><span class="c-op">{</span><span class="c-var">name</span><span class="c-op">}</span><span class="c-str"> من </span><span class="c-op">{</span><span class="c-var">country</span><span class="c-op">}</span><span class="c-str"> 👋"</span>)
+
+<span class="c-fn">greet</span>(<span class="c-str">"خليل"</span>)           <span class="c-cmt"># المغرب افتراضياً</span>
+<span class="c-fn">greet</span>(<span class="c-str">"أحمد"</span>, <span class="c-str">"مصر"</span>)
+
+<span class="c-cmt"># دالة ترجع قيمة</span>
+<span class="c-kw">def</span> <span class="c-fn">average</span>(<span class="c-var">grades</span>)<span class="c-op">:</span>
+    <span class="c-kw">if</span> <span class="c-kw">not</span> <span class="c-var">grades</span><span class="c-op">:</span>
+        <span class="c-kw">return</span> <span class="c-num">0</span>
+    <span class="c-kw">return</span> <span class="c-fn">sum</span>(<span class="c-var">grades</span>) <span class="c-op">/</span> <span class="c-fn">len</span>(<span class="c-var">grades</span>)
+
+<span class="c-var">my_grades</span> <span class="c-op">=</span> [<span class="c-num">18</span>, <span class="c-num">15</span>, <span class="c-num">19</span>, <span class="c-num">16</span>]
+<span class="c-fn">print</span>(<span class="c-str">f"معدلك: </span><span class="c-op">{</span><span class="c-fn">average</span>(<span class="c-var">my_grades</span>)<span class="c-op">:.1f</span><span class="c-op">}</span><span class="c-str">"</span>)  <span class="c-cmt"># 17.0</span>
+
+<span class="c-cmt"># دالة تتحقق من صحة كلمة مرور</span>
+<span class="c-kw">def</span> <span class="c-fn">is_valid_password</span>(<span class="c-var">pwd</span>)<span class="c-op">:</span>
+    <span class="c-kw">if</span> <span class="c-fn">len</span>(<span class="c-var">pwd</span>) <span class="c-op">&lt;</span> <span class="c-num">8</span><span class="c-op">:</span>
+        <span class="c-kw">return</span> <span class="c-kw">False</span>, <span class="c-str">"قصيرة جداً (أقل من 8 أحرف)"</span>
+    <span class="c-kw">if</span> <span class="c-var">pwd</span><span class="c-op">.</span><span class="c-fn">isalpha</span>()<span class="c-op">:</span>
+        <span class="c-kw">return</span> <span class="c-kw">False</span>, <span class="c-str">"يجب أن تحتوي على أرقام"</span>
+    <span class="c-kw">return</span> <span class="c-kw">True</span>, <span class="c-str">"كلمة مرور قوية ✅"</span>
+
+<span class="c-var">ok</span>, <span class="c-var">msg</span> <span class="c-op">=</span> <span class="c-fn">is_valid_password</span>(<span class="c-str">"abc123def"</span>)
+<span class="c-fn">print</span>(<span class="c-var">msg</span>)</code></pre>
+                </div>
+            </div>
+
+            <!-- ٧ -->
+            <div class="lesson-section" id="lists">
+                <h3>٧. القوائم (Lists)</h3>
+                <p>القائمة تخزن مجموعة من العناصر بترتيب معين. يمكن تعديلها — إضافة، حذف، ترتيب.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — القوائم</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-var">students</span> <span class="c-op">=</span> [<span class="c-str">"خليل"</span>, <span class="c-str">"أحمد"</span>, <span class="c-str">"فاطمة"</span>, <span class="c-str">"سارة"</span>]
+
+<span class="c-cmt"># الوصول — يبدأ من 0</span>
+<span class="c-fn">print</span>(<span class="c-var">students</span>[<span class="c-num">0</span>])     <span class="c-cmt"># خليل</span>
+<span class="c-fn">print</span>(<span class="c-var">students</span>[-<span class="c-num">1</span>])    <span class="c-cmt"># سارة (الأخير)</span>
+<span class="c-fn">print</span>(<span class="c-var">students</span>[<span class="c-num">1</span>:<span class="c-num">3</span>])   <span class="c-cmt"># ['أحمد', 'فاطمة']</span>
+
+<span class="c-cmt"># تعديل القائمة</span>
+<span class="c-var">students</span><span class="c-op">.</span><span class="c-fn">append</span>(<span class="c-str">"يوسف"</span>)      <span class="c-cmt"># إضافة في النهاية</span>
+<span class="c-var">students</span><span class="c-op">.</span><span class="c-fn">insert</span>(<span class="c-num">1</span>, <span class="c-str">"منى"</span>)     <span class="c-cmt"># إضافة في موقع محدد</span>
+<span class="c-var">students</span><span class="c-op">.</span><span class="c-fn">remove</span>(<span class="c-str">"أحمد"</span>)      <span class="c-cmt"># حذف بالقيمة</span>
+<span class="c-var">removed</span> <span class="c-op">=</span> <span class="c-var">students</span><span class="c-op">.</span><span class="c-fn">pop</span>(<span class="c-num">0</span>)    <span class="c-cmt"># حذف بالموقع + إرجاع القيمة</span>
+
+<span class="c-cmt"># معلومات عن القائمة</span>
+<span class="c-fn">print</span>(<span class="c-fn">len</span>(<span class="c-var">students</span>))           <span class="c-cmt"># عدد العناصر</span>
+<span class="c-fn">print</span>(<span class="c-str">"فاطمة"</span> <span class="c-kw">in</span> <span class="c-var">students</span>)    <span class="c-cmt"># True/False</span>
+<span class="c-fn">print</span>(<span class="c-fn">sorted</span>(<span class="c-var">students</span>))        <span class="c-cmt"># ترتيب أبجدي</span>
+
+<span class="c-cmt"># List Comprehension — احترافي ومختصر</span>
+<span class="c-var">squares</span> <span class="c-op">=</span> [<span class="c-var">x</span><span class="c-op">**</span><span class="c-num">2</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">1</span>,<span class="c-num">6</span>)]
+<span class="c-fn">print</span>(<span class="c-var">squares</span>)   <span class="c-cmt"># [1, 4, 9, 16, 25]</span>
+
+<span class="c-var">evens</span> <span class="c-op">=</span> [<span class="c-var">x</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">20</span>) <span class="c-kw">if</span> <span class="c-var">x</span> <span class="c-op">%</span> <span class="c-num">2</span> <span class="c-op">==</span> <span class="c-num">0</span>]
+<span class="c-fn">print</span>(<span class="c-var">evens</span>)    <span class="c-cmt"># [0, 2, 4, 6, 8, ...]</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٨ -->
+            <div class="lesson-section" id="dicts">
+                <h3>٨. القواميس (Dictionaries)</h3>
+                <p>القاموس يخزن بيانات كزوج مفتاح-قيمة. مثل بطاقة هوية: "name" → "خليل".</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — القواميس</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-var">student</span> <span class="c-op">=</span> {
+    <span class="c-str">"name"</span><span class="c-op">:</span>   <span class="c-str">"خليل"</span>,
+    <span class="c-str">"age"</span><span class="c-op">:</span>    <span class="c-num">14</span>,
+    <span class="c-str">"city"</span><span class="c-op">:</span>   <span class="c-str">"مراكش"</span>,
+    <span class="c-str">"grades"</span><span class="c-op">:</span> [<span class="c-num">18</span>, <span class="c-num">16</span>, <span class="c-num">19</span>]
+}
+
+<span class="c-cmt"># قراءة</span>
+<span class="c-fn">print</span>(<span class="c-var">student</span>[<span class="c-str">"name"</span>])           <span class="c-cmt"># خليل</span>
+<span class="c-fn">print</span>(<span class="c-var">student</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"phone"</span>, <span class="c-str">"غير محدد"</span>))  <span class="c-cmt"># get آمن</span>
+
+<span class="c-cmt"># إضافة وتعديل</span>
+<span class="c-var">student</span>[<span class="c-str">"email"</span>] <span class="c-op">=</span> <span class="c-str">"k@example.com"</span>
+<span class="c-var">student</span>[<span class="c-str">"age"</span>]   <span class="c-op">=</span> <span class="c-num">15</span>
+
+<span class="c-cmt"># المرور على القاموس</span>
+<span class="c-kw">for</span> <span class="c-var">key</span>, <span class="c-var">val</span> <span class="c-kw">in</span> <span class="c-var">student</span><span class="c-op">.</span><span class="c-fn">items</span>()<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"</span><span class="c-op">{</span><span class="c-var">key</span><span class="c-op">}</span><span class="c-str">: </span><span class="c-op">{</span><span class="c-var">val</span><span class="c-op">}</span><span class="c-str">"</span>)
+
+<span class="c-cmt"># قاموس داخل قائمة — شيء شائع جداً</span>
+<span class="c-var">class_list</span> <span class="c-op">=</span> [
+    {<span class="c-str">"name"</span><span class="c-op">:</span> <span class="c-str">"خليل"</span>, <span class="c-str">"grade"</span><span class="c-op">:</span> <span class="c-num">18</span>},
+    {<span class="c-str">"name"</span><span class="c-op">:</span> <span class="c-str">"أحمد"</span>,  <span class="c-str">"grade"</span><span class="c-op">:</span> <span class="c-num">15</span>},
+    {<span class="c-str">"name"</span><span class="c-op">:</span> <span class="c-str">"سارة"</span>,  <span class="c-str">"grade"</span><span class="c-op">:</span> <span class="c-num">19</span>}
+]
+<span class="c-kw">for</span> <span class="c-var">s</span> <span class="c-kw">in</span> <span class="c-var">class_list</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"</span><span class="c-op">{</span><span class="c-var">s</span>[<span class="c-str">'name'</span>]<span class="c-op">}</span><span class="c-str">: </span><span class="c-op">{</span><span class="c-var">s</span>[<span class="c-str">'grade'</span>]<span class="c-op">}</span><span class="c-str">/20"</span>)</code></pre>
+                </div>
+            </div>
+
+            <!-- ٩ -->
+            <div class="lesson-section" id="errors">
+                <h3>٩. معالجة الأخطاء (Try / Except)</h3>
+                <p>الأخطاء طبيعية. بدل أن يتوقف برنامجك، "امسك" الخطأ وتعامل معه بأمان.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Try/Except</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">try</span><span class="c-op">:</span>
+    <span class="c-var">num</span>    <span class="c-op">=</span> <span class="c-fn">int</span>(<span class="c-fn">input</span>(<span class="c-str">"أدخل رقماً: "</span>))
+    <span class="c-var">result</span> <span class="c-op">=</span> <span class="c-num">100</span> <span class="c-op">/</span> <span class="c-var">num</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"النتيجة: </span><span class="c-op">{</span><span class="c-var">result</span><span class="c-op">}</span><span class="c-str">"</span>)
+
+<span class="c-kw">except</span> ZeroDivisionError<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"خطأ: لا يمكن القسمة على صفر!"</span>)
+
+<span class="c-kw">except</span> ValueError<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"خطأ: يرجى إدخال رقم صحيح!"</span>)
+
+<span class="c-kw">except</span> Exception <span class="c-kw">as</span> <span class="c-var">e</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"خطأ غير متوقع: </span><span class="c-op">{</span><span class="c-var">e</span><span class="c-op">}</span><span class="c-str">"</span>)
+
+<span class="c-kw">finally</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"انتهى البرنامج — دائماً يُنفَّذ."</span>)</code></pre>
+                </div>
+                <div class="tip-box">
+                    <span class="icon"><i class="fas fa-lightbulb"></i></span>
+                    <div><strong>قاعدة مهمة:</strong> استخدم <code>try/except</code> مع كل <code>input()</code> أو عمليات الملفات. المستخدم قد يكتب أي شيء!</div>
+                </div>
+            </div>
+
+            <!-- مشروع -->
+            <div class="lesson-section" id="project">
+                <h3>🚀 المشروع النهائي — نظام قائمة المهام</h3>
+                <p>طبّق كل ما تعلمته في مشروع حقيقي: برنامج كامل لإدارة مهامك اليومية يعمل في Terminal.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — todo_app.py</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># ============================
+# 📋 تطبيق قائمة المهام
+# ============================</span>
+
+<span class="c-var">tasks</span> <span class="c-op">=</span> []
+
+<span class="c-kw">def</span> <span class="c-fn">show_menu</span>()<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"\n"</span> <span class="c-op">+</span> <span class="c-str">"="</span><span class="c-op">*</span><span class="c-num">30</span>)
+    <span class="c-fn">print</span>(<span class="c-str">"   📋 قائمة المهام"</span>)
+    <span class="c-fn">print</span>(<span class="c-str">"="</span><span class="c-op">*</span><span class="c-num">30</span>)
+    <span class="c-fn">print</span>(<span class="c-str">"1️⃣  عرض المهام"</span>)
+    <span class="c-fn">print</span>(<span class="c-str">"2️⃣  إضافة مهمة"</span>)
+    <span class="c-fn">print</span>(<span class="c-str">"3️⃣  حذف مهمة"</span>)
+    <span class="c-fn">print</span>(<span class="c-str">"4️⃣  تفريغ الكل"</span>)
+    <span class="c-fn">print</span>(<span class="c-str">"0️⃣  خروج"</span>)
+
+<span class="c-kw">def</span> <span class="c-fn">show_tasks</span>()<span class="c-op">:</span>
+    <span class="c-kw">if</span> <span class="c-kw">not</span> <span class="c-var">tasks</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"  📭 لا توجد مهام بعد!"</span>)
+        <span class="c-kw">return</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"\n  لديك </span><span class="c-op">{</span><span class="c-fn">len</span>(<span class="c-var">tasks</span>)<span class="c-op">}</span><span class="c-str"> مهام:"</span>)
+    <span class="c-kw">for</span> <span class="c-var">i</span>, <span class="c-var">task</span> <span class="c-kw">in</span> <span class="c-fn">enumerate</span>(<span class="c-var">tasks</span>, <span class="c-num">1</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"  </span><span class="c-op">{</span><span class="c-var">i</span><span class="c-op">}</span><span class="c-str">. ☐ </span><span class="c-op">{</span><span class="c-var">task</span><span class="c-op">}</span><span class="c-str">"</span>)
+
+<span class="c-kw">def</span> <span class="c-fn">add_task</span>()<span class="c-op">:</span>
+    <span class="c-var">task</span> <span class="c-op">=</span> <span class="c-fn">input</span>(<span class="c-str">"  اكتب المهمة: "</span>)<span class="c-op">.</span><span class="c-fn">strip</span>()
+    <span class="c-kw">if</span> <span class="c-var">task</span><span class="c-op">:</span>
+        <span class="c-var">tasks</span><span class="c-op">.</span><span class="c-fn">append</span>(<span class="c-var">task</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"  ✅ أُضيفت: {task}"</span>)
+    <span class="c-kw">else</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"  ⚠️ لا يمكن إضافة مهمة فارغة"</span>)
+
+<span class="c-kw">def</span> <span class="c-fn">delete_task</span>()<span class="c-op">:</span>
+    <span class="c-fn">show_tasks</span>()
+    <span class="c-kw">if</span> <span class="c-kw">not</span> <span class="c-var">tasks</span><span class="c-op">:</span> <span class="c-kw">return</span>
+    <span class="c-kw">try</span><span class="c-op">:</span>
+        <span class="c-var">n</span> <span class="c-op">=</span> <span class="c-fn">int</span>(<span class="c-fn">input</span>(<span class="c-str">"  رقم المهمة للحذف: "</span>))
+        <span class="c-fn">print</span>(<span class="c-str">f"  🗑️ حُذفت: {tasks.pop(n - 1)}"</span>)
+    <span class="c-kw">except</span> (ValueError, IndexError)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"  ❌ رقم غير صالح"</span>)
+
+<span class="c-cmt"># الحلقة الرئيسية</span>
+<span class="c-fn">print</span>(<span class="c-str">"مرحباً في تطبيق المهام! 🎯"</span>)
+<span class="c-kw">while</span> <span class="c-kw">True</span><span class="c-op">:</span>
+    <span class="c-fn">show_menu</span>()
+    <span class="c-var">choice</span> <span class="c-op">=</span> <span class="c-fn">input</span>(<span class="c-str">"اختر: "</span>)<span class="c-op">.</span><span class="c-fn">strip</span>()
+    <span class="c-kw">if</span>   <span class="c-var">choice</span> <span class="c-op">==</span> <span class="c-str">"1"</span><span class="c-op">:</span> <span class="c-fn">show_tasks</span>()
+    <span class="c-kw">elif</span> <span class="c-var">choice</span> <span class="c-op">==</span> <span class="c-str">"2"</span><span class="c-op">:</span> <span class="c-fn">add_task</span>()
+    <span class="c-kw">elif</span> <span class="c-var">choice</span> <span class="c-op">==</span> <span class="c-str">"3"</span><span class="c-op">:</span> <span class="c-fn">delete_task</span>()
+    <span class="c-kw">elif</span> <span class="c-var">choice</span> <span class="c-op">==</span> <span class="c-str">"4"</span><span class="c-op">:</span> <span class="c-var">tasks</span><span class="c-op">.</span><span class="c-fn">clear</span>()<span class="c-op">;</span> <span class="c-fn">print</span>(<span class="c-str">"  🧹 تم تفريغ القائمة"</span>)
+    <span class="c-kw">elif</span> <span class="c-var">choice</span> <span class="c-op">==</span> <span class="c-str">"0"</span><span class="c-op">:</span> <span class="c-fn">print</span>(<span class="c-str">"إلى اللقاء! 👋"</span>)<span class="c-op">;</span> <span class="c-kw">break</span>
+    <span class="c-kw">else</span><span class="c-op">:</span>              <span class="c-fn">print</span>(<span class="c-str">"  ❓ اختيار غير معروف"</span>)</code></pre>
+                </div>
+                <div class="info-box">
+                    <span class="icon"><i class="fas fa-info-circle"></i></span>
+                    <div><strong>كيف تشغله؟</strong> احفظه كـ <code>todo_app.py</code> وشغّله بـ <code>python todo_app.py</code>. هذا تطبيق كامل يعمل فعلاً!</div>
+                </div>
+            </div>
+
+            <div class="lesson-end">
+                <h3>🎉 أنهيت درس الأساسيات!</h3>
+                <p>أتقنت المتغيرات، الشروط، الحلقات، الدوال، القوائم، القواميس، ومعالجة الأخطاء.</p>
+                <p style="margin-top:8px;color:#555;">الدرس التالي: <strong>برمجة الكائنات (OOP)</strong> — ستنظم كودك كالمحترفين.</p>
+                <a href="kainat.html" class="next-lesson-btn">الدرس التالي: برمجة الكائنات ←</a>
+            </div>
+        </div>
     </main>
 
     <footer>
         <div class="container">
-            <a title="Privacy-friendly Web Analytics" href="https://clicky.com/101461170" target="_blank" rel="noopener noreferrer">
-                <img alt="Clicky Web Analytics" src="//static.getclicky.com/media/links/badge.gif" border="0" />
-            </a>
-            <p data-i18n="footer">© 2025 تعلم لغة بايثون. جميع الحقوق محفوظة.</p>
-            <p>
-                <a href="privacy.html" data-i18n="privacy" aria-label="سياسة الخصوصية">سياسة الخصوصية</a> | 
-                <a href="terms.html" data-i18n="terms" aria-label="شروط الاستخدام">شروط الاستخدام</a>
-            </p>
+            <p data-i18n="footer-text">© 2025 تعلم لغة بايثون. جميع الحقوق محفوظة.</p>
+            <p><a href="privacy.html" data-i18n="footer-privacy">سياسة الخصوصية</a> | <a href="terms.html" data-i18n="footer-terms">شروط الاستخدام</a></p>
         </div>
-        <script async data-id="101461170" src="//static.getclicky.com/js"></script>
     </footer>
+    <script src="i18n.js" defer></script>
+    <script>
+        function copyCode(btn){
+            const code=btn.closest('.code-block').querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(()=>{btn.textContent='تم ✓';setTimeout(()=>btn.textContent='نسخ',2000);});
+        }
+        const sections=document.querySelectorAll('.lesson-section');
+        const navLinks=document.querySelectorAll('.lesson-nav-bar a');
+        window.addEventListener('scroll',()=>{
+            let cur='';
+            sections.forEach(s=>{if(window.scrollY>=s.offsetTop-160)cur=s.id;});
+            navLinks.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+cur)a.classList.add('active');});
+        });
+    </script>
 </body>
 </html>
