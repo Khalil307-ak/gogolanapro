@@ -124,7 +124,7 @@ const translations = {
     "dat-tag-proj"     : "🚀 مشروع حقيقي",
     "dat-end-title"    : "🎉 أتقنت تحليل البيانات ببايثون!",
     "dat-end-body"     : "الآن تعرف pandas وnumpy وmatplotlib وseaborn.",
-    "dat-back"         : "← العودة للأساسيات",
+    "dat-back"         : "الدرس التالي: المكتبات القياسية ←",
 
     // ---- maktaba.html ----
     "lib-page-title"   : "المكتبات القياسية والملفات — بايثون",
@@ -338,7 +338,7 @@ const translations = {
     "dat-tag-proj"     : "🚀 Real Project",
     "dat-end-title"    : "🎉 You Mastered Data Analysis!",
     "dat-end-body"     : "You now know pandas, numpy, matplotlib, and seaborn.",
-    "dat-back"         : "← Back to Basics",
+    "dat-back"         : "Next: Standard Libraries →",
 
     // ---- maktaba.html ----
     "lib-page-title"   : "Standard Libraries & Files — Python",
