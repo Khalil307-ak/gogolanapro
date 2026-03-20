@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="تعلم التعابير النمطية (Regex) في بايثون — ابحث، استخرج، وعدّل النصوص بقوة مع أمثلة وتمارين تفاعلية.">
+    <meta name="google-adsense-account" content="ca-pub-6734955325699280">
+    <title data-i18n="rgx-page-title">التعابير النمطية Regex في بايثون</title>
+    <link rel="icon" href="gogolanapropng.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6734955325699280" crossorigin="anonymous"></script>
+    <style>
+        :root{--acc:#06b6d4;--acc2:#0891b2;--dark:#042f2e;--mid:#0d4a47;}
+        .lesson-hero{background:linear-gradient(135deg,#020617 0%,#042f2e 50%,#083344 100%);color:white;padding:60px 0 40px;text-align:center}
+        .lesson-hero h2{font-size:2.1rem;color:#67e8f9;margin-bottom:12px}
+        .lesson-hero p{font-size:1.05rem;color:#a5f3fc;max-width:700px;margin:0 auto 24px}
+        .objectives-box{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+        .objective-tag{background:rgba(6,182,212,.12);border:1px solid var(--acc);color:#67e8f9;padding:6px 14px;border-radius:20px;font-size:.88rem}
+        .lesson-nav-bar{background:#020617;position:sticky;top:70px;z-index:900;overflow-x:auto;white-space:nowrap;border-bottom:1px solid #0e7490}
+        .lesson-nav-bar ul{display:inline-flex;list-style:none;margin:0;padding:0}
+        .lesson-nav-bar ul li a{display:block;padding:14px 18px;color:#a5f3fc;text-decoration:none;font-size:.88rem;border-bottom:3px solid transparent;transition:all .3s}
+        .lesson-nav-bar ul li a:hover,.lesson-nav-bar ul li a.active{color:#67e8f9;border-bottom-color:var(--acc)}
+        .lesson-content{max-width:900px;margin:0 auto;padding:40px 20px}
+        .lesson-section{margin-bottom:60px;scroll-margin-top:130px}
+        .lesson-section h3{font-size:1.55rem;color:#164e63;border-right:5px solid var(--acc);padding-right:16px;margin-bottom:20px}
+        .lesson-section h4{font-size:1.1rem;color:#333;margin:24px 0 10px;font-weight:700}
+        .lesson-section p,.lesson-section li{font-size:1.02rem;line-height:2;color:#444}
+        .tip-box,.warning-box,.info-box{border-radius:10px;padding:16px 18px;margin:18px 0;display:flex;gap:14px;align-items:flex-start}
+        .tip-box{background:#ecfeff;border-right:4px solid var(--acc)}
+        .warning-box{background:#fff7ed;border-right:4px solid #f97316}
+        .info-box{background:#f0f9ff;border-right:4px solid #0ea5e9}
+        .tip-box .icon{color:var(--acc);font-size:1.3rem;margin-top:2px}
+        .warning-box .icon{color:#f97316;font-size:1.3rem;margin-top:2px}
+        .info-box .icon{color:#0ea5e9;font-size:1.3rem;margin-top:2px}
+        .tip-box strong,.warning-box strong,.info-box strong{display:block;margin-bottom:5px}
+        .code-block{background:#020617;border:1px solid #0e7490;border-radius:10px;overflow:hidden;margin:14px 0;direction:ltr}
+        .code-header{background:#042f2e;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;direction:rtl;border-bottom:1px solid #0e7490}
+        .code-lang{color:#67e8f9;font-size:.82rem;font-weight:bold}
+        .copy-btn{background:transparent;border:1px solid #0e7490;color:#a5f3fc;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.78rem;transition:all .2s}
+        .copy-btn:hover{border-color:var(--acc);color:#67e8f9}
+        .code-block pre{margin:0;padding:20px;background:transparent;color:#cffafe;font-size:.93rem;overflow-x:auto}
+        .code-block pre code{direction:ltr;text-align:left;display:block;font-family:'Fira Code','Consolas',monospace;line-height:1.75}
+        .c-kw{color:#f472b6}.c-fn{color:#67e8f9}.c-str{color:#86efac}.c-num{color:#fde68a}.c-cmt{color:#164e63;font-style:italic}.c-var{color:#cffafe}.c-op{color:#a78bfa}.c-re{color:#fb923c}
+        /* جدول الرموز */
+        .regex-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.9rem}
+        .regex-table th{background:#0e7490;color:white;padding:10px 14px;text-align:right}
+        .regex-table td{padding:9px 14px;border-bottom:1px solid #cffafe40}
+        .regex-table tr:nth-child(even){background:#f0fdff}
+        .regex-table td:first-child{font-family:monospace;color:#0e7490;font-weight:bold;font-size:1rem;text-align:left}
+        /* تجربة مباشرة */
+        .regex-playground{background:linear-gradient(135deg,#020617,#042f2e);border:1px solid #0e7490;border-radius:14px;padding:24px;margin:24px 0}
+        .regex-playground h4{color:#67e8f9;margin-bottom:16px;font-size:1.05rem}
+        .pg-row{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+        .pg-label{color:#a5f3fc;font-size:.88rem;margin-bottom:4px}
+        .pg-input{background:#0d0d1a;border:1px solid #0e7490;border-radius:7px;padding:9px 14px;color:#cffafe;font-family:monospace;font-size:.92rem;direction:ltr;text-align:left;width:100%;box-sizing:border-box}
+        .pg-input:focus{outline:none;border-color:#67e8f9}
+        .pg-result{background:#0d0d1a;border-radius:7px;padding:12px 14px;min-height:44px;font-family:monospace;font-size:.9rem;direction:ltr;text-align:left;margin-top:6px;color:#cffafe;border:1px solid #0e7490}
+        .pg-result mark{background:#fde68a;color:#020617;border-radius:3px;padding:0 2px}
+        .pg-result .no-match{color:#f87171;font-size:.88rem}
+        .pg-btn{background:var(--acc);color:#020617;border:none;padding:9px 22px;border-radius:7px;cursor:pointer;font-weight:bold;font-size:.9rem;transition:background .2s;width:100%;margin-top:6px}
+        .pg-btn:hover{background:var(--acc2)}
+        /* تمارين */
+        .quiz-box{background:#fff;border:2px solid #a5f3fc;border-radius:12px;padding:22px;margin:26px 0;box-shadow:0 2px 10px rgba(6,182,212,.08)}
+        .quiz-box h4{color:#164e63;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .quiz-options{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+        .quiz-opt{background:#ecfeff;border:2px solid #a5f3fc;border-radius:8px;padding:10px 16px;cursor:pointer;font-size:.93rem;transition:all .2s;text-align:right;font-family:inherit}
+        .quiz-opt:hover{background:#cffafe;border-color:var(--acc)}
+        .quiz-opt.correct{background:#dcfce7;border-color:#16a34a;color:#15803d}
+        .quiz-opt.wrong{background:#fee2e2;border-color:#dc2626;color:#dc2626}
+        .quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.92rem;display:none}
+        .quiz-feedback.show{display:block}
+        .quiz-feedback.ok{background:#dcfce7;color:#15803d}
+        .quiz-feedback.no{background:#fee2e2;color:#dc2626}
+        .exercise-box{background:linear-gradient(135deg,#020617,#042f2e);color:white;padding:24px;border-radius:12px;margin:26px 0;border:1px solid #0e7490}
+        .exercise-box h4{color:#67e8f9;margin-bottom:10px}
+        .exercise-box p,.exercise-box li{color:#a5f3fc;line-height:1.9}
+        .solution-btn{background:var(--acc);color:#020617;border:none;padding:9px 22px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:.9rem;margin-top:12px}
+        .solution-btn:hover{background:var(--acc2)}
+        .solution-content{display:none;margin-top:14px}
+        .solution-content.visible{display:block}
+        .lesson-end{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#ecfeff,#f0f9ff);border-radius:16px;margin-top:40px}
+        .lesson-end h3{color:#164e63;font-size:1.45rem}
+        .next-btn{display:inline-block;background:var(--acc);color:#020617;padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:14px;transition:all .3s}
+        .next-btn:hover{background:var(--acc2);transform:translateX(-4px)}
+        @media(max-width:768px){.lesson-hero h2{font-size:1.45rem}.lesson-content{padding:20px 12px}}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🔍 التعابير النمطية (Regex)</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav-home">الرئيسية</a></li>
+                    <li><a href="mo9adima.html" data-i18n="nav-basics">الأساسيات</a></li>
+                    <li><a href="maktaba.html" data-i18n="nav-stdlib">المكتبات</a></li>
+                    <li><a href="mutaqaddim.html" data-i18n="nav-advanced">متقدم</a></li>
+                    <li><a href="api.html" data-i18n="nav-api">APIs</a></li>
+                </ul>
+                <select id="language-select" aria-label="اختيار اللغة">
+                    <option value="ar">العربية</option>
+                    <option value="en">English</option>
+                </select>
+            </nav>
+        </div>
+    </header>
+
+    <div class="lesson-hero">
+        <div class="container">
+            <h2 data-i18n="rgx-hero-title">🔍 التعابير النمطية (Regex) في بايثون</h2>
+            <p data-i18n="rgx-hero-desc">ابحث عن الأنماط واستخرجها وبدّلها في أي نص — سلاح سري يوفّر لك مئات الأسطر من الكود.</p>
+            <div class="objectives-box">
+                <span class="objective-tag" data-i18n="rgx-tag1">🔤 الرموز الأساسية</span>
+                <span class="objective-tag" data-i18n="rgx-tag2">📧 التحقق من الإيميل</span>
+                <span class="objective-tag" data-i18n="rgx-tag3">📱 أرقام الهاتف</span>
+                <span class="objective-tag" data-i18n="rgx-tag4">✂️ استخراج البيانات</span>
+                <span class="objective-tag" data-i18n="rgx-tag5">🔄 البحث والاستبدال</span>
+                <span class="objective-tag" data-i18n="rgx-tag6">🏷️ Groups</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="lesson-nav-bar">
+        <ul>
+            <li><a href="#intro">١. ما هو Regex؟</a></li>
+            <li><a href="#symbols">٢. الرموز</a></li>
+            <li><a href="#functions">٣. دوال re</a></li>
+            <li><a href="#groups">٤. Groups</a></li>
+            <li><a href="#flags">٥. Flags</a></li>
+            <li><a href="#playground">🎮 جرّب</a></li>
+            <li><a href="#usecases">٦. أمثلة حقيقية</a></li>
+            <li><a href="#exercises">📝 تمارين</a></li>
+            <li><a href="#project">🚀 مشروع</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <ins class="adsbygoogle" style="display:block;margin:16px auto;max-width:900px;"
+             data-ad-client="ca-pub-6734955325699280" data-ad-slot="YOUR_AD_SLOT_ID"
+             data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+        <div class="lesson-content">
+
+            <!-- ١ مقدمة -->
+            <div class="lesson-section" id="intro">
+                <h3>١. ما هو Regex؟</h3>
+                <p>التعابير النمطية (Regular Expressions) هي لغة صغيرة لوصف أنماط النصوص. فكّر فيها كـ "بحث متطور جداً". بدلاً من البحث عن كلمة محددة، تصف <em>شكل</em> ما تريده.</p>
+                <div class="info-box">
+                    <span class="icon"><i class="fas fa-lightbulb"></i></span>
+                    <div><strong>مثال بسيط:</strong> للتحقق من أن إيميلاً صحيح، regex: <code>^[\w.+-]+@[\w-]+\.[a-z]{2,}$</code> — بسطر واحد يُغني عن عشرات الشروط.</div>
+                </div>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — البداية</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> re
+
+<span class="c-var">text</span> <span class="c-op">=</span> <span class="c-str">"اتصل بنا على 0612345678 أو 0523456789"</span>
+
+<span class="c-cmt"># هل يحتوي النص على رقم هاتف مغربي؟</span>
+<span class="c-kw">if</span> re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'\b0[5-7]\d{8}\b'</span>, <span class="c-var">text</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"✅ وُجد رقم هاتف"</span>)
+
+<span class="c-cmt"># استخراج كل الأرقام</span>
+<span class="c-var">phones</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'0[5-7]\d{8}'</span>, <span class="c-var">text</span>)
+<span class="c-fn">print</span>(<span class="c-var">phones</span>)  <span class="c-cmt"># ['0612345678', '0523456789']</span></code></pre>
+                </div>
+                <div class="warning-box">
+                    <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+                    <div><strong>دائماً استخدم raw string:</strong> اكتب <code>r'\d+'</code> وليس <code>'\d+'</code> لتجنب تفسير الـ backslash.</div>
+                </div>
+            </div>
+
+            <!-- ٢ الرموز -->
+            <div class="lesson-section" id="symbols">
+                <h3>٢. الرموز الأساسية — جدول مرجعي</h3>
+
+                <h4>رموز المطابقة</h4>
+                <table class="regex-table">
+                    <thead><tr><th>الرمز</th><th>المعنى</th><th>مثال</th><th>يطابق</th></tr></thead>
+                    <tbody>
+                        <tr><td>.</td><td>أي حرف (عدا سطر جديد)</td><td><code>a.c</code></td><td>abc, a1c, a-c</td></tr>
+                        <tr><td>\d</td><td>رقم (0-9)</td><td><code>\d\d\d</code></td><td>123, 456</td></tr>
+                        <tr><td>\D</td><td>ليس رقماً</td><td><code>\D+</code></td><td>abc, هاي</td></tr>
+                        <tr><td>\w</td><td>حرف أو رقم أو _</td><td><code>\w+</code></td><td>hello, test_1</td></tr>
+                        <tr><td>\W</td><td>ليس حرفاً أو رقماً</td><td><code>\W</code></td><td>!, @, مسافة</td></tr>
+                        <tr><td>\s</td><td>مسافة / tab / سطر جديد</td><td><code>\s+</code></td><td>فراغات</td></tr>
+                        <tr><td>\S</td><td>ليس مسافة</td><td><code>\S+</code></td><td>كلمات</td></tr>
+                        <tr><td>^</td><td>بداية النص</td><td><code>^Hello</code></td><td>Hello world</td></tr>
+                        <tr><td>$</td><td>نهاية النص</td><td><code>end$</code></td><td>the end</td></tr>
+                        <tr><td>\b</td><td>حدود الكلمة</td><td><code>\bcat\b</code></td><td>cat (ليس catch)</td></tr>
+                    </tbody>
+                </table>
+
+                <h4>رموز التكرار</h4>
+                <table class="regex-table">
+                    <thead><tr><th>الرمز</th><th>المعنى</th><th>مثال</th><th>يطابق</th></tr></thead>
+                    <tbody>
+                        <tr><td>*</td><td>صفر أو أكثر</td><td><code>ab*c</code></td><td>ac, abc, abbc</td></tr>
+                        <tr><td>+</td><td>واحد أو أكثر</td><td><code>ab+c</code></td><td>abc, abbc (ليس ac)</td></tr>
+                        <tr><td>?</td><td>صفر أو واحد</td><td><code>colou?r</code></td><td>color, colour</td></tr>
+                        <tr><td>{n}</td><td>بالضبط n مرة</td><td><code>\d{4}</code></td><td>2025</td></tr>
+                        <tr><td>{n,m}</td><td>من n إلى m مرة</td><td><code>\d{2,4}</code></td><td>12, 123, 1234</td></tr>
+                        <tr><td>[abc]</td><td>أي من هذه الأحرف</td><td><code>[aeiou]</code></td><td>أي حرف علة</td></tr>
+                        <tr><td>[^abc]</td><td>ليس هذه الأحرف</td><td><code>[^0-9]</code></td><td>أي حرف غير رقمي</td></tr>
+                        <tr><td>a|b</td><td>a أو b</td><td><code>cat|dog</code></td><td>cat أو dog</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ٣ دوال re -->
+            <div class="lesson-section" id="functions">
+                <h3>٣. دوال مكتبة re</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — الدوال الأساسية</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> re
+
+<span class="c-var">text</span> <span class="c-op">=</span> <span class="c-str">"البريد: ahmed@gmail.com والهاتف: 0612345678"</span>
+
+<span class="c-cmt"># ===== re.search() — أول تطابق =====</span>
+<span class="c-var">match</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'\d{10}'</span>, <span class="c-var">text</span>)
+<span class="c-kw">if</span> <span class="c-var">match</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">match</span><span class="c-op">.</span><span class="c-fn">group</span>())   <span class="c-cmt"># 0612345678</span>
+    <span class="c-fn">print</span>(<span class="c-var">match</span><span class="c-op">.</span>start())   <span class="c-cmt"># موقع البداية</span>
+    <span class="c-fn">print</span>(<span class="c-var">match</span><span class="c-op">.</span>end())     <span class="c-cmt"># موقع النهاية</span>
+
+<span class="c-cmt"># ===== re.findall() — كل التطابقات =====</span>
+<span class="c-var">emails</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'[\w.+-]+@[\w-]+\.\w+'</span>, <span class="c-var">text</span>)
+<span class="c-fn">print</span>(<span class="c-var">emails</span>)  <span class="c-cmt"># ['ahmed@gmail.com']</span>
+
+<span class="c-cmt"># ===== re.finditer() — iterator من matches =====</span>
+<span class="c-var">long_text</span> <span class="c-op">=</span> <span class="c-str">"رقم 123 وآخر 456 وأخير 789"</span>
+<span class="c-kw">for</span> <span class="c-var">m</span> <span class="c-kw">in</span> re<span class="c-op">.</span><span class="c-fn">finditer</span>(<span class="c-re">r'\d+'</span>, <span class="c-var">long_text</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"وجدت '{m.group()}' في موقع {m.start()}-{m.end()}"</span>)
+
+<span class="c-cmt"># ===== re.sub() — بحث وإستبدال =====</span>
+<span class="c-var">dirty</span>  <span class="c-op">=</span> <span class="c-str">"السعر:   500   درهم"</span>
+<span class="c-var">clean</span>  <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">sub</span>(<span class="c-re">r'\s{2,}'</span>, <span class="c-str">' '</span>, <span class="c-var">dirty</span>)  <span class="c-cmt"># يزيل المسافات الزائدة</span>
+<span class="c-fn">print</span>(<span class="c-var">clean</span>)   <span class="c-cmt"># "السعر: 500 درهم"</span>
+
+<span class="c-cmt"># إخفاء أرقام البطاقات</span>
+<span class="c-var">card</span>    <span class="c-op">=</span> <span class="c-str">"رقم بطاقتك: 4532-1234-5678-9012"</span>
+<span class="c-var">hidden</span>  <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">sub</span>(<span class="c-re">r'\d{4}-\d{4}-\d{4}'</span>, <span class="c-str">'XXXX-XXXX-XXXX'</span>, <span class="c-var">card</span>)
+<span class="c-fn">print</span>(<span class="c-var">hidden</span>)  <span class="c-cmt"># رقم بطاقتك: XXXX-XXXX-XXXX-9012</span>
+
+<span class="c-cmt"># ===== re.split() — تقسيم بنمط =====</span>
+<span class="c-var">data</span>   <span class="c-op">=</span> <span class="c-str">"خليل,فاطمة;أحمد  سارة"</span>
+<span class="c-var">parts</span>  <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">split</span>(<span class="c-re">r'[,;\s]+'</span>, <span class="c-var">data</span>)
+<span class="c-fn">print</span>(<span class="c-var">parts</span>)  <span class="c-cmt"># ['خليل', 'فاطمة', 'أحمد', 'سارة']</span>
+
+<span class="c-cmt"># ===== re.compile() — تجميع النمط للاستخدام المتكرر =====</span>
+<span class="c-var">phone_re</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">compile</span>(<span class="c-re">r'0[5-7]\d{8}'</span>)
+<span class="c-fn">print</span>(<span class="c-var">phone_re</span><span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-str">"0661234567 و 0522345678"</span>))</code></pre>
+                </div>
+
+                <!-- Quiz 1 -->
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>ما الفرق بين <code>re.search()</code> و <code>re.findall()</code>؟</p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">لا فرق، كلاهما يعطي نفس النتيجة</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')"><code>search()</code> يُرجع أول تطابق فقط (object أو None)، <code>findall()</code> يُرجع قائمة بكل التطابقات</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>findall()</code> أبطأ من <code>search()</code></div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>search()</code> يبحث في قاموس وليس نصاً</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ صحيح! <code>search()</code> يقف عند أول تطابق، بينما <code>findall()</code> يمشي في كامل النص ويجمع الكل.</div>
+                    <div class="quiz-feedback no">❌ خطأ. <code>search()</code> يُرجع Match object أو None للتطابق الأول فقط، أما <code>findall()</code> فيُرجع قائمة بكل التطابقات.</div>
+                </div>
+            </div>
+
+            <!-- ٤ Groups -->
+            <div class="lesson-section" id="groups">
+                <h3>٤. Groups — استخراج أجزاء محددة</h3>
+                <p>الأقواس <code>()</code> في regex تنشئ "مجموعة" يمكن استخراجها بشكل منفصل.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Groups</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> re
+
+<span class="c-cmt"># استخراج أجزاء التاريخ</span>
+<span class="c-var">text</span>  <span class="c-op">=</span> <span class="c-str">"تاريخ الميلاد: 15/05/2011"</span>
+<span class="c-var">match</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'(\d{2})/(\d{2})/(\d{4})'</span>, <span class="c-var">text</span>)
+<span class="c-kw">if</span> <span class="c-var">match</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">match</span><span class="c-op">.</span><span class="c-fn">group</span>())   <span class="c-cmt"># 15/05/2011 (كامل)</span>
+    <span class="c-fn">print</span>(<span class="c-var">match</span><span class="c-op">.</span><span class="c-fn">group</span>(<span class="c-num">1</span>))  <span class="c-cmt"># 15  (اليوم)</span>
+    <span class="c-fn">print</span>(<span class="c-var">match</span><span class="c-op">.</span><span class="c-fn">group</span>(<span class="c-num">2</span>))  <span class="c-cmt"># 05  (الشهر)</span>
+    <span class="c-fn">print</span>(<span class="c-var">match</span><span class="c-op">.</span><span class="c-fn">group</span>(<span class="c-num">3</span>))  <span class="c-cmt"># 2011 (السنة)</span>
+
+<span class="c-cmt"># Named groups — أوضح بكثير</span>
+<span class="c-var">pattern</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">compile</span>(<span class="c-re">r'(?P&lt;day&gt;\d{2})/(?P&lt;month&gt;\d{2})/(?P&lt;year&gt;\d{4})'</span>)
+<span class="c-var">m</span>       <span class="c-op">=</span> <span class="c-var">pattern</span><span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-var">text</span>)
+<span class="c-kw">if</span> <span class="c-var">m</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"اليوم: {m['day']}, الشهر: {m['month']}, السنة: {m['year']}"</span>)
+
+<span class="c-cmt"># استخراج كل الإيميلات مع domain منفصل</span>
+<span class="c-var">emails_text</span> <span class="c-op">=</span> <span class="c-str">"ahmed@gmail.com و sara@yahoo.fr و khalil@hotmail.com"</span>
+<span class="c-var">pat</span>   <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">compile</span>(<span class="c-re">r'([\w.+-]+)@([\w-]+\.\w+)'</span>)
+<span class="c-kw">for</span> <span class="c-var">m</span> <span class="c-kw">in</span> <span class="c-var">pat</span><span class="c-op">.</span><span class="c-fn">finditer</span>(<span class="c-var">emails_text</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"مستخدم: {m.group(1):15} | نطاق: {m.group(2)}"</span>)
+
+<span class="c-cmt"># re.sub مع group reference</span>
+<span class="c-var">dates</span>    <span class="c-op">=</span> <span class="c-str">"تاريخ: 15/05/2025"</span>
+<span class="c-var">reversed_</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">sub</span>(<span class="c-re">r'(\d{2})/(\d{2})/(\d{4})'</span>, <span class="c-re">r'\3-\2-\1'</span>, <span class="c-var">dates</span>)
+<span class="c-fn">print</span>(<span class="c-var">reversed_</span>)  <span class="c-cmt"># تاريخ: 2025-05-15</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٥ Flags -->
+            <div class="lesson-section" id="flags">
+                <h3>٥. Flags — خيارات إضافية</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Flags</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> re
+
+<span class="c-cmt"># re.IGNORECASE — تجاهل حالة الأحرف</span>
+<span class="c-var">text</span>  <span class="c-op">=</span> <span class="c-str">"Python PYTHON python PyThOn"</span>
+<span class="c-var">found</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'python'</span>, <span class="c-var">text</span>, re.IGNORECASE)
+<span class="c-fn">print</span>(<span class="c-var">found</span>)   <span class="c-cmt"># ['Python', 'PYTHON', 'python', 'PyThOn']</span>
+
+<span class="c-cmt"># re.MULTILINE — ^ و $ يعملان مع كل سطر</span>
+<span class="c-var">multi</span>  <span class="c-op">=</span> <span class="c-str">"""Python سهل
+Python ممتع
+Python مفيد"""</span>
+<span class="c-var">lines</span>  <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'^Python'</span>, <span class="c-var">multi</span>, re.MULTILINE)
+<span class="c-fn">print</span>(<span class="c-fn">len</span>(<span class="c-var">lines</span>))   <span class="c-cmt"># 3</span>
+
+<span class="c-cmt"># re.DOTALL — النقطة تطابق السطر الجديد أيضاً</span>
+<span class="c-var">html</span>   <span class="c-op">=</span> <span class="c-str">"&lt;div&gt;\n  مرحباً\n&lt;/div&gt;"</span>
+<span class="c-var">inner</span>  <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'&lt;div&gt;(.+?)&lt;/div&gt;'</span>, <span class="c-var">html</span>, re.DOTALL)
+<span class="c-fn">print</span>(<span class="c-var">inner</span><span class="c-op">.</span><span class="c-fn">group</span>(<span class="c-num">1</span>)<span class="c-op">.</span><span class="c-fn">strip</span>())   <span class="c-cmt"># مرحباً</span>
+
+<span class="c-cmt"># دمج flags</span>
+re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'python'</span>, <span class="c-var">text</span>, re.IGNORECASE <span class="c-op">|</span> re.MULTILINE)</code></pre>
+                </div>
+            </div>
+
+            <!-- Playground -->
+            <div class="lesson-section" id="playground">
+                <h3>🎮 جرّب بنفسك — مختبر Regex</h3>
+                <div class="regex-playground">
+                    <h4>🧪 اكتب نمطاً وشاهد النتيجة فوراً</h4>
+                    <div class="pg-row">
+                        <div class="pg-label">📝 النص:</div>
+                        <textarea class="pg-input" id="pg-text" rows="3">اتصل: 0612345678 أو email: test@example.com أو 0523456789</textarea>
+                    </div>
+                    <div class="pg-row">
+                        <div class="pg-label">🔍 النمط (Regex):</div>
+                        <input class="pg-input" id="pg-pattern" value="0[5-7]\d{8}" type="text" dir="ltr">
+                    </div>
+                    <button class="pg-btn" onclick="runPlayground()">▶ تشغيل</button>
+                    <div class="pg-label" style="margin-top:14px">📤 النتائج:</div>
+                    <div class="pg-result" id="pg-result">اضغط "تشغيل" لرؤية النتيجة...</div>
+                </div>
+
+                <!-- Quiz 2 -->
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>ما الذي يطابقه النمط <code>\d{3}-\d{4}</code>؟</p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">أي رقم من 3 إلى 4 أرقام</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')">3 أرقام ثم شرطة ثم 4 أرقام — مثل: 061-2345</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">نص من 3 إلى 4 أحرف</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">رمز يساوي 7 أرقام متتالية</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ ممتاز! <code>\d{3}</code> = 3 أرقام بالضبط، ثم <code>-</code> حرفية، ثم <code>\d{4}</code> = 4 أرقام.</div>
+                    <div class="quiz-feedback no">❌ خطأ. <code>\d{3}</code> يطابق 3 أرقام بالضبط، والشرطة <code>-</code> تطابق نفسها، ثم <code>\d{4}</code> يطابق 4 أرقام.</div>
+                </div>
+            </div>
+
+            <!-- ٦ أمثلة حقيقية -->
+            <div class="lesson-section" id="usecases">
+                <h3>٦. أمثلة حقيقية — Regex في العمل</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — التحقق من الإيميل وكلمة المرور والهاتف</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> re
+
+<span class="c-cmt"># ===== ١. التحقق من الإيميل =====</span>
+<span class="c-kw">def</span> <span class="c-fn">is_valid_email</span>(<span class="c-var">email</span><span class="c-op">:</span> str) <span class="c-op">-&gt;</span> bool<span class="c-op">:</span>
+    <span class="c-var">pattern</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">compile</span>(<span class="c-re">r'^[\w.+-]+@[\w-]+\.[a-z]{2,}$'</span>, re.IGNORECASE)
+    <span class="c-kw">return</span> bool(<span class="c-var">pattern</span><span class="c-op">.</span><span class="c-fn">match</span>(<span class="c-var">email</span>))
+
+<span class="c-var">emails</span> <span class="c-op">=</span> [<span class="c-str">"ok@gmail.com"</span>, <span class="c-str">"bad@"</span>, <span class="c-str">"test.user+tag@sub.domain.org"</span>]
+<span class="c-kw">for</span> <span class="c-var">e</span> <span class="c-kw">in</span> <span class="c-var">emails</span><span class="c-op">:</span>
+    <span class="c-var">icon</span> <span class="c-op">=</span> <span class="c-str">"✅"</span> <span class="c-kw">if</span> <span class="c-fn">is_valid_email</span>(<span class="c-var">e</span>) <span class="c-kw">else</span> <span class="c-str">"❌"</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"{icon} {e}"</span>)
+
+<span class="c-cmt"># ===== ٢. التحقق من قوة كلمة المرور =====</span>
+<span class="c-kw">def</span> <span class="c-fn">check_password</span>(<span class="c-var">pwd</span><span class="c-op">:</span> str) <span class="c-op">-&gt;</span> dict<span class="c-op">:</span>
+    <span class="c-kw">return</span> {
+        <span class="c-str">"الطول ≥ 8"</span>         <span class="c-op">:</span> bool(re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'.{8,}'</span>,  <span class="c-var">pwd</span>)),
+        <span class="c-str">"حرف كبير"</span>         <span class="c-op">:</span> bool(re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'[A-Z]'</span>, <span class="c-var">pwd</span>)),
+        <span class="c-str">"حرف صغير"</span>         <span class="c-op">:</span> bool(re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'[a-z]'</span>, <span class="c-var">pwd</span>)),
+        <span class="c-str">"رقم"</span>              <span class="c-op">:</span> bool(re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'\d'</span>,   <span class="c-var">pwd</span>)),
+        <span class="c-str">"رمز خاص !@#$"</span>    <span class="c-op">:</span> bool(re<span class="c-op">.</span><span class="c-fn">search</span>(<span class="c-re">r'[!@#$%^&amp;*]'</span>, <span class="c-var">pwd</span>)),
+    }
+
+<span class="c-var">pwd</span>    <span class="c-op">=</span> <span class="c-str">"MyPass@2025"</span>
+<span class="c-var">checks</span> <span class="c-op">=</span> <span class="c-fn">check_password</span>(<span class="c-var">pwd</span>)
+<span class="c-kw">for</span> <span class="c-var">label</span>, <span class="c-var">ok</span> <span class="c-kw">in</span> <span class="c-var">checks</span><span class="c-op">.</span><span class="c-fn">items</span>()<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"{'✅' if ok else '❌'} {label}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"النتيجة: {sum(checks.values())}/5"</span>)
+
+<span class="c-cmt"># ===== ٣. تنظيف HTML =====</span>
+<span class="c-kw">def</span> <span class="c-fn">strip_html</span>(<span class="c-var">html</span><span class="c-op">:</span> str) <span class="c-op">-&gt;</span> str<span class="c-op">:</span>
+    <span class="c-kw">return</span> re<span class="c-op">.</span><span class="c-fn">sub</span>(<span class="c-re">r'&lt;[^&gt;]+&gt;'</span>, <span class="c-str">''</span>, <span class="c-var">html</span>)<span class="c-op">.</span><span class="c-fn">strip</span>()
+
+<span class="c-fn">print</span>(<span class="c-fn">strip_html</span>(<span class="c-str">"&lt;h1&gt;عنوان&lt;/h1&gt;&lt;p&gt;نص مهم&lt;/p&gt;"</span>))
+<span class="c-cmt"># عنوان نص مهم</span>
+
+<span class="c-cmt"># ===== ٤. استخراج URLs من نص =====</span>
+<span class="c-kw">def</span> <span class="c-fn">extract_urls</span>(<span class="c-var">text</span><span class="c-op">:</span> str) <span class="c-op">-&gt;</span> list<span class="c-op">:</span>
+    <span class="c-kw">return</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'https?://[\w./%-]+'</span>, <span class="c-var">text</span>)
+
+<span class="c-var">news</span> <span class="c-op">=</span> <span class="c-str">"زر https://python.org و https://docs.python.org/3/"</span>
+<span class="c-fn">print</span>(<span class="c-fn">extract_urls</span>(<span class="c-var">news</span>))</code></pre>
+                </div>
+            </div>
+
+            <!-- تمارين -->
+            <div class="lesson-section" id="exercises">
+                <h3>📝 تمارين تطبيقية</h3>
+
+                <div class="exercise-box">
+                    <h4>تمرين ١ — محلل بيانات السجلات (Log Parser)</h4>
+                    <p>لديك سجل خادم (server log). استخرج: التاريخ، رمز الحالة HTTP، وعنوان IP لكل سطر.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-kw">import</span> re
+
+<span class="c-var">log</span> <span class="c-op">=</span> <span class="c-str">"""
+192.168.1.1 - [15/Mar/2025:10:30:00] "GET /index.html" 200 1234
+10.0.0.5 - [15/Mar/2025:10:31:05] "POST /login" 401 56
+172.16.0.2 - [15/Mar/2025:10:32:10] "GET /data.json" 200 890
+"""</span>
+
+<span class="c-var">pattern</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">compile</span>(
+    <span class="c-re">r'(?P&lt;ip&gt;\d{1,3}(?:\.\d{1,3}){3})'</span>
+    <span class="c-re">r'.+\[(?P&lt;date&gt;[^\]]+)\]'</span>
+    <span class="c-re">r'.+"(?P&lt;req&gt;[^"]+)"'</span>
+    <span class="c-re">r'\s(?P&lt;status&gt;\d{3})'</span>
+)
+
+<span class="c-fn">print</span>(<span class="c-str">f"{'IP':<16} {'Status':<8} {'Date':<25} Request"</span>)
+<span class="c-fn">print</span>(<span class="c-str">"-"</span> <span class="c-op">*</span> <span class="c-num">70</span>)
+
+<span class="c-kw">for</span> <span class="c-var">m</span> <span class="c-kw">in</span> <span class="c-var">pattern</span><span class="c-op">.</span><span class="c-fn">finditer</span>(<span class="c-var">log</span>)<span class="c-op">:</span>
+    <span class="c-var">status_icon</span> <span class="c-op">=</span> <span class="c-str">"✅"</span> <span class="c-kw">if</span> <span class="c-var">m</span>[<span class="c-str">'status'</span>]<span class="c-op">.</span><span class="c-fn">startswith</span>(<span class="c-str">'2'</span>) <span class="c-kw">else</span> <span class="c-str">"❌"</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"{m['ip']:<16} {status_icon}{m['status']:<6} {m['date']:<25} {m['req']}"</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <h4>تمرين ٢ — محلل جهات الاتصال</h4>
+                    <p>اكتب دالة تأخذ نصاً وتستخرج منه جميع الإيميلات وأرقام الهاتف المغربية، وتُرجعها كقاموس.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-kw">import</span> re
+<span class="c-kw">from</span> typing <span class="c-kw">import</span> Dict, List
+
+<span class="c-kw">def</span> <span class="c-fn">extract_contacts</span>(<span class="c-var">text</span><span class="c-op">:</span> str) <span class="c-op">-&gt;</span> Dict[str, List[str]]<span class="c-op">:</span>
+    <span class="c-kw">return</span> {
+        <span class="c-str">"emails"</span> <span class="c-op">:</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'[\w.+-]+@[\w-]+\.[a-z]{2,}'</span>, <span class="c-var">text</span>, re.I),
+        <span class="c-str">"phones"</span> <span class="c-op">:</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'\b0[5-7]\d{8}\b'</span>, <span class="c-var">text</span>),
+    }
+
+<span class="c-var">sample</span> <span class="c-op">=</span> <span class="c-str">"""
+للتواصل: admin@website.ma أو support@help.com
+هاتف: 0661234567 أو 0522345678
+البريد الثانوي: info@test.org
+"""</span>
+
+<span class="c-var">result</span> <span class="c-op">=</span> <span class="c-fn">extract_contacts</span>(<span class="c-var">sample</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"إيميلات ({len(result['emails'])}):"</span>)
+<span class="c-kw">for</span> <span class="c-var">e</span> <span class="c-kw">in</span> <span class="c-var">result</span>[<span class="c-str">'emails'</span>]<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"  📧 {e}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"\nهواتف ({len(result['phones'])}):"</span>)
+<span class="c-kw">for</span> <span class="c-var">p</span> <span class="c-kw">in</span> <span class="c-var">result</span>[<span class="c-str">'phones'</span>]<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"  📱 {p}"</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- مشروع -->
+            <div class="lesson-section" id="project">
+                <h3>🚀 المشروع — أداة تنظيف وتحليل النصوص</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — text_analyzer.py</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> re
+<span class="c-kw">from</span> collections <span class="c-kw">import</span> Counter
+
+<span class="c-kw">class</span> TextAnalyzer<span class="c-op">:</span>
+    <span class="c-cmt">"""أداة تحليل وتنظيف النصوص باستخدام Regex"""</span>
+
+    <span class="c-kw">def</span> <span class="c-fn">__init__</span>(<span class="c-var">self</span>, <span class="c-var">text</span><span class="c-op">:</span> str)<span class="c-op">:</span>
+        <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">text</span> <span class="c-op">=</span> <span class="c-var">text</span>
+
+    <span class="c-kw">def</span> <span class="c-fn">extract_emails</span>(<span class="c-var">self</span>) <span class="c-op">-&gt;</span> list<span class="c-op">:</span>
+        <span class="c-kw">return</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'[\w.+-]+@[\w-]+\.[a-z]{2,}'</span>, <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">text</span>, re.I)
+
+    <span class="c-kw">def</span> <span class="c-fn">extract_urls</span>(<span class="c-var">self</span>) <span class="c-op">-&gt;</span> list<span class="c-op">:</span>
+        <span class="c-kw">return</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'https?://\S+'</span>, <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">text</span>)
+
+    <span class="c-kw">def</span> <span class="c-fn">extract_numbers</span>(<span class="c-var">self</span>) <span class="c-op">-&gt;</span> list<span class="c-op">:</span>
+        <span class="c-kw">return</span> [<span class="c-fn">float</span>(<span class="c-var">n</span>) <span class="c-kw">if</span> <span class="c-str">'.'</span> <span class="c-kw">in</span> <span class="c-var">n</span> <span class="c-kw">else</span> <span class="c-fn">int</span>(<span class="c-var">n</span>)
+                <span class="c-kw">for</span> <span class="c-var">n</span> <span class="c-kw">in</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'\b\d+(?:\.\d+)?\b'</span>, <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">text</span>)]
+
+    <span class="c-kw">def</span> <span class="c-fn">word_frequency</span>(<span class="c-var">self</span>, <span class="c-var">top</span><span class="c-op">=</span><span class="c-num">5</span>) <span class="c-op">-&gt;</span> list<span class="c-op">:</span>
+        <span class="c-var">words</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-re">r'\b[a-zأ-ي]{3,}\b'</span>, <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">text</span>, re.I)
+        <span class="c-kw">return</span> Counter(<span class="c-var">words</span>)<span class="c-op">.</span><span class="c-fn">most_common</span>(<span class="c-var">top</span>)
+
+    <span class="c-kw">def</span> <span class="c-fn">clean</span>(<span class="c-var">self</span>) <span class="c-op">-&gt;</span> str<span class="c-op">:</span>
+        <span class="c-var">t</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">sub</span>(<span class="c-re">r'&lt;[^&gt;]+&gt;'</span>, <span class="c-str">''</span>, <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">text</span>)      <span class="c-cmt"># إزالة HTML</span>
+        <span class="c-var">t</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">sub</span>(<span class="c-re">r'https?://\S+'</span>, <span class="c-str">'[رابط]'</span>, <span class="c-var">t</span>)    <span class="c-cmt"># استبدال URLs</span>
+        <span class="c-var">t</span> <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">sub</span>(<span class="c-re">r'\s{2,}'</span>, <span class="c-str">' '</span>, <span class="c-var">t</span>)               <span class="c-cmt"># إزالة مسافات زائدة</span>
+        <span class="c-kw">return</span> <span class="c-var">t</span><span class="c-op">.</span><span class="c-fn">strip</span>()
+
+    <span class="c-kw">def</span> <span class="c-fn">report</span>(<span class="c-var">self</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"="</span><span class="c-op">*</span><span class="c-num">40</span>)
+        <span class="c-fn">print</span>(<span class="c-str">"  📊 تقرير التحليل"</span>)
+        <span class="c-fn">print</span>(<span class="c-str">"="</span><span class="c-op">*</span><span class="c-num">40</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"📧 إيميلات    : {self.extract_emails()}"</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"🔗 روابط      : {self.extract_urls()}"</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"🔢 أرقام      : {self.extract_numbers()}"</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"📝 أكثر كلمات : {self.word_frequency()}"</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"\n✨ نص نظيف:\n{self.clean()}"</span>)
+
+<span class="c-cmt"># ---- اختبار ----</span>
+<span class="c-var">sample</span> <span class="c-op">=</span> <span class="c-str">"""
+  &lt;h1&gt;مرحباً!&lt;/h1&gt;  تواصل معنا على contact@example.com
+  السعر 99.5 درهم. زر https://python.org لمزيد من المعلومات.
+  رقم التواصل: 0612345678 أو info@site.ma
+"""</span>
+
+<span class="c-fn">TextAnalyzer</span>(<span class="c-var">sample</span>)<span class="c-op">.</span><span class="c-fn">report</span>()</code></pre>
+                </div>
+            </div>
+
+            <div class="lesson-end">
+                <h3>🎉 أتقنت التعابير النمطية!</h3>
+                <p>Regex هو أداة قوية ستستخدمها في كل مشروع حقيقي — من التحقق من المدخلات إلى تحليل الملفات الضخمة.</p>
+                <a href="api.html" class="next-btn">الدرس التالي: APIs و Web Scraping ←</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-i18n="footer-text">© 2025 تعلم لغة بايثون. جميع الحقوق محفوظة.</p>
+            <p><a href="privacy.html" data-i18n="footer-privacy">سياسة الخصوصية</a> | <a href="terms.html" data-i18n="footer-terms">شروط الاستخدام</a></p>
+        </div>
+    </footer>
+    <script src="i18n.js" defer></script>
+    <script>
+        function copyCode(btn){const c=btn.closest('.code-block').querySelector('code').innerText;navigator.clipboard.writeText(c).then(()=>{btn.textContent='تم ✓';setTimeout(()=>btn.textContent='نسخ',2000);});}
+        function checkQuiz(el,res){const box=el.closest('.quiz-box');box.querySelectorAll('.quiz-opt').forEach(o=>o.style.pointerEvents='none');el.classList.add(res);const fbs=box.querySelectorAll('.quiz-feedback');fbs[0].classList.toggle('show',res==='correct');fbs[1].classList.toggle('show',res==='wrong');}
+        const sections=document.querySelectorAll('.lesson-section');
+        const navLinks=document.querySelectorAll('.lesson-nav-bar a');
+        window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-160)c=s.id;});navLinks.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+c)a.classList.add('active');});});
+        function runPlayground(){
+            const text=document.getElementById('pg-text').value;
+            const pattern=document.getElementById('pg-pattern').value;
+            const res=document.getElementById('pg-result');
+            if(!pattern){res.innerHTML='<span class="no-match">اكتب نمطاً أولاً</span>';return;}
+            try{
+                const rx=new RegExp(pattern,'g');
+                const matches=[...text.matchAll(rx)];
+                if(!matches.length){res.innerHTML='<span class="no-match">لا يوجد تطابق</span>';return;}
+                let highlighted=text;
+                const found=matches.map(m=>m[0]);
+                const unique=[...new Set(found)];
+                unique.forEach(m=>{highlighted=highlighted.replaceAll(m,`<mark>${m}</mark>`);});
+                res.innerHTML=highlighted+`<br><br><small style="color:#67e8f9">✅ عدد التطابقات: ${matches.length} | القيم: ${JSON.stringify(found)}</small>`;
+            }catch(e){res.innerHTML=`<span class="no-match">خطأ في النمط: ${e.message}</span>`;}
+        }
+    </script>
+</body>
+</html>

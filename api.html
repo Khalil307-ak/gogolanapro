@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="تعلم التعامل مع APIs واستخدام requests وBeautifulSoup لجلب وتحليل بيانات الويب ببايثون.">
+    <meta name="google-adsense-account" content="ca-pub-6734955325699280">
+    <title data-i18n="api-page-title">APIs و Web Scraping ببايثون</title>
+    <link rel="icon" href="gogolanapropng.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6734955325699280" crossorigin="anonymous"></script>
+    <style>
+        :root{--acc:#10b981;--acc2:#059669;--dark:#022c22;--mid:#064e3b;}
+        .lesson-hero{background:linear-gradient(135deg,#010f0a 0%,#022c22 50%,#064e3b 100%);color:white;padding:60px 0 40px;text-align:center}
+        .lesson-hero h2{font-size:2.1rem;color:#6ee7b7;margin-bottom:12px}
+        .lesson-hero p{font-size:1.05rem;color:#a7f3d0;max-width:700px;margin:0 auto 24px}
+        .objectives-box{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+        .objective-tag{background:rgba(16,185,129,.12);border:1px solid var(--acc);color:#6ee7b7;padding:6px 14px;border-radius:20px;font-size:.88rem}
+        .lesson-nav-bar{background:#010f0a;position:sticky;top:70px;z-index:900;overflow-x:auto;white-space:nowrap;border-bottom:1px solid #065f46}
+        .lesson-nav-bar ul{display:inline-flex;list-style:none;margin:0;padding:0}
+        .lesson-nav-bar ul li a{display:block;padding:14px 18px;color:#a7f3d0;text-decoration:none;font-size:.88rem;border-bottom:3px solid transparent;transition:all .3s}
+        .lesson-nav-bar ul li a:hover,.lesson-nav-bar ul li a.active{color:#6ee7b7;border-bottom-color:var(--acc)}
+        .lesson-content{max-width:900px;margin:0 auto;padding:40px 20px}
+        .lesson-section{margin-bottom:60px;scroll-margin-top:130px}
+        .lesson-section h3{font-size:1.55rem;color:#064e3b;border-right:5px solid var(--acc);padding-right:16px;margin-bottom:20px}
+        .lesson-section h4{font-size:1.1rem;color:#333;margin:24px 0 10px;font-weight:700}
+        .lesson-section p,.lesson-section li{font-size:1.02rem;line-height:2;color:#444}
+        .tip-box,.warning-box,.info-box{border-radius:10px;padding:16px 18px;margin:18px 0;display:flex;gap:14px;align-items:flex-start}
+        .tip-box{background:#ecfdf5;border-right:4px solid var(--acc)}
+        .warning-box{background:#fff7ed;border-right:4px solid #f97316}
+        .info-box{background:#f0fdf4;border-right:4px solid #16a34a}
+        .tip-box .icon,.info-box .icon{color:var(--acc);font-size:1.3rem;margin-top:2px}
+        .warning-box .icon{color:#f97316;font-size:1.3rem;margin-top:2px}
+        .tip-box strong,.warning-box strong,.info-box strong{display:block;margin-bottom:5px}
+        .code-block{background:#010f0a;border:1px solid #065f46;border-radius:10px;overflow:hidden;margin:14px 0;direction:ltr}
+        .code-header{background:#022c22;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;direction:rtl;border-bottom:1px solid #065f46}
+        .code-lang{color:#6ee7b7;font-size:.82rem;font-weight:bold}
+        .copy-btn{background:transparent;border:1px solid #065f46;color:#a7f3d0;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.78rem;transition:all .2s}
+        .copy-btn:hover{border-color:var(--acc);color:#6ee7b7}
+        .code-block pre{margin:0;padding:20px;background:transparent;color:#d1fae5;font-size:.93rem;overflow-x:auto}
+        .code-block pre code{direction:ltr;text-align:left;display:block;font-family:'Fira Code','Consolas',monospace;line-height:1.75}
+        .c-kw{color:#f472b6}.c-fn{color:#6ee7b7}.c-str{color:#fde68a}.c-num{color:#a5b4fc}.c-cmt{color:#166534;font-style:italic}.c-var{color:#d1fae5}.c-op{color:#67e8f9}.c-cls{color:#fb923c}
+        /* HTTP flow diagram */
+        .http-flow{display:flex;align-items:center;gap:0;margin:20px 0;overflow-x:auto;padding:16px 0}
+        .http-box{background:white;border:2px solid #d1fae5;border-radius:10px;padding:12px 18px;text-align:center;min-width:110px;font-size:.88rem;color:#064e3b;font-weight:600;white-space:nowrap}
+        .http-box.server{border-color:var(--acc);background:#ecfdf5}
+        .http-arrow{color:var(--acc);font-size:1.4rem;padding:0 8px;flex-shrink:0}
+        /* status codes */
+        .status-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0}
+        .status-card{border-radius:8px;padding:12px 16px;text-align:center}
+        .status-card.ok{background:#dcfce7;border:2px solid #16a34a}
+        .status-card.redir{background:#fef9c3;border:2px solid #ca8a04}
+        .status-card.client{background:#fee2e2;border:2px solid #dc2626}
+        .status-card.server{background:#ffe4e6;border:2px solid #e11d48}
+        .status-card code{font-size:1.3rem;font-weight:bold;display:block;margin-bottom:4px}
+        .status-card p{font-size:.82rem;margin:0;color:#444}
+        /* تمارين */
+        .quiz-box{background:#fff;border:2px solid #a7f3d0;border-radius:12px;padding:22px;margin:26px 0;box-shadow:0 2px 10px rgba(16,185,129,.08)}
+        .quiz-box h4{color:#064e3b;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .quiz-options{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+        .quiz-opt{background:#ecfdf5;border:2px solid #a7f3d0;border-radius:8px;padding:10px 16px;cursor:pointer;font-size:.93rem;transition:all .2s;text-align:right;font-family:inherit}
+        .quiz-opt:hover{background:#d1fae5;border-color:var(--acc)}
+        .quiz-opt.correct{background:#dcfce7;border-color:#16a34a;color:#15803d}
+        .quiz-opt.wrong{background:#fee2e2;border-color:#dc2626;color:#dc2626}
+        .quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.92rem;display:none}
+        .quiz-feedback.show{display:block}
+        .quiz-feedback.ok{background:#dcfce7;color:#15803d}
+        .quiz-feedback.no{background:#fee2e2;color:#dc2626}
+        .exercise-box{background:linear-gradient(135deg,#010f0a,#022c22);color:white;padding:24px;border-radius:12px;margin:26px 0;border:1px solid #065f46}
+        .exercise-box h4{color:#6ee7b7;margin-bottom:10px}
+        .exercise-box p,.exercise-box li{color:#a7f3d0;line-height:1.9}
+        .solution-btn{background:var(--acc);color:white;border:none;padding:9px 22px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:.9rem;margin-top:12px}
+        .solution-btn:hover{background:var(--acc2)}
+        .solution-content{display:none;margin-top:14px}
+        .solution-content.visible{display:block}
+        .lesson-end{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border-radius:16px;margin-top:40px}
+        .lesson-end h3{color:#064e3b;font-size:1.45rem}
+        .back-btn{display:inline-block;background:var(--acc);color:white;padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:14px;transition:all .3s}
+        .back-btn:hover{background:var(--acc2);transform:translateX(4px)}
+        @media(max-width:768px){.lesson-hero h2{font-size:1.45rem}.lesson-content{padding:20px 12px}.http-flow{flex-wrap:wrap;justify-content:center}}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🌐 APIs و Web Scraping</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav-home">الرئيسية</a></li>
+                    <li><a href="mo9adima.html" data-i18n="nav-basics">الأساسيات</a></li>
+                    <li><a href="mutaqaddim.html" data-i18n="nav-advanced">متقدم</a></li>
+                    <li><a href="regex.html" data-i18n="nav-regex">Regex</a></li>
+                </ul>
+                <select id="language-select" aria-label="اختيار اللغة">
+                    <option value="ar">العربية</option>
+                    <option value="en">English</option>
+                </select>
+            </nav>
+        </div>
+    </header>
+
+    <div class="lesson-hero">
+        <div class="container">
+            <h2 data-i18n="api-hero-title">🌐 APIs و Web Scraping ببايثون</h2>
+            <p data-i18n="api-hero-desc">اربط برنامجك بالعالم الخارجي — اجلب بيانات الطقس، الأسهم، الأخبار، وأي شيء على الإنترنت.</p>
+            <div class="objectives-box">
+                <span class="objective-tag" data-i18n="api-tag1">🔗 HTTP و REST API</span>
+                <span class="objective-tag" data-i18n="api-tag2">📦 مكتبة requests</span>
+                <span class="objective-tag" data-i18n="api-tag3">🗝️ API Keys</span>
+                <span class="objective-tag" data-i18n="api-tag4">🕷️ BeautifulSoup</span>
+                <span class="objective-tag" data-i18n="api-tag5">📊 تحليل JSON</span>
+                <span class="objective-tag" data-i18n="api-tag6">⚡ Async Requests</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="lesson-nav-bar">
+        <ul>
+            <li><a href="#http">١. HTTP أساسيات</a></li>
+            <li><a href="#requests">٢. requests</a></li>
+            <li><a href="#restapi">٣. REST API</a></li>
+            <li><a href="#auth">٤. المصادقة</a></li>
+            <li><a href="#errors">٥. الأخطاء</a></li>
+            <li><a href="#scraping">٦. Web Scraping</a></li>
+            <li><a href="#bs4">٧. BeautifulSoup</a></li>
+            <li><a href="#exercises">📝 تمارين</a></li>
+            <li><a href="#project">🚀 مشروع</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <ins class="adsbygoogle" style="display:block;margin:16px auto;max-width:900px;"
+             data-ad-client="ca-pub-6734955325699280" data-ad-slot="YOUR_AD_SLOT_ID"
+             data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+        <div class="lesson-content">
+
+            <!-- ١ HTTP -->
+            <div class="lesson-section" id="http">
+                <h3>١. HTTP — كيف يتحدث الإنترنت</h3>
+                <p>كل مرة تزور موقعاً، برنامجك يرسل <strong>Request</strong> للخادم، والخادم يرد بـ <strong>Response</strong>. هذا هو HTTP.</p>
+
+                <div class="http-flow">
+                    <div class="http-box">💻 برنامجك<br><small>Client</small></div>
+                    <div class="http-arrow">→</div>
+                    <div class="http-box">📤 Request<br><small>GET /data</small></div>
+                    <div class="http-arrow">→</div>
+                    <div class="http-box server">🖥️ الخادم<br><small>Server</small></div>
+                    <div class="http-arrow">→</div>
+                    <div class="http-box">📥 Response<br><small>200 OK + JSON</small></div>
+                    <div class="http-arrow">→</div>
+                    <div class="http-box">💻 برنامجك<br><small>يعالج البيانات</small></div>
+                </div>
+
+                <h4>أنواع طلبات HTTP</h4>
+                <div class="info-box">
+                    <span class="icon"><i class="fas fa-info-circle"></i></span>
+                    <div>
+                        <strong>الطلبات الأساسية:</strong>
+                        <code>GET</code> — اجلب بيانات ·
+                        <code>POST</code> — أرسل بيانات جديدة ·
+                        <code>PUT</code> — حدّث بيانات كاملة ·
+                        <code>PATCH</code> — حدّث جزئياً ·
+                        <code>DELETE</code> — احذف
+                    </div>
+                </div>
+
+                <h4>رموز الحالة الشائعة</h4>
+                <div class="status-grid">
+                    <div class="status-card ok"><code>200</code><p>OK — طلب ناجح</p></div>
+                    <div class="status-card ok"><code>201</code><p>Created — تم الإنشاء</p></div>
+                    <div class="status-card redir"><code>301</code><p>Moved — تحويل دائم</p></div>
+                    <div class="status-card client"><code>400</code><p>Bad Request — طلب خاطئ</p></div>
+                    <div class="status-card client"><code>401</code><p>Unauthorized — غير مصرح</p></div>
+                    <div class="status-card client"><code>404</code><p>Not Found — غير موجود</p></div>
+                    <div class="status-card server"><code>500</code><p>Server Error — خطأ الخادم</p></div>
+                    <div class="status-card client"><code>429</code><p>Too Many Requests</p></div>
+                </div>
+            </div>
+
+            <!-- ٢ requests -->
+            <div class="lesson-section" id="requests">
+                <h3>٢. مكتبة requests — أسهل طريقة لجلب البيانات</h3>
+                <p>ثبّت المكتبة: <code>pip install requests</code></p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — requests أساسيات</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> requests
+
+<span class="c-cmt"># ===== GET — جلب بيانات =====</span>
+<span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://httpbin.org/get"</span>)
+
+<span class="c-fn">print</span>(<span class="c-var">resp</span><span class="c-op">.</span>status_code)   <span class="c-cmt"># 200</span>
+<span class="c-fn">print</span>(<span class="c-var">resp</span><span class="c-op">.</span>headers)       <span class="c-cmt"># معلومات الاستجابة</span>
+<span class="c-fn">print</span>(<span class="c-var">resp</span><span class="c-op">.</span>text)          <span class="c-cmt"># المحتوى كنص</span>
+<span class="c-fn">print</span>(<span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">json</span>())        <span class="c-cmt"># تحويل JSON تلقائياً</span>
+
+<span class="c-cmt"># ===== GET مع معاملات =====</span>
+<span class="c-var">params</span> <span class="c-op">=</span> {<span class="c-str">"q"</span><span class="c-op">:</span> <span class="c-str">"python tutorial"</span>, <span class="c-str">"page"</span><span class="c-op">:</span> <span class="c-num">1</span>, <span class="c-str">"limit"</span><span class="c-op">:</span> <span class="c-num">10</span>}
+<span class="c-var">resp</span>   <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://httpbin.org/get"</span>, params<span class="c-op">=</span><span class="c-var">params</span>)
+<span class="c-cmt"># URL: https://httpbin.org/get?q=python+tutorial&page=1&limit=10</span>
+
+<span class="c-cmt"># ===== POST — إرسال بيانات =====</span>
+<span class="c-var">data</span> <span class="c-op">=</span> {<span class="c-str">"username"</span><span class="c-op">:</span> <span class="c-str">"khalil"</span>, <span class="c-str">"password"</span><span class="c-op">:</span> <span class="c-str">"secret"</span>}
+<span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">post</span>(<span class="c-str">"https://httpbin.org/post"</span>, json<span class="c-op">=</span><span class="c-var">data</span>)
+<span class="c-fn">print</span>(<span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">json</span>()[<span class="c-str">"json"</span>])   <span class="c-cmt"># يُرجع ما أرسلناه</span>
+
+<span class="c-cmt"># ===== Headers مخصصة =====</span>
+<span class="c-var">headers</span> <span class="c-op">=</span> {
+    <span class="c-str">"User-Agent"</span>    <span class="c-op">:</span> <span class="c-str">"MyApp/1.0"</span>,
+    <span class="c-str">"Accept-Language"</span><span class="c-op">:</span> <span class="c-str">"ar,en"</span>,
+    <span class="c-str">"Content-Type"</span>  <span class="c-op">:</span> <span class="c-str">"application/json"</span>,
+}
+<span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://httpbin.org/headers"</span>, headers<span class="c-op">=</span><span class="c-var">headers</span>)
+
+<span class="c-cmt"># ===== Timeout — لا تنتظر إلى الأبد =====</span>
+<span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://httpbin.org/delay/1"</span>, timeout<span class="c-op">=</span><span class="c-num">5</span>)
+<span class="c-cmt"># إذا لم يرد الخادم في 5 ثوانٍ → Timeout error</span>
+
+<span class="c-cmt"># ===== Session — إعادة استخدام الاتصال =====</span>
+<span class="c-var">session</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-cls">Session</span>()
+<span class="c-var">session</span><span class="c-op">.</span>headers[<span class="c-str">"User-Agent"</span>] <span class="c-op">=</span> <span class="c-str">"MyBot/1.0"</span>
+<span class="c-var">r1</span> <span class="c-op">=</span> <span class="c-var">session</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://httpbin.org/get"</span>)
+<span class="c-var">r2</span> <span class="c-op">=</span> <span class="c-var">session</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://httpbin.org/get"</span>)
+<span class="c-cmt"># نفس الـ headers لكلا الطلبين</span></code></pre>
+                </div>
+
+                <!-- Quiz 1 -->
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>متى يجب استخدام <code>POST</code> بدل <code>GET</code>؟</p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">عندما نريد جلب بيانات من API</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')">عندما نريد إرسال بيانات جديدة للخادم — مثل تسجيل مستخدم أو نشر تعليق</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>POST</code> أسرع دائماً من <code>GET</code></div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">عندما يكون الـ URL طويلاً جداً</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ صحيح! <code>GET</code> لجلب البيانات، <code>POST</code> لإرسال بيانات جديدة. <code>GET</code> يضع المعاملات في الـ URL، <code>POST</code> يضعها في الـ body.</div>
+                    <div class="quiz-feedback no">❌ خطأ. <code>GET</code> لجلب البيانات دون تعديل. <code>POST</code> لإرسال بيانات جديدة للخادم كتسجيل مستخدم أو نشر منشور.</div>
+                </div>
+            </div>
+
+            <!-- ٣ REST API -->
+            <div class="lesson-section" id="restapi">
+                <h3>٣. التعامل مع REST APIs الحقيقية</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — API الطقس (OpenWeatherMap)</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> requests
+
+<span class="c-cmt"># ١. API مجانية — JSONPlaceholder (للتجربة)</span>
+<span class="c-var">BASE</span> <span class="c-op">=</span> <span class="c-str">"https://jsonplaceholder.typicode.com"</span>
+
+<span class="c-cmt"># جلب كل المنشورات</span>
+<span class="c-var">posts</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">f"{BASE}/posts"</span>)<span class="c-op">.</span><span class="c-fn">json</span>()
+<span class="c-fn">print</span>(<span class="c-str">f"عدد المنشورات: {len(posts)}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"أول منشور: {posts[0]['title']}"</span>)
+
+<span class="c-cmt"># جلب منشور محدد</span>
+<span class="c-var">post</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">f"{BASE}/posts/1"</span>)<span class="c-op">.</span><span class="c-fn">json</span>()
+<span class="c-fn">print</span>(<span class="c-str">f"العنوان: {post['title']}"</span>)
+
+<span class="c-cmt"># إنشاء منشور جديد</span>
+<span class="c-var">new_post</span> <span class="c-op">=</span> {
+    <span class="c-str">"title"</span>  <span class="c-op">:</span> <span class="c-str">"تعلم بايثون"</span>,
+    <span class="c-str">"body"</span>   <span class="c-op">:</span> <span class="c-str">"بايثون لغة رائعة للمبتدئين"</span>,
+    <span class="c-str">"userId"</span> <span class="c-op">:</span> <span class="c-num">1</span>
+}
+<span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">post</span>(<span class="c-str">f"{BASE}/posts"</span>, json<span class="c-op">=</span><span class="c-var">new_post</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"تم الإنشاء — ID: {resp.json()['id']}, Status: {resp.status_code}"</span>)
+
+<span class="c-cmt"># ٢. API الطقس (تحتاج مفتاح مجاني من openweathermap.org)</span>
+<span class="c-kw">def</span> <span class="c-fn">get_weather</span>(<span class="c-var">city</span><span class="c-op">:</span> str, <span class="c-var">api_key</span><span class="c-op">:</span> str) <span class="c-op">-&gt;</span> dict<span class="c-op">:</span>
+    <span class="c-var">url</span>    <span class="c-op">=</span> <span class="c-str">"https://api.openweathermap.org/data/2.5/weather"</span>
+    <span class="c-var">params</span> <span class="c-op">=</span> {<span class="c-str">"q"</span><span class="c-op">:</span> <span class="c-var">city</span>, <span class="c-str">"appid"</span><span class="c-op">:</span> <span class="c-var">api_key</span>, <span class="c-str">"units"</span><span class="c-op">:</span> <span class="c-str">"metric"</span>, <span class="c-str">"lang"</span><span class="c-op">:</span> <span class="c-str">"ar"</span>}
+    <span class="c-var">resp</span>   <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-var">url</span>, params<span class="c-op">=</span><span class="c-var">params</span>, timeout<span class="c-op">=</span><span class="c-num">10</span>)
+    <span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">raise_for_status</span>()   <span class="c-cmt"># يرمي خطأ إذا 4xx أو 5xx</span>
+    <span class="c-var">data</span>   <span class="c-op">=</span> <span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">json</span>()
+    <span class="c-kw">return</span> {
+        <span class="c-str">"مدينة"</span>     <span class="c-op">:</span> <span class="c-var">data</span>[<span class="c-str">"name"</span>],
+        <span class="c-str">"حرارة"</span>     <span class="c-op">:</span> <span class="c-str">f"{data['main']['temp']}°C"</span>,
+        <span class="c-str">"وصف"</span>       <span class="c-op">:</span> <span class="c-var">data</span>[<span class="c-str">"weather"</span>][<span class="c-num">0</span>][<span class="c-str">"description"</span>],
+        <span class="c-str">"رطوبة"</span>     <span class="c-op">:</span> <span class="c-str">f"{data['main']['humidity']}%"</span>,
+        <span class="c-str">"سرعة الرياح"</span><span class="c-op">:</span> <span class="c-str">f"{data['wind']['speed']} m/s"</span>,
+    }
+
+<span class="c-cmt"># weather = get_weather("Marrakech", "YOUR_API_KEY")</span>
+<span class="c-cmt"># for k, v in weather.items(): print(f"{k}: {v}")</span></code></pre>
+                </div>
+
+                <h4>API مجانية للتجربة — لا تحتاج مفتاح</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — APIs مجانية</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> requests
+
+<span class="c-cmt"># ١. معلومات عن دولة</span>
+<span class="c-var">r</span>    <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://restcountries.com/v3.1/name/morocco"</span>)
+<span class="c-var">data</span> <span class="c-op">=</span> <span class="c-var">r</span><span class="c-op">.</span><span class="c-fn">json</span>()[<span class="c-num">0</span>]
+<span class="c-fn">print</span>(<span class="c-str">f"الدولة  : {data['name']['common']}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"العاصمة : {data['capital'][0]}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"السكان  : {data['population']:,}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"العملة  : {list(data['currencies'].keys())[0]}"</span>)
+
+<span class="c-cmt"># ٢. ترجمة نص (LibreTranslate — مجاني)</span>
+<span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">post</span>(
+    <span class="c-str">"https://libretranslate.de/translate"</span>,
+    json<span class="c-op">=</span>{<span class="c-str">"q"</span><span class="c-op">:</span> <span class="c-str">"Hello World"</span>, <span class="c-str">"source"</span><span class="c-op">:</span> <span class="c-str">"en"</span>, <span class="c-str">"target"</span><span class="c-op">:</span> <span class="c-str">"ar"</span>},
+    timeout<span class="c-op">=</span><span class="c-num">10</span>
+)
+<span class="c-kw">if</span> <span class="c-var">resp</span><span class="c-op">.</span>ok<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">json</span>()[<span class="c-str">"translatedText"</span>])   <span class="c-cmt"># مرحباً بالعالم</span>
+
+<span class="c-cmt"># ٣. معلومات IP</span>
+<span class="c-var">ip_data</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://ipapi.co/json/"</span>)<span class="c-op">.</span><span class="c-fn">json</span>()
+<span class="c-fn">print</span>(<span class="c-str">f"IP: {ip_data.get('ip')} | البلد: {ip_data.get('country_name')}"</span>)</code></pre>
+                </div>
+            </div>
+
+            <!-- ٤ المصادقة -->
+            <div class="lesson-section" id="auth">
+                <h3>٤. المصادقة — API Keys و Tokens</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — المصادقة</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> requests
+<span class="c-kw">import</span> os
+
+<span class="c-cmt"># ===== ١. API Key في Header (الأكثر شيوعاً) =====</span>
+<span class="c-var">API_KEY</span>  <span class="c-op">=</span> os<span class="c-op">.</span><span class="c-fn">getenv</span>(<span class="c-str">"MY_API_KEY"</span>)   <span class="c-cmt"># من متغيرات البيئة</span>
+<span class="c-var">headers</span> <span class="c-op">=</span> {<span class="c-str">"Authorization"</span><span class="c-op">:</span> <span class="c-str">f"Bearer {API_KEY}"</span>}
+<span class="c-var">resp</span>    <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://api.example.com/data"</span>, headers<span class="c-op">=</span><span class="c-var">headers</span>)
+
+<span class="c-cmt"># ===== ٢. API Key في Params =====</span>
+<span class="c-var">params</span> <span class="c-op">=</span> {<span class="c-str">"api_key"</span><span class="c-op">:</span> <span class="c-var">API_KEY</span>, <span class="c-str">"city"</span><span class="c-op">:</span> <span class="c-str">"Marrakech"</span>}
+<span class="c-var">resp</span>   <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://api.weather.com/current"</span>, params<span class="c-op">=</span><span class="c-var">params</span>)
+
+<span class="c-cmt"># ===== ٣. Basic Auth =====</span>
+<span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(
+    <span class="c-str">"https://httpbin.org/basic-auth/user/pass"</span>,
+    auth<span class="c-op">=</span>(<span class="c-str">"user"</span>, <span class="c-str">"pass"</span>)
+)
+<span class="c-fn">print</span>(<span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">json</span>())
+
+<span class="c-cmt"># ===== حفظ API Key بأمان في .env =====</span>
+<span class="c-cmt"># ١. أنشئ ملف .env:
+#     MY_API_KEY=abc123secretkey
+# ٢. ثبّت python-dotenv: pip install python-dotenv</span>
+<span class="c-kw">from</span> dotenv <span class="c-kw">import</span> load_dotenv
+<span class="c-fn">load_dotenv</span>()
+<span class="c-var">key</span> <span class="c-op">=</span> os<span class="c-op">.</span><span class="c-fn">getenv</span>(<span class="c-str">"MY_API_KEY"</span>)
+<span class="c-cmt"># لا تكتب المفتاح مباشرة في الكود — خطر أمني!</span></code></pre>
+                </div>
+                <div class="warning-box">
+                    <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+                    <div><strong>لا تكتب API Key في الكود مباشرة!</strong> إذا رفعت الكود على GitHub سيُسرق المفتاح. دائماً استخدم متغيرات البيئة أو ملف <code>.env</code> مع إضافته لـ <code>.gitignore</code>.</div>
+                </div>
+            </div>
+
+            <!-- ٥ معالجة الأخطاء -->
+            <div class="lesson-section" id="errors">
+                <h3>٥. معالجة أخطاء الشبكة بشكل صحيح</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Error Handling للشبكة</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> requests
+<span class="c-kw">from</span> requests<span class="c-op">.</span>exceptions <span class="c-kw">import</span> (
+    Timeout, ConnectionError, HTTPError, RequestException
+)
+
+<span class="c-kw">def</span> <span class="c-fn">safe_request</span>(<span class="c-var">url</span><span class="c-op">:</span> str, <span class="c-op">**</span><span class="c-var">kwargs</span>) <span class="c-op">-&gt;</span> dict <span class="c-op">|</span> None<span class="c-op">:</span>
+    <span class="c-kw">try</span><span class="c-op">:</span>
+        <span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-var">url</span>, timeout<span class="c-op">=</span><span class="c-num">10</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)
+        <span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">raise_for_status</span>()   <span class="c-cmt"># يرمي HTTPError للـ 4xx/5xx</span>
+        <span class="c-kw">return</span> <span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">json</span>()
+
+    <span class="c-kw">except</span> Timeout<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"⏱️ الخادم لم يرد خلال 10 ثوانٍ"</span>)
+    <span class="c-kw">except</span> ConnectionError<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"🔌 لا يوجد اتصال بالإنترنت"</span>)
+    <span class="c-kw">except</span> HTTPError <span class="c-kw">as</span> <span class="c-var">e</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"❌ خطأ HTTP: {e.response.status_code}"</span>)
+        <span class="c-kw">if</span> <span class="c-var">e</span><span class="c-op">.</span>response<span class="c-op">.</span>status_code <span class="c-op">==</span> <span class="c-num">401</span><span class="c-op">:</span>
+            <span class="c-fn">print</span>(<span class="c-str">"   المفتاح منتهي أو غير صحيح"</span>)
+        <span class="c-kw">elif</span> <span class="c-var">e</span><span class="c-op">.</span>response<span class="c-op">.</span>status_code <span class="c-op">==</span> <span class="c-num">429</span><span class="c-op">:</span>
+            <span class="c-fn">print</span>(<span class="c-str">"   تجاوزت حد الطلبات — انتظر قليلاً"</span>)
+    <span class="c-kw">except</span> RequestException <span class="c-kw">as</span> <span class="c-var">e</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"❓ خطأ غير متوقع: {e}"</span>)
+    <span class="c-kw">return</span> <span class="c-kw">None</span>
+
+<span class="c-cmt"># Retry تلقائي مع backoff</span>
+<span class="c-kw">import</span> time
+
+<span class="c-kw">def</span> <span class="c-fn">request_with_retry</span>(<span class="c-var">url</span><span class="c-op">:</span> str, <span class="c-var">retries</span><span class="c-op">=</span><span class="c-num">3</span>, <span class="c-var">backoff</span><span class="c-op">=</span><span class="c-num">2</span>)<span class="c-op">:</span>
+    <span class="c-kw">for</span> <span class="c-var">attempt</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-var">retries</span>)<span class="c-op">:</span>
+        <span class="c-var">result</span> <span class="c-op">=</span> <span class="c-fn">safe_request</span>(<span class="c-var">url</span>)
+        <span class="c-kw">if</span> <span class="c-var">result</span><span class="c-op">:</span>
+            <span class="c-kw">return</span> <span class="c-var">result</span>
+        <span class="c-var">wait</span> <span class="c-op">=</span> <span class="c-var">backoff</span> <span class="c-op">**</span> <span class="c-var">attempt</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"محاولة {attempt+1}/{retries} — انتظر {wait}s"</span>)
+        time<span class="c-op">.</span><span class="c-fn">sleep</span>(<span class="c-var">wait</span>)
+    <span class="c-kw">return</span> <span class="c-kw">None</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٦ Web Scraping -->
+            <div class="lesson-section" id="scraping">
+                <h3>٦. Web Scraping — استخراج بيانات المواقع</h3>
+                <p>عندما لا يوجد API، يمكنك قراءة صفحة HTML وتحليلها. <strong>مع الالتزام دائماً بـ robots.txt وشروط الاستخدام.</strong></p>
+                <p>ثبّت: <code>pip install requests beautifulsoup4 lxml</code></p>
+
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — requests + HTML</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> requests
+
+<span class="c-cmt"># جلب صفحة HTML</span>
+<span class="c-var">headers</span> <span class="c-op">=</span> {<span class="c-str">"User-Agent"</span><span class="c-op">:</span> <span class="c-str">"Mozilla/5.0 (Windows NT 10.0; Win64)"</span>}
+<span class="c-var">resp</span>    <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://books.toscrape.com"</span>,
+                      headers<span class="c-op">=</span><span class="c-var">headers</span>, timeout<span class="c-op">=</span><span class="c-num">10</span>)
+
+<span class="c-fn">print</span>(<span class="c-str">f"Status : {resp.status_code}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Encoding: {resp.encoding}"</span>)
+<span class="c-fn">print</span>(<span class="c-var">resp</span><span class="c-op">.</span>text[<span class="c-op">:</span><span class="c-num">300</span>])   <span class="c-cmt"># أول 300 حرف من HTML</span></code></pre>
+                </div>
+
+                <div class="warning-box">
+                    <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+                    <div><strong>قواعد Web Scraping:</strong> تحقق من <code>/robots.txt</code> · لا تضغط على الخادم (أضف sleep بين الطلبات) · لا تستخدم البيانات لأغراض تجارية دون إذن · بعض المواقع يستخدم JavaScript لتحميل البيانات — حينها تحتاج Selenium.</div>
+                </div>
+            </div>
+
+            <!-- ٧ BeautifulSoup -->
+            <div class="lesson-section" id="bs4">
+                <h3>٧. BeautifulSoup — تحليل HTML</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — BeautifulSoup</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> requests
+<span class="c-kw">from</span> bs4 <span class="c-kw">import</span> BeautifulSoup
+
+<span class="c-var">headers</span> <span class="c-op">=</span> {<span class="c-str">"User-Agent"</span><span class="c-op">:</span> <span class="c-str">"Mozilla/5.0"</span>}
+<span class="c-var">resp</span>    <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"https://books.toscrape.com"</span>, headers<span class="c-op">=</span><span class="c-var">headers</span>)
+<span class="c-var">soup</span>    <span class="c-op">=</span> BeautifulSoup(<span class="c-var">resp</span><span class="c-op">.</span>text, <span class="c-str">"lxml"</span>)
+
+<span class="c-cmt"># ===== الوصول للعناصر =====</span>
+<span class="c-fn">print</span>(<span class="c-var">soup</span><span class="c-op">.</span>title<span class="c-op">.</span>text)              <span class="c-cmt"># عنوان الصفحة</span>
+
+<span class="c-cmt"># عنصر واحد بـ CSS selector</span>
+<span class="c-var">first_h1</span> <span class="c-op">=</span> <span class="c-var">soup</span><span class="c-op">.</span><span class="c-fn">select_one</span>(<span class="c-str">"h1"</span>)
+<span class="c-fn">print</span>(<span class="c-var">first_h1</span><span class="c-op">.</span>text<span class="c-op">.</span><span class="c-fn">strip</span>())
+
+<span class="c-cmt"># كل الروابط</span>
+<span class="c-var">links</span> <span class="c-op">=</span> <span class="c-var">soup</span><span class="c-op">.</span><span class="c-fn">select</span>(<span class="c-str">"a[href]"</span>)
+<span class="c-kw">for</span> <span class="c-var">a</span> <span class="c-kw">in</span> <span class="c-var">links</span>[<span class="c-op">:</span><span class="c-num">5</span>]<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">a</span>[<span class="c-str">"href"</span>], <span class="c-str">"|"</span>, <span class="c-var">a</span><span class="c-op">.</span>text<span class="c-op">.</span><span class="c-fn">strip</span>())
+
+<span class="c-cmt"># ===== مثال حقيقي: scraping كتالوج كتب =====</span>
+<span class="c-var">books</span> <span class="c-op">=</span> []
+<span class="c-kw">for</span> <span class="c-var">article</span> <span class="c-kw">in</span> <span class="c-var">soup</span><span class="c-op">.</span><span class="c-fn">select</span>(<span class="c-str">"article.product_pod"</span>)<span class="c-op">:</span>
+    <span class="c-var">books</span><span class="c-op">.</span><span class="c-fn">append</span>({
+        <span class="c-str">"title"</span> <span class="c-op">:</span> <span class="c-var">article</span><span class="c-op">.</span><span class="c-fn">select_one</span>(<span class="c-str">"h3 a"</span>)[<span class="c-str">"title"</span>],
+        <span class="c-str">"price"</span> <span class="c-op">:</span> <span class="c-var">article</span><span class="c-op">.</span><span class="c-fn">select_one</span>(<span class="c-str">".price_color"</span>)<span class="c-op">.</span>text<span class="c-op">.</span><span class="c-fn">strip</span>(),
+        <span class="c-str">"rating"</span><span class="c-op">:</span> <span class="c-var">article</span><span class="c-op">.</span><span class="c-fn">select_one</span>(<span class="c-str">"p.star-rating"</span>)[<span class="c-str">"class"</span>][<span class="c-num">1</span>],
+    })
+
+<span class="c-fn">print</span>(<span class="c-str">f"وُجد {len(books)} كتاب:"</span>)
+<span class="c-kw">for</span> <span class="c-var">b</span> <span class="c-kw">in</span> <span class="c-var">books</span>[<span class="c-op">:</span><span class="c-num">5</span>]<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"  📚 {b['title'][:40]:<40} {b['price']:>10}  ⭐{b['rating']}"</span>)
+
+<span class="c-cmt"># حفظ النتائج</span>
+<span class="c-kw">import</span> json
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"books.json"</span>, <span class="c-str">"w"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    json<span class="c-op">.</span><span class="c-fn">dump</span>(<span class="c-var">books</span>, <span class="c-var">f</span>, ensure_ascii<span class="c-op">=</span><span class="c-kw">False</span>, indent<span class="c-op">=</span><span class="c-num">2</span>)
+<span class="c-fn">print</span>(<span class="c-str">"✅ تم الحفظ في books.json"</span>)</code></pre>
+                </div>
+
+                <!-- Quiz 2 -->
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>ما الفرق بين <code>soup.find()</code> و <code>soup.select()</code>؟</p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">لا فرق</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')"><code>find()</code> يستخدم أسماء وسوم HTML، <code>select()</code> يستخدم CSS selectors مما يجعله أكثر مرونة</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>select()</code> أبطأ لأنه يبحث في كل الصفحة</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>find()</code> يعيد قائمة دائماً</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ صحيح! <code>select("h3 a")</code> يفهم CSS selectors كاملاً — أقوى بكثير من <code>find("h3")</code>.</div>
+                    <div class="quiz-feedback no">❌ خطأ. <code>select()</code> يستخدم CSS selectors مثل <code>"article.product h3 a"</code>، بينما <code>find()</code> يستخدم اسم الوسم فقط مع attrs اختياري.</div>
+                </div>
+            </div>
+
+            <!-- تمارين -->
+            <div class="lesson-section" id="exercises">
+                <h3>📝 تمارين تطبيقية</h3>
+
+                <div class="exercise-box">
+                    <h4>تمرين ١ — جلب وعرض أسعار العملات</h4>
+                    <p>استخدم API المجانية <code>https://open.er-api.com/v6/latest/USD</code> لجلب أسعار صرف الدرهم المغربي والريال السعودي والجنيه المصري مقابل الدولار.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-kw">import</span> requests
+
+<span class="c-kw">def</span> <span class="c-fn">get_exchange_rates</span>()<span class="c-op">:</span>
+    <span class="c-var">url</span>  <span class="c-op">=</span> <span class="c-str">"https://open.er-api.com/v6/latest/USD"</span>
+    <span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-var">url</span>, timeout<span class="c-op">=</span><span class="c-num">10</span>)
+    <span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">raise_for_status</span>()
+    <span class="c-var">rates</span>  <span class="c-op">=</span> <span class="c-var">resp</span><span class="c-op">.</span><span class="c-fn">json</span>()[<span class="c-str">"rates"</span>]
+
+    <span class="c-var">wanted</span> <span class="c-op">=</span> {
+        <span class="c-str">"MAD"</span><span class="c-op">:</span> <span class="c-str">"🇲🇦 درهم مغربي"</span>,
+        <span class="c-str">"SAR"</span><span class="c-op">:</span> <span class="c-str">"🇸🇦 ريال سعودي"</span>,
+        <span class="c-str">"EGP"</span><span class="c-op">:</span> <span class="c-str">"🇪🇬 جنيه مصري"</span>,
+        <span class="c-str">"EUR"</span><span class="c-op">:</span> <span class="c-str">"🇪🇺 يورو"</span>,
+    }
+    <span class="c-fn">print</span>(<span class="c-str">"💵 1 دولار أمريكي ="</span>)
+    <span class="c-kw">for</span> <span class="c-var">code</span>, <span class="c-var">name</span> <span class="c-kw">in</span> <span class="c-var">wanted</span><span class="c-op">.</span><span class="c-fn">items</span>()<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"  {name:20} {rates.get(code, 'N/A'):.4f}"</span>)
+
+<span class="c-fn">get_exchange_rates</span>()</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <h4>تمرين ٢ — Scraper متعدد الصفحات</h4>
+                    <p>اكتب scraper يجلب الكتب من أول 3 صفحات من <code>books.toscrape.com</code> ويحفظها في CSV.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-kw">import</span> requests, csv, time
+<span class="c-kw">from</span> bs4 <span class="c-kw">import</span> BeautifulSoup
+
+<span class="c-var">BASE</span>    <span class="c-op">=</span> <span class="c-str">"https://books.toscrape.com/catalogue"</span>
+<span class="c-var">headers</span> <span class="c-op">=</span> {<span class="c-str">"User-Agent"</span><span class="c-op">:</span> <span class="c-str">"Mozilla/5.0"</span>}
+<span class="c-var">all_books</span> <span class="c-op">=</span> []
+
+<span class="c-kw">for</span> <span class="c-var">page</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">1</span>, <span class="c-num">4</span>)<span class="c-op">:</span>
+    <span class="c-var">url</span>  <span class="c-op">=</span> <span class="c-str">f"{BASE}/page-{page}.html"</span>
+    <span class="c-var">resp</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-var">url</span>, headers<span class="c-op">=</span><span class="c-var">headers</span>, timeout<span class="c-op">=</span><span class="c-num">10</span>)
+    <span class="c-var">soup</span> <span class="c-op">=</span> BeautifulSoup(<span class="c-var">resp</span><span class="c-op">.</span>text, <span class="c-str">"lxml"</span>)
+
+    <span class="c-kw">for</span> <span class="c-var">a</span> <span class="c-kw">in</span> <span class="c-var">soup</span><span class="c-op">.</span><span class="c-fn">select</span>(<span class="c-str">"article.product_pod"</span>)<span class="c-op">:</span>
+        <span class="c-var">all_books</span><span class="c-op">.</span><span class="c-fn">append</span>({
+            <span class="c-str">"title"</span> <span class="c-op">:</span> <span class="c-var">a</span><span class="c-op">.</span><span class="c-fn">select_one</span>(<span class="c-str">"h3 a"</span>)[<span class="c-str">"title"</span>],
+            <span class="c-str">"price"</span> <span class="c-op">:</span> <span class="c-var">a</span><span class="c-op">.</span><span class="c-fn">select_one</span>(<span class="c-str">".price_color"</span>)<span class="c-op">.</span>text<span class="c-op">.</span><span class="c-fn">strip</span>(),
+            <span class="c-str">"rating"</span><span class="c-op">:</span> <span class="c-var">a</span><span class="c-op">.</span><span class="c-fn">select_one</span>(<span class="c-str">"p.star-rating"</span>)[<span class="c-str">"class"</span>][<span class="c-num">1</span>],
+            <span class="c-str">"page"</span>  <span class="c-op">:</span> <span class="c-var">page</span>
+        })
+
+    <span class="c-fn">print</span>(<span class="c-str">f"✅ صفحة {page} — {len(all_books)} كتاب حتى الآن"</span>)
+    time<span class="c-op">.</span><span class="c-fn">sleep</span>(<span class="c-num">1</span>)   <span class="c-cmt"># نحترم الخادم</span>
+
+<span class="c-cmt"># حفظ CSV</span>
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"books.csv"</span>, <span class="c-str">"w"</span>, newline<span class="c-op">=</span><span class="c-str">""</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    <span class="c-var">writer</span> <span class="c-op">=</span> csv<span class="c-op">.</span><span class="c-cls">DictWriter</span>(<span class="c-var">f</span>, fieldnames<span class="c-op">=</span>[<span class="c-str">"title"</span>,<span class="c-str">"price"</span>,<span class="c-str">"rating"</span>,<span class="c-str">"page"</span>])
+    <span class="c-var">writer</span><span class="c-op">.</span><span class="c-fn">writeheader</span>()
+    <span class="c-var">writer</span><span class="c-op">.</span><span class="c-fn">writerows</span>(<span class="c-var">all_books</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"💾 تم الحفظ: {len(all_books)} كتاب"</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- مشروع -->
+            <div class="lesson-section" id="project">
+                <h3>🚀 المشروع — لوحة تحكم بيانات حية</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — live_dashboard.py</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> requests, json, time
+<span class="c-kw">from</span> datetime <span class="c-kw">import</span> datetime
+
+<span class="c-kw">class</span> LiveDashboard<span class="c-op">:</span>
+    <span class="c-cmt">"""لوحة بيانات حية تجمع من عدة APIs"""</span>
+
+    <span class="c-kw">def</span> <span class="c-fn">__init__</span>(<span class="c-var">self</span>)<span class="c-op">:</span>
+        <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">session</span> <span class="c-op">=</span> requests<span class="c-op">.</span><span class="c-cls">Session</span>()
+        <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">session</span><span class="c-op">.</span>headers[<span class="c-str">"User-Agent"</span>] <span class="c-op">=</span> <span class="c-str">"Dashboard/1.0"</span>
+        <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">data</span> <span class="c-op">=</span> {}
+
+    <span class="c-kw">def</span> <span class="c-fn">_get</span>(<span class="c-var">self</span>, <span class="c-var">url</span>, <span class="c-op">**</span><span class="c-var">kw</span>)<span class="c-op">:</span>
+        <span class="c-kw">try</span><span class="c-op">:</span>
+            <span class="c-var">r</span> <span class="c-op">=</span> <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">session</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-var">url</span>, timeout<span class="c-op">=</span><span class="c-num">8</span>, <span class="c-op">**</span><span class="c-var">kw</span>)
+            <span class="c-var">r</span><span class="c-op">.</span><span class="c-fn">raise_for_status</span>()
+            <span class="c-kw">return</span> <span class="c-var">r</span><span class="c-op">.</span><span class="c-fn">json</span>()
+        <span class="c-kw">except</span> Exception <span class="c-kw">as</span> <span class="c-var">e</span><span class="c-op">:</span>
+            <span class="c-fn">print</span>(<span class="c-str">f"  ⚠️ {url.split('/')[2]}: {e}"</span>)
+            <span class="c-kw">return</span> <span class="c-kw">None</span>
+
+    <span class="c-kw">def</span> <span class="c-fn">fetch_country</span>(<span class="c-var">self</span>, <span class="c-var">name</span><span class="c-op">=</span><span class="c-str">"Morocco"</span>)<span class="c-op">:</span>
+        <span class="c-var">d</span> <span class="c-op">=</span> <span class="c-var">self</span><span class="c-op">.</span><span class="c-fn">_get</span>(<span class="c-str">f"https://restcountries.com/v3.1/name/{name}"</span>)
+        <span class="c-kw">if</span> <span class="c-var">d</span><span class="c-op">:</span>
+            <span class="c-var">c</span> <span class="c-op">=</span> <span class="c-var">d</span>[<span class="c-num">0</span>]
+            <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">data</span>[<span class="c-str">"country"</span>] <span class="c-op">=</span> {
+                <span class="c-str">"name"</span>   <span class="c-op">:</span> <span class="c-var">c</span>[<span class="c-str">"name"</span>][<span class="c-str">"common"</span>],
+                <span class="c-str">"pop"</span>    <span class="c-op">:</span> <span class="c-str">f"{c['population']:,}"</span>,
+                <span class="c-str">"capital"</span><span class="c-op">:</span> <span class="c-var">c</span>[<span class="c-str">"capital"</span>][<span class="c-num">0</span>],
+                <span class="c-str">"region"</span> <span class="c-op">:</span> <span class="c-var">c</span>[<span class="c-str">"region"</span>],
+            }
+
+    <span class="c-kw">def</span> <span class="c-fn">fetch_rates</span>(<span class="c-var">self</span>)<span class="c-op">:</span>
+        <span class="c-var">d</span> <span class="c-op">=</span> <span class="c-var">self</span><span class="c-op">.</span><span class="c-fn">_get</span>(<span class="c-str">"https://open.er-api.com/v6/latest/USD"</span>)
+        <span class="c-kw">if</span> <span class="c-var">d</span><span class="c-op">:</span>
+            <span class="c-var">r</span> <span class="c-op">=</span> <span class="c-var">d</span>[<span class="c-str">"rates"</span>]
+            <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">data</span>[<span class="c-str">"rates"</span>] <span class="c-op">=</span> {
+                <span class="c-str">"MAD"</span><span class="c-op">:</span> <span class="c-var">r</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"MAD"</span>), <span class="c-str">"EUR"</span><span class="c-op">:</span> <span class="c-var">r</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"EUR"</span>),
+                <span class="c-str">"SAR"</span><span class="c-op">:</span> <span class="c-var">r</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"SAR"</span>), <span class="c-str">"GBP"</span><span class="c-op">:</span> <span class="c-var">r</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"GBP"</span>),
+            }
+
+    <span class="c-kw">def</span> <span class="c-fn">display</span>(<span class="c-var">self</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"\n"</span> <span class="c-op">+</span> <span class="c-str">"═"</span><span class="c-op">*</span><span class="c-num">45</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"  📊 LIVE DASHBOARD — {datetime.now():%H:%M:%S}"</span>)
+        <span class="c-fn">print</span>(<span class="c-str">"═"</span><span class="c-op">*</span><span class="c-num">45</span>)
+
+        <span class="c-kw">if</span> c <span class="c-op">:=</span> <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">data</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"country"</span>)<span class="c-op">:</span>
+            <span class="c-fn">print</span>(<span class="c-str">f"  🌍 {c['name']} | {c['capital']} | {c['region']}"</span>)
+            <span class="c-fn">print</span>(<span class="c-str">f"     السكان: {c['pop']}"</span>)
+
+        <span class="c-kw">if</span> r <span class="c-op">:=</span> <span class="c-var">self</span><span class="c-op">.</span><span class="c-var">data</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-str">"rates"</span>)<span class="c-op">:</span>
+            <span class="c-fn">print</span>(<span class="c-str">f"\n  💱 أسعار الصرف (1 USD =)"</span>)
+            <span class="c-kw">for</span> <span class="c-var">cur</span>, <span class="c-var">val</span> <span class="c-kw">in</span> <span class="c-var">r</span><span class="c-op">.</span><span class="c-fn">items</span>()<span class="c-op">:</span>
+                <span class="c-fn">print</span>(<span class="c-str">f"     {cur}: {val:.4f}"</span>)
+
+    <span class="c-kw">def</span> <span class="c-fn">run</span>(<span class="c-var">self</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"🔄 جلب البيانات..."</span>)
+        <span class="c-var">self</span><span class="c-op">.</span><span class="c-fn">fetch_country</span>()
+        <span class="c-var">self</span><span class="c-op">.</span><span class="c-fn">fetch_rates</span>()
+        <span class="c-var">self</span><span class="c-op">.</span><span class="c-fn">display</span>()
+
+<span class="c-cls">LiveDashboard</span>()<span class="c-op">.</span><span class="c-fn">run</span>()</code></pre>
+                </div>
+            </div>
+
+            <div class="lesson-end">
+                <h3>🎉 أتقنت APIs و Web Scraping!</h3>
+                <p>الآن تعرف كيف تتصل بأي API في العالم وتجلب البيانات وتحللها وتحفظها. هذه المهارة تفتح لك أبواباً لا حد لها.</p>
+                <a href="mo9adima.html" class="back-btn">← العودة للبداية</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p data-i18n="footer-text">© 2025 تعلم لغة بايثون. جميع الحقوق محفوظة.</p>
+            <p><a href="privacy.html" data-i18n="footer-privacy">سياسة الخصوصية</a> | <a href="terms.html" data-i18n="footer-terms">شروط الاستخدام</a></p>
+        </div>
+    </footer>
+    <script src="i18n.js" defer></script>
+    <script>
+        function copyCode(btn){const c=btn.closest('.code-block').querySelector('code').innerText;navigator.clipboard.writeText(c).then(()=>{btn.textContent='تم ✓';setTimeout(()=>btn.textContent='نسخ',2000);});}
+        function checkQuiz(el,res){const box=el.closest('.quiz-box');box.querySelectorAll('.quiz-opt').forEach(o=>o.style.pointerEvents='none');el.classList.add(res);const fbs=box.querySelectorAll('.quiz-feedback');fbs[0].classList.toggle('show',res==='correct');fbs[1].classList.toggle('show',res==='wrong');}
+        const sections=document.querySelectorAll('.lesson-section');
+        const navLinks=document.querySelectorAll('.lesson-nav-bar a');
+        window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-160)c=s.id;});navLinks.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+c)a.classList.add('active');});});
+    </script>
+</body>
+</html>
