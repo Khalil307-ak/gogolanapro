@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="مفاهيم بايثون المتقدمة — decorators وgenerators وlambda و*args/**kwargs وcomprehensions وcontext managers.">
+    <meta name="google-adsense-account" content="ca-pub-6734955325699280">
+    <title>مفاهيم بايثون المتقدمة — Decorators, Generators, Lambda</title>
+    <link rel="icon" href="gogolanapropng.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6734955325699280" crossorigin="anonymous"></script>
+    <style>
+        :root{--accent:#8b5cf6;--accent2:#7c3aed;--dark:#0f0a1e;--mid:#1e1333;}
+        .lesson-hero{background:linear-gradient(135deg,var(--dark) 0%,#1a0a2e 50%,#2d1b69 100%);color:white;padding:60px 0 40px;text-align:center}
+        .lesson-hero h2{font-size:2.1rem;color:#c4b5fd;margin-bottom:12px}
+        .lesson-hero p{font-size:1.05rem;color:#a78bfa;max-width:700px;margin:0 auto 24px}
+        .objectives-box{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+        .objective-tag{background:rgba(139,92,246,.12);border:1px solid var(--accent);color:#c4b5fd;padding:6px 14px;border-radius:20px;font-size:.88rem}
+        .lesson-nav-bar{background:var(--dark);position:sticky;top:70px;z-index:900;overflow-x:auto;white-space:nowrap;border-bottom:1px solid #2d1b69}
+        .lesson-nav-bar ul{display:inline-flex;list-style:none;margin:0;padding:0}
+        .lesson-nav-bar ul li a{display:block;padding:14px 18px;color:#a78bfa;text-decoration:none;font-size:.88rem;border-bottom:3px solid transparent;transition:all .3s}
+        .lesson-nav-bar ul li a:hover,.lesson-nav-bar ul li a.active{color:#c4b5fd;border-bottom-color:var(--accent)}
+        .lesson-content{max-width:900px;margin:0 auto;padding:40px 20px}
+        .lesson-section{margin-bottom:60px;scroll-margin-top:130px}
+        .lesson-section h3{font-size:1.55rem;color:#4c1d95;border-right:5px solid var(--accent);padding-right:16px;margin-bottom:20px}
+        .lesson-section h4{font-size:1.1rem;color:#333;margin:24px 0 10px;font-weight:700}
+        .lesson-section p,.lesson-section li{font-size:1.02rem;line-height:2;color:#444}
+        .tip-box,.warning-box,.info-box{border-radius:10px;padding:16px 18px;margin:18px 0;display:flex;gap:14px;align-items:flex-start}
+        .tip-box{background:#f5f3ff;border-right:4px solid var(--accent)}
+        .warning-box{background:#fff7ed;border-right:4px solid #ea580c}
+        .info-box{background:#f0f9ff;border-right:4px solid #0ea5e9}
+        .tip-box .icon{color:var(--accent);font-size:1.3rem;margin-top:2px}
+        .warning-box .icon{color:#ea580c;font-size:1.3rem;margin-top:2px}
+        .info-box .icon{color:#0ea5e9;font-size:1.3rem;margin-top:2px}
+        .tip-box strong,.warning-box strong,.info-box strong{display:block;margin-bottom:5px}
+        .code-block{background:#0f0a1e;border:1px solid #2d1b69;border-radius:10px;overflow:hidden;margin:14px 0;direction:ltr}
+        .code-header{background:#1a0a2e;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;direction:rtl;border-bottom:1px solid #2d1b69}
+        .code-lang{color:#c4b5fd;font-size:.82rem;font-weight:bold}
+        .copy-btn{background:transparent;border:1px solid #2d1b69;color:#a78bfa;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.78rem;transition:all .2s}
+        .copy-btn:hover{border-color:var(--accent);color:#c4b5fd}
+        .code-block pre{margin:0;padding:20px;background:transparent;color:#e9d5ff;font-size:.93rem;overflow-x:auto}
+        .code-block pre code{direction:ltr;text-align:left;display:block;font-family:'Fira Code','Consolas',monospace;line-height:1.75}
+        .c-kw{color:#f472b6}.c-fn{color:#c4b5fd}.c-str{color:#86efac}.c-num{color:#fde68a}.c-cmt{color:#4c3a6e;font-style:italic}.c-var{color:#e9d5ff}.c-op{color:#67e8f9}.c-cls{color:#fbbf24}.c-dec{color:#fb923c}
+        /* بطاقات المفاهيم */
+        .concept-pill{display:inline-block;background:rgba(139,92,246,.15);border:1px solid var(--accent);color:#7c3aed;padding:5px 14px;border-radius:20px;font-size:.85rem;font-weight:600;margin:4px}
+        /* مقارنة */
+        .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:18px 0}
+        .compare-card{border-radius:10px;padding:16px;background:#f5f3ff;border:2px solid #ddd6fe}
+        .compare-card h5{color:#4c1d95;margin:0 0 8px;font-size:.95rem}
+        .compare-card pre{margin:0;padding:10px;background:#0f0a1e;border-radius:6px;color:#e9d5ff;font-size:.82rem;overflow-x:auto;direction:ltr;text-align:left}
+        /* تمارين */
+        .quiz-box{background:#fff;border:2px solid #ddd6fe;border-radius:12px;padding:22px;margin:26px 0;box-shadow:0 2px 10px rgba(139,92,246,.08)}
+        .quiz-box h4{color:#4c1d95;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .quiz-options{display:flex;flex-direction:column;gap:8px;margin:10px 0}
+        .quiz-opt{background:#f5f3ff;border:2px solid #ddd6fe;border-radius:8px;padding:10px 16px;cursor:pointer;font-size:.93rem;transition:all .2s;text-align:right;font-family:inherit}
+        .quiz-opt:hover{background:#ede9fe;border-color:var(--accent)}
+        .quiz-opt.correct{background:#dcfce7;border-color:#16a34a;color:#15803d}
+        .quiz-opt.wrong{background:#fee2e2;border-color:#dc2626;color:#dc2626}
+        .quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.92rem;display:none}
+        .quiz-feedback.show{display:block}
+        .quiz-feedback.ok{background:#dcfce7;color:#15803d}
+        .quiz-feedback.no{background:#fee2e2;color:#dc2626}
+        /* تمرين كتابي */
+        .exercise-box{background:linear-gradient(135deg,var(--dark),#1a0a2e);color:white;padding:24px;border-radius:12px;margin:26px 0;border:1px solid #2d1b69}
+        .exercise-box h4{color:#c4b5fd;margin-bottom:10px}
+        .exercise-box p,.exercise-box li{color:#a78bfa;line-height:1.9}
+        .solution-btn{background:var(--accent);color:white;border:none;padding:9px 22px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:.9rem;margin-top:12px}
+        .solution-btn:hover{background:var(--accent2)}
+        .solution-content{display:none;margin-top:14px}
+        .solution-content.visible{display:block}
+        /* output */
+        .output-line{background:#f5f3ff;border-right:4px solid var(--accent);border-radius:6px;padding:8px 14px;margin:6px 0;font-family:monospace;font-size:.9rem;direction:ltr;text-align:left;color:#4c1d95}
+        .lesson-end{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#f5f3ff,#fdf4ff);border-radius:16px;margin-top:40px}
+        .lesson-end h3{color:#4c1d95;font-size:1.45rem}
+        .back-btn{display:inline-block;background:var(--accent);color:white;padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:14px;transition:all .3s}
+        .back-btn:hover{background:var(--accent2);transform:translateX(4px)}
+        @media(max-width:768px){.lesson-hero h2{font-size:1.45rem}.lesson-content{padding:20px 12px}.compare-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🧠 مفاهيم بايثون المتقدمة</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav-home">الرئيسية</a></li>
+                    <li><a href="mo9adima.html">الأساسيات</a></li>
+                    <li><a href="kainat.html">OOP</a></li>
+                    <li><a href="maktaba.html">المكتبات</a></li>
+                </ul>
+                <select id="language-select" aria-label="اختيار اللغة">
+                    <option value="ar">العربية</option>
+                    <option value="en">English</option>
+                </select>
+            </nav>
+        </div>
+    </header>
+
+    <div class="lesson-hero">
+        <div class="container">
+            <h2>🧠 مفاهيم بايثون المتقدمة</h2>
+            <p>الأدوات التي تميز المبرمج المحترف — كودك سيصبح أقصر وأسرع وأكثر أناقة.</p>
+            <div class="objectives-box">
+                <span class="objective-tag">⚡ Lambda</span>
+                <span class="objective-tag">🎯 *args / **kwargs</span>
+                <span class="objective-tag">🎨 Decorators</span>
+                <span class="objective-tag">⚙️ Generators</span>
+                <span class="objective-tag">📐 Comprehensions</span>
+                <span class="objective-tag">🔗 map / filter / reduce</span>
+                <span class="objective-tag">🗝️ Context Managers</span>
+                <span class="objective-tag">🏷️ Type Hints</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="lesson-nav-bar">
+        <ul>
+            <li><a href="#lambda">١. Lambda</a></li>
+            <li><a href="#args">٢. *args/**kwargs</a></li>
+            <li><a href="#decorators">٣. Decorators</a></li>
+            <li><a href="#generators">٤. Generators</a></li>
+            <li><a href="#comprehensions">٥. Comprehensions</a></li>
+            <li><a href="#functools">٦. map/filter</a></li>
+            <li><a href="#context">٧. Context Managers</a></li>
+            <li><a href="#hints">٨. Type Hints</a></li>
+            <li><a href="#exercises">📝 تمارين</a></li>
+            <li><a href="#project">🚀 مشروع</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <ins class="adsbygoogle" style="display:block;margin:16px auto;max-width:900px;"
+             data-ad-client="ca-pub-6734955325699280" data-ad-slot="YOUR_AD_SLOT_ID"
+             data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+        <div class="lesson-content">
+
+            <!-- ١ Lambda -->
+            <div class="lesson-section" id="lambda">
+                <h3>١. Lambda — دوال مجهولة الهوية</h3>
+                <p><code>lambda</code> هي دالة مختصرة في سطر واحد — بدون اسم، بدون <code>def</code>، مثالية للعمليات البسيطة.</p>
+
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h5>🐢 الطريقة العادية</h5>
+                        <pre><code>def double(x):
+    return x * 2
+
+print(double(5))  # 10</code></pre>
+                    </div>
+                    <div class="compare-card">
+                        <h5>⚡ Lambda</h5>
+                        <pre><code>double = lambda x: x * 2
+
+print(double(5))  # 10</code></pre>
+                    </div>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Lambda في الواقع</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># lambda متعددة المعاملات</span>
+<span class="c-var">add</span>   <span class="c-op">=</span> <span class="c-kw">lambda</span> <span class="c-var">a</span>, <span class="c-var">b</span><span class="c-op">:</span> <span class="c-var">a</span> <span class="c-op">+</span> <span class="c-var">b</span>
+<span class="c-var">greet</span> <span class="c-op">=</span> <span class="c-kw">lambda</span> <span class="c-var">name</span><span class="c-op">:</span> <span class="c-str">f"مرحباً {name}!"</span>
+<span class="c-fn">print</span>(<span class="c-fn">add</span>(<span class="c-num">3</span>, <span class="c-num">7</span>))         <span class="c-cmt"># 10</span>
+<span class="c-fn">print</span>(<span class="c-fn">greet</span>(<span class="c-str">"خليل"</span>))  <span class="c-cmt"># مرحباً خليل!</span>
+
+<span class="c-cmt"># ترتيب قائمة بمعيار مخصص</span>
+<span class="c-var">students</span> <span class="c-op">=</span> [
+    {<span class="c-str">"name"</span><span class="c-op">:</span> <span class="c-str">"خليل"</span>,  <span class="c-str">"grade"</span><span class="c-op">:</span> <span class="c-num">18</span>},
+    {<span class="c-str">"name"</span><span class="c-op">:</span> <span class="c-str">"فاطمة"</span>, <span class="c-str">"grade"</span><span class="c-op">:</span> <span class="c-num">19</span>},
+    {<span class="c-str">"name"</span><span class="c-op">:</span> <span class="c-str">"أحمد"</span>,  <span class="c-str">"grade"</span><span class="c-op">:</span> <span class="c-num">14</span>},
+]
+<span class="c-cmt"># ترتيب تنازلي حسب الدرجة</span>
+<span class="c-var">sorted_s</span> <span class="c-op">=</span> <span class="c-fn">sorted</span>(<span class="c-var">students</span>, key<span class="c-op">=</span><span class="c-kw">lambda</span> <span class="c-var">s</span><span class="c-op">:</span> <span class="c-var">s</span>[<span class="c-str">"grade"</span>], reverse<span class="c-op">=</span><span class="c-kw">True</span>)
+<span class="c-kw">for</span> <span class="c-var">s</span> <span class="c-kw">in</span> <span class="c-var">sorted_s</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"{s['name']}: {s['grade']}"</span>)
+
+<span class="c-cmt"># ترتيب نصوص بطول الكلمة</span>
+<span class="c-var">words</span> <span class="c-op">=</span> [<span class="c-str">"بايثون"</span>, <span class="c-str">"سهل"</span>, <span class="c-str">"ومفيد"</span>, <span class="c-str">"جداً"</span>]
+<span class="c-fn">print</span>(<span class="c-fn">sorted</span>(<span class="c-var">words</span>, key<span class="c-op">=</span><span class="c-kw">lambda</span> <span class="c-var">w</span><span class="c-op">:</span> <span class="c-fn">len</span>(<span class="c-var">w</span>)))</code></pre>
+                </div>
+
+                <!-- Quiz -->
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>ما الناتج؟ <code>f = lambda x, y: x ** y; print(f(2, 3))</code></p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">6</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">5</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')">8</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">23</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ صحيح! <code>2 ** 3</code> = 2³ = 8</div>
+                    <div class="quiz-feedback no">❌ خطأ. <code>**</code> هي عملية الأس (power) — 2³ = 8</div>
+                </div>
+            </div>
+
+            <!-- ٢ *args / **kwargs -->
+            <div class="lesson-section" id="args">
+                <h3>٢. *args و **kwargs — دوال مرنة</h3>
+                <p><code>*args</code> تقبل عدداً غير محدود من المعاملات. <code>**kwargs</code> تقبل أزواج مفتاح-قيمة.</p>
+
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — *args</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># *args — قائمة من القيم</span>
+<span class="c-kw">def</span> <span class="c-fn">total</span>(<span class="c-op">*</span><span class="c-var">numbers</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"استقبلت: {numbers}"</span>)    <span class="c-cmt"># tuple</span>
+    <span class="c-kw">return</span> <span class="c-fn">sum</span>(<span class="c-var">numbers</span>)
+
+<span class="c-fn">print</span>(<span class="c-fn">total</span>(<span class="c-num">1</span>, <span class="c-num">2</span>))               <span class="c-cmt"># 3</span>
+<span class="c-fn">print</span>(<span class="c-fn">total</span>(<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>, <span class="c-num">5</span>))    <span class="c-cmt"># 15</span>
+<span class="c-fn">print</span>(<span class="c-fn">total</span>(<span class="c-op">*</span>[<span class="c-num">10</span>, <span class="c-num">20</span>, <span class="c-num">30</span>]))      <span class="c-cmt"># فك القائمة → 60</span>
+
+<span class="c-cmt"># دالة تطبع أي شيء بأي فاصل</span>
+<span class="c-kw">def</span> <span class="c-fn">my_print</span>(<span class="c-op">*</span><span class="c-var">items</span>, sep<span class="c-op">=</span><span class="c-str">" | "</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">sep</span><span class="c-op">.</span><span class="c-fn">join</span>(<span class="c-fn">str</span>(<span class="c-var">i</span>) <span class="c-kw">for</span> <span class="c-var">i</span> <span class="c-kw">in</span> <span class="c-var">items</span>))
+
+<span class="c-fn">my_print</span>(<span class="c-str">"خليل"</span>, <span class="c-num">14</span>, <span class="c-str">"مراكش"</span>)       <span class="c-cmt"># خليل | 14 | مراكش</span>
+<span class="c-fn">my_print</span>(<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, sep<span class="c-op">=</span><span class="c-str">" → "</span>)       <span class="c-cmt"># 1 → 2 → 3</span></code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — **kwargs</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># **kwargs — قاموس من المعاملات</span>
+<span class="c-kw">def</span> <span class="c-fn">create_profile</span>(<span class="c-op">**</span><span class="c-var">info</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"=== بطاقة التعريف ==="</span>)
+    <span class="c-kw">for</span> <span class="c-var">key</span>, <span class="c-var">val</span> <span class="c-kw">in</span> <span class="c-var">info</span><span class="c-op">.</span><span class="c-fn">items</span>()<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"  {key}: {val}"</span>)
+
+<span class="c-fn">create_profile</span>(name<span class="c-op">=</span><span class="c-str">"خليل"</span>, age<span class="c-op">=</span><span class="c-num">14</span>, city<span class="c-op">=</span><span class="c-str">"مراكش"</span>, hobby<span class="c-op">=</span><span class="c-str">"برمجة"</span>)
+
+<span class="c-cmt"># الجمع بين الثلاثة</span>
+<span class="c-kw">def</span> <span class="c-fn">mixed</span>(<span class="c-var">required</span>, <span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"مطلوب : {required}"</span>)
+    <span class="c-fn">print</span>(<span class="c-str">f"args  : {args}"</span>)
+    <span class="c-fn">print</span>(<span class="c-str">f"kwargs: {kwargs}"</span>)
+
+<span class="c-fn">mixed</span>(<span class="c-str">"مرحبا"</span>, <span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, lang<span class="c-op">=</span><span class="c-str">"python"</span>, version<span class="c-op">=</span><span class="c-num">3</span>)
+<span class="c-cmt"># مطلوب : مرحبا
+# args  : (1, 2, 3)
+# kwargs: {'lang': 'python', 'version': 3}</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٣ Decorators -->
+            <div class="lesson-section" id="decorators">
+                <h3>٣. Decorators — تعديل الدوال بأناقة</h3>
+                <p>الـ decorator هو دالة تلف دالة أخرى وتضيف لها سلوكاً دون تعديل كودها. يُعبّر عنه بـ <code>@</code>.</p>
+
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — كيف يعمل Decorator</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># decorator بسيط</span>
+<span class="c-kw">def</span> <span class="c-fn">my_decorator</span>(<span class="c-var">func</span>)<span class="c-op">:</span>
+    <span class="c-kw">def</span> <span class="c-fn">wrapper</span>(<span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"⏳ جاري تشغيل: {func.__name__}"</span>)
+        <span class="c-var">result</span> <span class="c-op">=</span> <span class="c-fn">func</span>(<span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"✅ انتهى: {func.__name__}"</span>)
+        <span class="c-kw">return</span> <span class="c-var">result</span>
+    <span class="c-kw">return</span> <span class="c-fn">wrapper</span>
+
+<span class="c-dec">@my_decorator</span>
+<span class="c-kw">def</span> <span class="c-fn">greet</span>(<span class="c-var">name</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"مرحباً {name}!"</span>)
+
+<span class="c-fn">greet</span>(<span class="c-str">"خليل"</span>)
+<span class="c-cmt"># ⏳ جاري تشغيل: greet
+# مرحباً خليل!
+# ✅ انتهى: greet</span></code></pre>
+                </div>
+
+                <h4>Decorators المفيدة في العمل</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Decorators احترافية</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> <span class="c-mod">time</span>
+<span class="c-kw">from</span> <span class="c-mod">functools</span> <span class="c-kw">import</span> wraps
+
+<span class="c-cmt"># ١. قياس وقت التنفيذ</span>
+<span class="c-kw">def</span> <span class="c-fn">timer</span>(<span class="c-var">func</span>)<span class="c-op">:</span>
+    <span class="c-dec">@wraps</span>(<span class="c-var">func</span>)   <span class="c-cmt"># يحافظ على اسم الدالة</span>
+    <span class="c-kw">def</span> <span class="c-fn">wrapper</span>(<span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)<span class="c-op">:</span>
+        <span class="c-var">t</span>      <span class="c-op">=</span> <span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">perf_counter</span>()
+        <span class="c-var">result</span> <span class="c-op">=</span> <span class="c-fn">func</span>(<span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"⏱️ {func.__name__}: {time.perf_counter()-t:.4f}s"</span>)
+        <span class="c-kw">return</span> <span class="c-var">result</span>
+    <span class="c-kw">return</span> <span class="c-fn">wrapper</span>
+
+<span class="c-cmt"># ٢. التحقق من الإدخال</span>
+<span class="c-kw">def</span> <span class="c-fn">validate_positive</span>(<span class="c-var">func</span>)<span class="c-op">:</span>
+    <span class="c-dec">@wraps</span>(<span class="c-var">func</span>)
+    <span class="c-kw">def</span> <span class="c-fn">wrapper</span>(<span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)<span class="c-op">:</span>
+        <span class="c-kw">for</span> <span class="c-var">a</span> <span class="c-kw">in</span> <span class="c-var">args</span><span class="c-op">:</span>
+            <span class="c-kw">if</span> <span class="c-fn">isinstance</span>(<span class="c-var">a</span>, (<span class="c-fn">int</span>, <span class="c-fn">float</span>)) <span class="c-kw">and</span> <span class="c-var">a</span> <span class="c-op">&lt;</span> <span class="c-num">0</span><span class="c-op">:</span>
+                <span class="c-kw">raise</span> ValueError(<span class="c-str">f"يجب أن تكون الأرقام موجبة! وصلني: {a}"</span>)
+        <span class="c-kw">return</span> <span class="c-fn">func</span>(<span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)
+    <span class="c-kw">return</span> <span class="c-fn">wrapper</span>
+
+<span class="c-cmt"># ٣. Retry تلقائي</span>
+<span class="c-kw">def</span> <span class="c-fn">retry</span>(<span class="c-var">times</span><span class="c-op">=</span><span class="c-num">3</span>)<span class="c-op">:</span>
+    <span class="c-kw">def</span> <span class="c-fn">decorator</span>(<span class="c-var">func</span>)<span class="c-op">:</span>
+        <span class="c-dec">@wraps</span>(<span class="c-var">func</span>)
+        <span class="c-kw">def</span> <span class="c-fn">wrapper</span>(<span class="c-op">*</span><span class="c-var">a</span>, <span class="c-op">**</span><span class="c-var">kw</span>)<span class="c-op">:</span>
+            <span class="c-kw">for</span> <span class="c-var">i</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-var">times</span>)<span class="c-op">:</span>
+                <span class="c-kw">try</span><span class="c-op">:</span>
+                    <span class="c-kw">return</span> <span class="c-fn">func</span>(<span class="c-op">*</span><span class="c-var">a</span>, <span class="c-op">**</span><span class="c-var">kw</span>)
+                <span class="c-kw">except</span> Exception <span class="c-kw">as</span> <span class="c-var">e</span><span class="c-op">:</span>
+                    <span class="c-fn">print</span>(<span class="c-str">f"محاولة {i+1}/{times} فشلت: {e}"</span>)
+            <span class="c-kw">raise</span> Exception(<span class="c-str">f"فشل بعد {times} محاولات"</span>)
+        <span class="c-kw">return</span> <span class="c-fn">wrapper</span>
+    <span class="c-kw">return</span> <span class="c-fn">decorator</span>
+
+<span class="c-cmt"># استخدام</span>
+<span class="c-dec">@timer</span>
+<span class="c-dec">@validate_positive</span>
+<span class="c-kw">def</span> <span class="c-fn">sqrt_of</span>(<span class="c-var">n</span>)<span class="c-op">:</span>
+    <span class="c-kw">import</span> <span class="c-mod">math</span>
+    <span class="c-kw">return</span> <span class="c-mod">math</span><span class="c-op">.</span><span class="c-fn">sqrt</span>(<span class="c-var">n</span>)
+
+<span class="c-fn">print</span>(<span class="c-fn">sqrt_of</span>(<span class="c-num">144</span>))  <span class="c-cmt"># 12.0</span></code></pre>
+                </div>
+
+                <!-- Quiz -->
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>في بايثون، <code>@decorator</code> فوق دالة يعني:</p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">تعليق (comment) على الدالة</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')"><code>func = decorator(func)</code> — يلف الدالة بدالة أخرى</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">استيراد مكتبة للدالة</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">جعل الدالة خاصة (private)</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ ممتاز! <code>@timer</code> يعادل تماماً: <code>my_func = timer(my_func)</code></div>
+                    <div class="quiz-feedback no">❌ خطأ. الـ decorator يلف الدالة، أي <code>@timer</code> يعادل <code>func = timer(func)</code>.</div>
+                </div>
+            </div>
+
+            <!-- ٤ Generators -->
+            <div class="lesson-section" id="generators">
+                <h3>٤. Generators — توليد البيانات بكفاءة</h3>
+                <p>الـ generator يولّد العناصر واحدة بواحدة عند الطلب دون تحميل كل شيء في الذاكرة — مفيد مع ملايين السجلات.</p>
+
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Generator Function</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># دالة عادية vs Generator</span>
+<span class="c-cmt"># العادية — تُعيد كل شيء دفعة (استهلاك ذاكرة)</span>
+<span class="c-kw">def</span> <span class="c-fn">squares_list</span>(<span class="c-var">n</span>)<span class="c-op">:</span>
+    <span class="c-kw">return</span> [<span class="c-var">x</span><span class="c-op">**</span><span class="c-num">2</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-var">n</span>)]
+
+<span class="c-cmt"># Generator — تُعيد واحدة بواحدة (yield)</span>
+<span class="c-kw">def</span> <span class="c-fn">squares_gen</span>(<span class="c-var">n</span>)<span class="c-op">:</span>
+    <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-var">n</span>)<span class="c-op">:</span>
+        <span class="c-kw">yield</span> <span class="c-var">x</span><span class="c-op">**</span><span class="c-num">2</span>      <span class="c-cmt"># yield بدل return</span>
+
+<span class="c-cmt"># الاستخدام</span>
+<span class="c-kw">for</span> <span class="c-var">sq</span> <span class="c-kw">in</span> <span class="c-fn">squares_gen</span>(<span class="c-num">5</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">sq</span>, end<span class="c-op">=</span><span class="c-str">" "</span>)   <span class="c-cmt"># 0 1 4 9 16</span>
+
+<span class="c-cmt"># Generator Expression (مثل list comprehension لكن بقوسين)</span>
+<span class="c-var">gen</span> <span class="c-op">=</span> (<span class="c-var">x</span><span class="c-op">**</span><span class="c-num">2</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">1000000</span>))
+<span class="c-fn">print</span>(<span class="c-fn">next</span>(<span class="c-var">gen</span>))   <span class="c-cmt"># 0</span>
+<span class="c-fn">print</span>(<span class="c-fn">next</span>(<span class="c-var">gen</span>))   <span class="c-cmt"># 1</span>
+<span class="c-fn">print</span>(<span class="c-fn">next</span>(<span class="c-var">gen</span>))   <span class="c-cmt"># 4</span>
+
+<span class="c-cmt"># مثال حقيقي: قراءة ملف ضخم</span>
+<span class="c-kw">def</span> <span class="c-fn">read_large_file</span>(<span class="c-var">path</span>)<span class="c-op">:</span>
+    <span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-var">path</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+        <span class="c-kw">for</span> <span class="c-var">line</span> <span class="c-kw">in</span> <span class="c-var">f</span><span class="c-op">:</span>
+            <span class="c-kw">yield</span> <span class="c-var">line</span><span class="c-op">.</span><span class="c-fn">strip</span>()
+<span class="c-cmt"># يقرأ سطراً بسطر دون تحميل الملف كله — يعمل مع ملفات GB!</span>
+
+<span class="c-cmt"># Fibonacci generator لا نهائي</span>
+<span class="c-kw">def</span> <span class="c-fn">fibonacci</span>()<span class="c-op">:</span>
+    <span class="c-var">a</span>, <span class="c-var">b</span> <span class="c-op">=</span> <span class="c-num">0</span>, <span class="c-num">1</span>
+    <span class="c-kw">while</span> <span class="c-kw">True</span><span class="c-op">:</span>
+        <span class="c-kw">yield</span> <span class="c-var">a</span>
+        <span class="c-var">a</span>, <span class="c-var">b</span> <span class="c-op">=</span> <span class="c-var">b</span>, <span class="c-var">a</span> <span class="c-op">+</span> <span class="c-var">b</span>
+
+<span class="c-var">fib</span> <span class="c-op">=</span> <span class="c-fn">fibonacci</span>()
+<span class="c-fn">print</span>([<span class="c-fn">next</span>(<span class="c-var">fib</span>) <span class="c-kw">for</span> <span class="c-var">_</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">10</span>)])
+<span class="c-cmt"># [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٥ Comprehensions -->
+            <div class="lesson-section" id="comprehensions">
+                <h3>٥. Comprehensions — كود مختصر وسريع</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — الأنواع الأربعة</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># ١. List Comprehension</span>
+<span class="c-var">evens</span>    <span class="c-op">=</span> [<span class="c-var">x</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">20</span>) <span class="c-kw">if</span> <span class="c-var">x</span> <span class="c-op">%</span> <span class="c-num">2</span> <span class="c-op">==</span> <span class="c-num">0</span>]
+<span class="c-var">upper</span>    <span class="c-op">=</span> [<span class="c-var">w</span><span class="c-op">.</span><span class="c-fn">upper</span>() <span class="c-kw">for</span> <span class="c-var">w</span> <span class="c-kw">in</span> [<span class="c-str">"python"</span>, <span class="c-str">"is"</span>, <span class="c-str">"great"</span>]]
+<span class="c-var">nested</span>   <span class="c-op">=</span> [(<span class="c-var">x</span>, <span class="c-var">y</span>) <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">3</span>) <span class="c-kw">for</span> <span class="c-var">y</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">3</span>)]
+
+<span class="c-cmt"># ٢. Dict Comprehension</span>
+<span class="c-var">names</span>    <span class="c-op">=</span> [<span class="c-str">"خليل"</span>, <span class="c-str">"أحمد"</span>, <span class="c-str">"سارة"</span>]
+<span class="c-var">lengths</span>  <span class="c-op">=</span> {<span class="c-var">n</span><span class="c-op">:</span> <span class="c-fn">len</span>(<span class="c-var">n</span>) <span class="c-kw">for</span> <span class="c-var">n</span> <span class="c-kw">in</span> <span class="c-var">names</span>}
+<span class="c-cmt"># {'خليل': 4, 'أحمد': 4, 'سارة': 4}</span>
+
+<span class="c-var">squares_d</span> <span class="c-op">=</span> {<span class="c-var">x</span><span class="c-op">:</span> <span class="c-var">x</span><span class="c-op">**</span><span class="c-num">2</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">1</span>, <span class="c-num">6</span>)}
+<span class="c-cmt"># {1:1, 2:4, 3:9, 4:16, 5:25}</span>
+
+<span class="c-cmt"># ٣. Set Comprehension</span>
+<span class="c-var">unique</span>   <span class="c-op">=</span> {<span class="c-var">x</span><span class="c-op">**</span><span class="c-num">2</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> [-<span class="c-num">3</span>, -<span class="c-num">2</span>, <span class="c-num">0</span>, <span class="c-num">2</span>, <span class="c-num">3</span>]}
+<span class="c-cmt"># {0, 4, 9}  — لا تكرار</span>
+
+<span class="c-cmt"># ٤. Generator Expression</span>
+<span class="c-var">total</span>    <span class="c-op">=</span> <span class="c-fn">sum</span>(<span class="c-var">x</span><span class="c-op">**</span><span class="c-num">2</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-num">1000000</span>))  <span class="c-cmt"># كفؤ جداً</span>
+
+<span class="c-cmt"># مثال متقدم: تفليح JSON</span>
+<span class="c-var">raw</span> <span class="c-op">=</span> [
+    {<span class="c-str">"name"</span><span class="c-op">:</span><span class="c-str">"خليل"</span>, <span class="c-str">"grade"</span><span class="c-op">:</span><span class="c-num">18</span>, <span class="c-str">"active"</span><span class="c-op">:</span><span class="c-kw">True</span>},
+    {<span class="c-str">"name"</span><span class="c-op">:</span><span class="c-str">"أحمد"</span>,  <span class="c-str">"grade"</span><span class="c-op">:</span><span class="c-num">9</span>,  <span class="c-str">"active"</span><span class="c-op">:</span><span class="c-kw">False</span>},
+    {<span class="c-str">"name"</span><span class="c-op">:</span><span class="c-str">"سارة"</span>,  <span class="c-str">"grade"</span><span class="c-op">:</span><span class="c-num">16</span>, <span class="c-str">"active"</span><span class="c-op">:</span><span class="c-kw">True</span>},
+]
+<span class="c-cmt"># استخرج أسماء الناجحين النشيطين</span>
+<span class="c-var">top</span> <span class="c-op">=</span> [s[<span class="c-str">"name"</span>] <span class="c-kw">for</span> <span class="c-var">s</span> <span class="c-kw">in</span> <span class="c-var">raw</span>
+       <span class="c-kw">if</span> <span class="c-var">s</span>[<span class="c-str">"active"</span>] <span class="c-kw">and</span> <span class="c-var">s</span>[<span class="c-str">"grade"</span>] <span class="c-op">&gt;=</span> <span class="c-num">10</span>]
+<span class="c-fn">print</span>(<span class="c-var">top</span>)   <span class="c-cmt"># ['خليل', 'سارة']</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٦ map/filter/reduce -->
+            <div class="lesson-section" id="functools">
+                <h3>٦. map، filter، reduce</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — الدوال الوظيفية</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">from</span> <span class="c-mod">functools</span> <span class="c-kw">import</span> reduce
+
+<span class="c-var">nums</span> <span class="c-op">=</span> [<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>, <span class="c-num">5</span>, <span class="c-num">6</span>, <span class="c-num">7</span>, <span class="c-num">8</span>, <span class="c-num">9</span>, <span class="c-num">10</span>]
+
+<span class="c-cmt"># map — طبّق دالة على كل عنصر</span>
+<span class="c-var">doubled</span> <span class="c-op">=</span> <span class="c-fn">list</span>(<span class="c-fn">map</span>(<span class="c-kw">lambda</span> <span class="c-var">x</span><span class="c-op">:</span> <span class="c-var">x</span> <span class="c-op">*</span> <span class="c-num">2</span>, <span class="c-var">nums</span>))
+<span class="c-fn">print</span>(<span class="c-var">doubled</span>)  <span class="c-cmt"># [2, 4, 6, 8, ...]</span>
+
+<span class="c-cmt"># filter — احتفظ بالعناصر المطابقة</span>
+<span class="c-var">evens</span> <span class="c-op">=</span> <span class="c-fn">list</span>(<span class="c-fn">filter</span>(<span class="c-kw">lambda</span> <span class="c-var">x</span><span class="c-op">:</span> <span class="c-var">x</span> <span class="c-op">%</span> <span class="c-num">2</span> <span class="c-op">==</span> <span class="c-num">0</span>, <span class="c-var">nums</span>))
+<span class="c-fn">print</span>(<span class="c-var">evens</span>)   <span class="c-cmt"># [2, 4, 6, 8, 10]</span>
+
+<span class="c-cmt"># reduce — اجمع كل العناصر في قيمة واحدة</span>
+<span class="c-var">product</span> <span class="c-op">=</span> reduce(<span class="c-kw">lambda</span> <span class="c-var">x</span>, <span class="c-var">y</span><span class="c-op">:</span> <span class="c-var">x</span> <span class="c-op">*</span> <span class="c-var">y</span>, <span class="c-var">nums</span>)
+<span class="c-fn">print</span>(<span class="c-var">product</span>)  <span class="c-cmt"># 10! = 3628800</span>
+
+<span class="c-cmt"># دمج map + filter</span>
+<span class="c-var">data</span> <span class="c-op">=</span> [<span class="c-str">"  مرحبا  "</span>, <span class="c-str">"  بايثون  "</span>, <span class="c-str">"  رائع  "</span>]
+<span class="c-var">clean</span> <span class="c-op">=</span> <span class="c-fn">list</span>(<span class="c-fn">map</span>(<span class="c-fn">str</span><span class="c-op">.</span>strip, <span class="c-var">data</span>))
+<span class="c-fn">print</span>(<span class="c-var">clean</span>)   <span class="c-cmt"># ['مرحبا', 'بايثون', 'رائع']</span>
+
+<span class="c-cmt"># Tip: في بايثون الحديث يُفضّل Comprehensions على map/filter</span>
+<span class="c-var">evens2</span> <span class="c-op">=</span> [<span class="c-var">x</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-var">nums</span> <span class="c-kw">if</span> <span class="c-var">x</span> <span class="c-op">%</span> <span class="c-num">2</span> <span class="c-op">==</span> <span class="c-num">0</span>]  <span class="c-cmt"># أوضح</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٧ Context Managers -->
+            <div class="lesson-section" id="context">
+                <h3>٧. Context Managers — with</h3>
+                <p>الـ <code>with</code> يضمن تنفيذ كود التنظيف دائماً — حتى لو حدث خطأ. رأيناه مع الملفات، لكن يمكن إنشاء مخصص.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Context Manager مخصص</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">from</span> <span class="c-mod">contextlib</span> <span class="c-kw">import</span> contextmanager
+<span class="c-kw">import</span> <span class="c-mod">time</span>
+
+<span class="c-cmt"># ١. باستخدام contextmanager (الأسهل)</span>
+<span class="c-dec">@contextmanager</span>
+<span class="c-kw">def</span> <span class="c-fn">timer_ctx</span>(<span class="c-var">label</span><span class="c-op">=</span><span class="c-str">"العملية"</span>)<span class="c-op">:</span>
+    <span class="c-var">start</span> <span class="c-op">=</span> <span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">perf_counter</span>()
+    <span class="c-fn">print</span>(<span class="c-str">f"⏳ بدأت: {label}"</span>)
+    <span class="c-kw">try</span><span class="c-op">:</span>
+        <span class="c-kw">yield</span>   <span class="c-cmt"># هنا يتنفّذ الكود داخل with</span>
+    <span class="c-kw">finally</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"✅ {label}: {time.perf_counter()-start:.4f}s"</span>)
+
+<span class="c-kw">with</span> <span class="c-fn">timer_ctx</span>(<span class="c-str">"حساب المجموع"</span>)<span class="c-op">:</span>
+    <span class="c-var">total</span> <span class="c-op">=</span> <span class="c-fn">sum</span>(<span class="c-fn">range</span>(<span class="c-num">10_000_000</span>))
+    <span class="c-fn">print</span>(<span class="c-str">f"  النتيجة: {total:,}"</span>)
+
+<span class="c-cmt"># ٢. باستخدام كلاس</span>
+<span class="c-kw">class</span> <span class="c-cls">DatabaseConn</span><span class="c-op">:</span>
+    <span class="c-kw">def</span> <span class="c-fn">__enter__</span>(<span class="c-var">self</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"🔌 الاتصال بقاعدة البيانات..."</span>)
+        <span class="c-kw">return</span> <span class="c-var">self</span>   <span class="c-cmt"># ما يُعطى لـ 'as'</span>
+
+    <span class="c-kw">def</span> <span class="c-fn">__exit__</span>(<span class="c-var">self</span>, <span class="c-var">exc_type</span>, <span class="c-var">exc_val</span>, <span class="c-var">tb</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">"🔌 إغلاق الاتصال."</span>)
+        <span class="c-kw">return</span> <span class="c-kw">False</span>   <span class="c-cmt"># لا تكتم الأخطاء</span>
+
+    <span class="c-kw">def</span> <span class="c-fn">query</span>(<span class="c-var">self</span>, <span class="c-var">sql</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"  🔍 تنفيذ: {sql}"</span>)
+
+<span class="c-kw">with</span> <span class="c-cls">DatabaseConn</span>() <span class="c-kw">as</span> <span class="c-var">db</span><span class="c-op">:</span>
+    <span class="c-var">db</span><span class="c-op">.</span><span class="c-fn">query</span>(<span class="c-str">"SELECT * FROM students"</span>)
+<span class="c-cmt"># يُغلق تلقائياً حتى لو حدث خطأ</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٨ Type Hints -->
+            <div class="lesson-section" id="hints">
+                <h3>٨. Type Hints — توثيق الكود</h3>
+                <p>Type hints لا تُغيّر سلوك بايثون لكنها تجعل الكود أوضح وتساعد محررات النص في اكتشاف الأخطاء مبكراً.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — Type Hints</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">from</span> <span class="c-mod">typing</span> <span class="c-kw">import</span> List, Dict, Optional, Tuple, Union
+
+<span class="c-cmt"># بدون type hints — مبهم</span>
+<span class="c-kw">def</span> <span class="c-fn">process</span>(<span class="c-var">data</span>, <span class="c-var">factor</span>)<span class="c-op">:</span>
+    <span class="c-kw">return</span> [<span class="c-var">x</span> <span class="c-op">*</span> <span class="c-var">factor</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-var">data</span>]
+
+<span class="c-cmt"># مع type hints — واضح</span>
+<span class="c-kw">def</span> <span class="c-fn">process</span>(<span class="c-var">data</span><span class="c-op">:</span> List[<span class="c-fn">float</span>], <span class="c-var">factor</span><span class="c-op">:</span> <span class="c-fn">float</span>) <span class="c-op">-&gt;</span> List[<span class="c-fn">float</span>]<span class="c-op">:</span>
+    <span class="c-kw">return</span> [<span class="c-var">x</span> <span class="c-op">*</span> <span class="c-var">factor</span> <span class="c-kw">for</span> <span class="c-var">x</span> <span class="c-kw">in</span> <span class="c-var">data</span>]
+
+<span class="c-cmt"># أمثلة متنوعة</span>
+<span class="c-kw">def</span> <span class="c-fn">greet</span>(<span class="c-var">name</span><span class="c-op">:</span> <span class="c-fn">str</span>, <span class="c-var">times</span><span class="c-op">:</span> <span class="c-fn">int</span> <span class="c-op">=</span> <span class="c-num">1</span>) <span class="c-op">-&gt;</span> <span class="c-fn">str</span><span class="c-op">:</span>
+    <span class="c-kw">return</span> <span class="c-str">f"مرحباً {name}! "</span> <span class="c-op">*</span> <span class="c-var">times</span>
+
+<span class="c-cmt"># Optional — قد يكون None</span>
+<span class="c-kw">def</span> <span class="c-fn">find_student</span>(<span class="c-var">name</span><span class="c-op">:</span> <span class="c-fn">str</span>) <span class="c-op">-&gt;</span> Optional[Dict]<span class="c-op">:</span>
+    <span class="c-var">db</span> <span class="c-op">=</span> {<span class="c-str">"خليل"</span><span class="c-op">:</span> {<span class="c-str">"grade"</span><span class="c-op">:</span> <span class="c-num">18</span>}}
+    <span class="c-kw">return</span> <span class="c-var">db</span><span class="c-op">.</span><span class="c-fn">get</span>(<span class="c-var">name</span>)   <span class="c-cmt"># قد يُرجع None</span>
+
+<span class="c-cmt"># Union — نوع أو آخر</span>
+<span class="c-kw">def</span> <span class="c-fn">double</span>(<span class="c-var">x</span><span class="c-op">:</span> Union[<span class="c-fn">int</span>, <span class="c-fn">float</span>]) <span class="c-op">-&gt;</span> Union[<span class="c-fn">int</span>, <span class="c-fn">float</span>]<span class="c-op">:</span>
+    <span class="c-kw">return</span> <span class="c-var">x</span> <span class="c-op">*</span> <span class="c-num">2</span>
+
+<span class="c-cmt"># بايثون 3.10+ — استخدم | بدل Union</span>
+<span class="c-kw">def</span> <span class="c-fn">double_new</span>(<span class="c-var">x</span><span class="c-op">:</span> <span class="c-fn">int</span> <span class="c-op">|</span> <span class="c-fn">float</span>) <span class="c-op">-&gt;</span> <span class="c-fn">int</span> <span class="c-op">|</span> <span class="c-fn">float</span><span class="c-op">:</span>
+    <span class="c-kw">return</span> <span class="c-var">x</span> <span class="c-op">*</span> <span class="c-num">2</span></code></pre>
+                </div>
+            </div>
+
+            <!-- تمارين -->
+            <div class="lesson-section" id="exercises">
+                <h3>📝 تمارين تطبيقية</h3>
+
+                <div class="exercise-box">
+                    <h4>تمرين ١ — Decorator لحساب الوقت والتحقق</h4>
+                    <p>اكتب decorator يسمى <code>@logged</code> يطبع: اسم الدالة، المعاملات، النتيجة، والوقت المستغرق. ثم طبّقه على دالة تحسب المعدل.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-kw">import</span> <span class="c-mod">time</span>
+<span class="c-kw">from</span> <span class="c-mod">functools</span> <span class="c-kw">import</span> wraps
+
+<span class="c-kw">def</span> <span class="c-fn">logged</span>(<span class="c-var">func</span>)<span class="c-op">:</span>
+    <span class="c-dec">@wraps</span>(<span class="c-var">func</span>)
+    <span class="c-kw">def</span> <span class="c-fn">wrapper</span>(<span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"\n📞 {func.__name__}({args}, {kwargs})"</span>)
+        <span class="c-var">t</span>      <span class="c-op">=</span> <span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">perf_counter</span>()
+        <span class="c-var">result</span> <span class="c-op">=</span> <span class="c-fn">func</span>(<span class="c-op">*</span><span class="c-var">args</span>, <span class="c-op">**</span><span class="c-var">kwargs</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"   ↳ نتيجة: {result}"</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"   ⏱️ وقت: {(time.perf_counter()-t)*1000:.2f}ms"</span>)
+        <span class="c-kw">return</span> <span class="c-var">result</span>
+    <span class="c-kw">return</span> <span class="c-fn">wrapper</span>
+
+<span class="c-dec">@logged</span>
+<span class="c-kw">def</span> <span class="c-fn">average</span>(<span class="c-op">*</span><span class="c-var">grades</span>)<span class="c-op">:</span>
+    <span class="c-kw">return</span> <span class="c-fn">sum</span>(<span class="c-var">grades</span>) <span class="c-op">/</span> <span class="c-fn">len</span>(<span class="c-var">grades</span>)
+
+<span class="c-fn">average</span>(<span class="c-num">18</span>, <span class="c-num">16</span>, <span class="c-num">19</span>, <span class="c-num">15</span>)
+<span class="c-fn">average</span>(<span class="c-num">12</span>, <span class="c-num">14</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <h4>تمرين ٢ — Generator لقراءة CSV سطراً سطراً</h4>
+                    <p>اكتب generator يقرأ ملف CSV ويُعيد كل سطر كقاموس — بدون تحميل الملف كله في الذاكرة.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-kw">def</span> <span class="c-fn">csv_reader</span>(<span class="c-var">filepath</span>)<span class="c-op">:</span>
+    <span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-var">filepath</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+        <span class="c-var">headers</span> <span class="c-op">=</span> <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">readline</span>()<span class="c-op">.</span><span class="c-fn">strip</span>()<span class="c-op">.</span><span class="c-fn">split</span>(<span class="c-str">","</span>)
+        <span class="c-kw">for</span> <span class="c-var">line</span> <span class="c-kw">in</span> <span class="c-var">f</span><span class="c-op">:</span>
+            <span class="c-var">values</span> <span class="c-op">=</span> <span class="c-var">line</span><span class="c-op">.</span><span class="c-fn">strip</span>()<span class="c-op">.</span><span class="c-fn">split</span>(<span class="c-str">","</span>)
+            <span class="c-kw">yield</span> <span class="c-fn">dict</span>(<span class="c-fn">zip</span>(<span class="c-var">headers</span>, <span class="c-var">values</span>))
+
+<span class="c-cmt"># استخدام — يعمل مع ملفات بأي حجم</span>
+<span class="c-kw">for</span> <span class="c-var">row</span> <span class="c-kw">in</span> <span class="c-fn">csv_reader</span>(<span class="c-str">"students.csv"</span>)<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">row</span>)
+    <span class="c-cmt"># {'name': 'خليل', 'grade': '18', 'city': 'مراكش'}</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>ما الفرق الرئيسي بين <code>return</code> و <code>yield</code>؟</p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">لا فرق، كلاهما يرجع قيمة</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>yield</code> أسرع من <code>return</code></div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')"><code>return</code> ينهي الدالة، <code>yield</code> يوقفها مؤقتاً ويمكن استكمالها</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>yield</code> يستخدم للأرقام فقط</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ ممتاز! <code>yield</code> يحفظ حالة الدالة ويستكملها عند الطلب — هذا ما يجعل Generators فعّالة.</div>
+                    <div class="quiz-feedback no">❌ خطأ. <code>return</code> ينهي الدالة نهائياً، بينما <code>yield</code> يوقفها مؤقتاً ويمكن استكمالها بـ <code>next()</code>.</div>
+                </div>
+            </div>
+
+            <!-- مشروع -->
+            <div class="lesson-section" id="project">
+                <h3>🚀 المشروع — نظام Pipeline لمعالجة البيانات</h3>
+                <p>جمع كل المفاهيم: decorators + generators + type hints + comprehensions في نظام معالجة بيانات.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — data_pipeline.py</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">from</span> <span class="c-mod">typing</span> <span class="c-kw">import</span> Generator, List, Dict, Callable
+<span class="c-kw">from</span> <span class="c-mod">functools</span> <span class="c-kw">import</span> wraps, reduce
+<span class="c-kw">import</span> <span class="c-mod">time</span>
+
+<span class="c-cmt"># ===== Decorators =====</span>
+<span class="c-kw">def</span> <span class="c-fn">timed</span>(<span class="c-var">func</span>)<span class="c-op">:</span>
+    <span class="c-dec">@wraps</span>(<span class="c-var">func</span>)
+    <span class="c-kw">def</span> <span class="c-fn">w</span>(<span class="c-op">*</span><span class="c-var">a</span>, <span class="c-op">**</span><span class="c-var">kw</span>)<span class="c-op">:</span>
+        <span class="c-var">t</span>   <span class="c-op">=</span> <span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">perf_counter</span>()
+        <span class="c-var">res</span> <span class="c-op">=</span> <span class="c-fn">func</span>(<span class="c-op">*</span><span class="c-var">a</span>, <span class="c-op">**</span><span class="c-var">kw</span>)
+        <span class="c-fn">print</span>(<span class="c-str">f"  ⏱️ {func.__name__}: {(time.perf_counter()-t)*1000:.1f}ms"</span>)
+        <span class="c-kw">return</span> <span class="c-var">res</span>
+    <span class="c-kw">return</span> <span class="c-fn">w</span>
+
+<span class="c-cmt"># ===== Generator مصدر البيانات =====</span>
+<span class="c-kw">def</span> <span class="c-fn">data_source</span>(<span class="c-var">n</span><span class="c-op">:</span> <span class="c-fn">int</span>) <span class="c-op">-&gt;</span> Generator[Dict, <span class="c-kw">None</span>, <span class="c-kw">None</span>]<span class="c-op">:</span>
+    <span class="c-kw">import</span> <span class="c-mod">random</span>
+    <span class="c-var">cities</span> <span class="c-op">=</span> [<span class="c-str">"مراكش"</span>, <span class="c-str">"الرباط"</span>, <span class="c-str">"فاس"</span>, <span class="c-str">"الدار البيضاء"</span>]
+    <span class="c-kw">for</span> <span class="c-var">i</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-var">n</span>)<span class="c-op">:</span>
+        <span class="c-kw">yield</span> {
+            <span class="c-str">"id"</span>   <span class="c-op">:</span> <span class="c-var">i</span> <span class="c-op">+</span> <span class="c-num">1</span>,
+            <span class="c-str">"city"</span> <span class="c-op">:</span> <span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">choice</span>(<span class="c-var">cities</span>),
+            <span class="c-str">"grade"</span><span class="c-op">:</span> <span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">randint</span>(<span class="c-num">5</span>, <span class="c-num">20</span>),
+            <span class="c-str">"score"</span><span class="c-op">:</span> <span class="c-fn">round</span>(<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">uniform</span>(<span class="c-num">0</span>, <span class="c-num">100</span>), <span class="c-num">2</span>)
+        }
+
+<span class="c-cmt"># ===== Pipeline بـ *args من Callables =====</span>
+<span class="c-kw">def</span> <span class="c-fn">pipeline</span>(<span class="c-var">data</span><span class="c-op">:</span> List, <span class="c-op">*</span><span class="c-var">steps</span><span class="c-op">:</span> Callable) <span class="c-op">-&gt;</span> List<span class="c-op">:</span>
+    <span class="c-kw">return</span> reduce(<span class="c-kw">lambda</span> <span class="c-var">d</span>, <span class="c-var">fn</span><span class="c-op">:</span> <span class="c-fn">fn</span>(<span class="c-var">d</span>), <span class="c-var">steps</span>, <span class="c-var">data</span>)
+
+<span class="c-cmt"># ===== خطوات التحويل =====</span>
+<span class="c-kw">def</span> <span class="c-fn">only_passed</span>(<span class="c-var">data</span>)<span class="c-op">:</span>
+    <span class="c-kw">return</span> [<span class="c-var">d</span> <span class="c-kw">for</span> <span class="c-var">d</span> <span class="c-kw">in</span> <span class="c-var">data</span> <span class="c-kw">if</span> <span class="c-var">d</span>[<span class="c-str">"grade"</span>] <span class="c-op">&gt;=</span> <span class="c-num">10</span>]
+
+<span class="c-kw">def</span> <span class="c-fn">add_percent</span>(<span class="c-var">data</span>)<span class="c-op">:</span>
+    <span class="c-kw">return</span> [{<span class="c-op">**</span><span class="c-var">d</span>, <span class="c-str">"percent"</span><span class="c-op">:</span> <span class="c-fn">round</span>(<span class="c-var">d</span>[<span class="c-str">"grade"</span>]<span class="c-op">/</span><span class="c-num">20</span><span class="c-op">*</span><span class="c-num">100</span>, <span class="c-num">1</span>)} <span class="c-kw">for</span> <span class="c-var">d</span> <span class="c-kw">in</span> <span class="c-var">data</span>]
+
+<span class="c-kw">def</span> <span class="c-fn">sort_desc</span>(<span class="c-var">data</span>)<span class="c-op">:</span>
+    <span class="c-kw">return</span> <span class="c-fn">sorted</span>(<span class="c-var">data</span>, key<span class="c-op">=</span><span class="c-kw">lambda</span> <span class="c-var">d</span><span class="c-op">:</span> <span class="c-var">d</span>[<span class="c-str">"grade"</span>], reverse<span class="c-op">=</span><span class="c-kw">True</span>)
+
+<span class="c-cmt"># ===== التشغيل =====</span>
+<span class="c-fn">print</span>(<span class="c-str">"🔄 تشغيل Pipeline..."</span>)
+<span class="c-var">raw</span>    <span class="c-op">=</span> <span class="c-fn">list</span>(<span class="c-fn">data_source</span>(<span class="c-num">50</span>))
+<span class="c-var">result</span> <span class="c-op">=</span> <span class="c-fn">pipeline</span>(<span class="c-var">raw</span>, <span class="c-fn">only_passed</span>, <span class="c-fn">add_percent</span>, <span class="c-fn">sort_desc</span>)
+
+<span class="c-fn">print</span>(<span class="c-str">f"المدخلات: {len(raw)} | الناجحون: {len(result)}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">"\n🏆 أعلى 5:"</span>)
+<span class="c-kw">for</span> <span class="c-var">s</span> <span class="c-kw">in</span> <span class="c-var">result</span>[<span class="c-op">:</span><span class="c-num">5</span>]<span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"  #{s['id']:02d} [{s['city']:15}] {s['grade']}/20 ({s['percent']}%)"</span>)</code></pre>
+                </div>
+            </div>
+
+            <div class="lesson-end">
+                <h3>🎉 أتقنت مفاهيم بايثون المتقدمة!</h3>
+                <p>Lambda, *args/**kwargs, Decorators, Generators, Comprehensions, map/filter, Context Managers, Type Hints — كل هذا الآن في أدواتك.</p>
+                <a href="mo9adima.html" class="back-btn">← العودة للبداية</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 تعلم لغة بايثون. جميع الحقوق محفوظة.</p>
+            <p><a href="privacy.html">سياسة الخصوصية</a> | <a href="terms.html">شروط الاستخدام</a></p>
+        </div>
+    </footer>
+    <script src="i18n.js" defer></script>
+    <script>
+        function copyCode(btn){const c=btn.closest('.code-block').querySelector('code').innerText;navigator.clipboard.writeText(c).then(()=>{btn.textContent='تم ✓';setTimeout(()=>btn.textContent='نسخ',2000);});}
+        function checkQuiz(el,res){
+            const box=el.closest('.quiz-box');
+            box.querySelectorAll('.quiz-opt').forEach(o=>o.style.pointerEvents='none');
+            el.classList.add(res);
+            const fbs=box.querySelectorAll('.quiz-feedback');
+            fbs[0].classList.toggle('show',res==='correct');
+            fbs[1].classList.toggle('show',res==='wrong');
+        }
+        const sections=document.querySelectorAll('.lesson-section');
+        const navLinks=document.querySelectorAll('.lesson-nav-bar a');
+        window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-160)c=s.id;});navLinks.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+c)a.classList.add('active');});});
+    </script>
+</body>
+</html>

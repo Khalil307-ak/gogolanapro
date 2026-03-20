@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="تعلم المكتبات القياسية لبايثون والتعامل مع الملفات — os وjson وdatetime وrandom وmath مع أمثلة وتمارين.">
+    <meta name="google-adsense-account" content="ca-pub-6734955325699280">
+    <title>المكتبات القياسية والملفات — بايثون</title>
+    <link rel="icon" href="gogolanapropng.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6734955325699280" crossorigin="anonymous"></script>
+    <style>
+        :root{--accent:#f59e0b;--accent2:#d97706;--dark:#1c1917;--darker:#0c0a09;}
+        .lesson-hero{background:linear-gradient(135deg,var(--dark) 0%,#1c1408 50%,#2d1a00 100%);color:white;padding:60px 0 40px;text-align:center}
+        .lesson-hero h2{font-size:2.1rem;color:var(--accent);margin-bottom:12px}
+        .lesson-hero p{font-size:1.05rem;color:#d4b896;max-width:700px;margin:0 auto 24px}
+        .objectives-box{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+        .objective-tag{background:rgba(245,158,11,.12);border:1px solid var(--accent);color:var(--accent);padding:6px 14px;border-radius:20px;font-size:.88rem}
+        .lesson-nav-bar{background:var(--dark);position:sticky;top:70px;z-index:900;overflow-x:auto;white-space:nowrap;border-bottom:1px solid #3d2f1a}
+        .lesson-nav-bar ul{display:inline-flex;list-style:none;margin:0;padding:0}
+        .lesson-nav-bar ul li a{display:block;padding:14px 18px;color:#d4b896;text-decoration:none;font-size:.88rem;border-bottom:3px solid transparent;transition:all .3s}
+        .lesson-nav-bar ul li a:hover,.lesson-nav-bar ul li a.active{color:var(--accent);border-bottom-color:var(--accent)}
+        .lesson-content{max-width:900px;margin:0 auto;padding:40px 20px}
+        .lesson-section{margin-bottom:60px;scroll-margin-top:130px}
+        .lesson-section h3{font-size:1.55rem;color:#7c2d12;border-right:5px solid var(--accent);padding-right:16px;margin-bottom:20px}
+        .lesson-section h4{font-size:1.1rem;color:#333;margin:24px 0 10px;font-weight:700}
+        .lesson-section p,.lesson-section li{font-size:1.02rem;line-height:2;color:#444}
+        .tip-box,.warning-box,.info-box{border-radius:10px;padding:16px 18px;margin:18px 0;display:flex;gap:14px;align-items:flex-start}
+        .tip-box{background:#fefce8;border-right:4px solid var(--accent)}
+        .warning-box{background:#fff7ed;border-right:4px solid #ea580c}
+        .info-box{background:#f0f9ff;border-right:4px solid #0ea5e9}
+        .tip-box .icon{color:var(--accent);font-size:1.3rem;margin-top:2px}
+        .warning-box .icon{color:#ea580c;font-size:1.3rem;margin-top:2px}
+        .info-box .icon{color:#0ea5e9;font-size:1.3rem;margin-top:2px}
+        .tip-box strong,.warning-box strong,.info-box strong{display:block;margin-bottom:5px}
+        .code-block{background:#1c1917;border:1px solid #3d2f1a;border-radius:10px;overflow:hidden;margin:14px 0;direction:ltr}
+        .code-header{background:#28211a;padding:8px 16px;display:flex;justify-content:space-between;align-items:center;direction:rtl;border-bottom:1px solid #3d2f1a}
+        .code-lang{color:var(--accent);font-size:.82rem;font-weight:bold}
+        .copy-btn{background:transparent;border:1px solid #3d2f1a;color:#d4b896;padding:3px 10px;border-radius:4px;cursor:pointer;font-size:.78rem;transition:all .2s}
+        .copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+        .code-block pre{margin:0;padding:20px;background:transparent;color:#e7d5c0;font-size:.93rem;overflow-x:auto}
+        .code-block pre code{direction:ltr;text-align:left;display:block;font-family:'Fira Code','Consolas',monospace;line-height:1.75}
+        .c-kw{color:#fb923c}.c-fn{color:#fde68a}.c-str{color:#86efac}.c-num{color:#f9a8d4}.c-cmt{color:#6b5744;font-style:italic}.c-var{color:#e7d5c0}.c-op{color:#67e8f9}.c-cls{color:#fbbf24}.c-mod{color:#a78bfa}
+        /* تمارين تفاعلية */
+        .quiz-box{background:#fff;border:2px solid #fde68a;border-radius:12px;padding:24px;margin:28px 0;box-shadow:0 2px 12px rgba(245,158,11,.1)}
+        .quiz-box h4{color:#7c2d12;font-size:1.1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .quiz-options{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+        .quiz-opt{background:#fefce8;border:2px solid #fde68a;border-radius:8px;padding:10px 16px;cursor:pointer;font-size:.95rem;transition:all .2s;text-align:right}
+        .quiz-opt:hover{background:#fef9c3;border-color:var(--accent)}
+        .quiz-opt.correct{background:#dcfce7;border-color:#16a34a;color:#15803d}
+        .quiz-opt.wrong{background:#fee2e2;border-color:#dc2626;color:#dc2626}
+        .quiz-feedback{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.93rem;display:none}
+        .quiz-feedback.show{display:block}
+        .quiz-feedback.ok{background:#dcfce7;color:#15803d}
+        .quiz-feedback.no{background:#fee2e2;color:#dc2626}
+        /* تمرين كتابي */
+        .exercise-box{background:linear-gradient(135deg,#1c1917,#2d1a00);color:white;padding:24px;border-radius:12px;margin:26px 0;border:1px solid #3d2f1a}
+        .exercise-box h4{color:var(--accent);margin-bottom:10px;font-size:1.1rem}
+        .exercise-box p,.exercise-box li{color:#d4b896;line-height:1.9}
+        .solution-btn{background:var(--accent);color:#1c1917;border:none;padding:9px 22px;border-radius:6px;cursor:pointer;font-weight:bold;font-size:.9rem;margin-top:12px;transition:background .2s}
+        .solution-btn:hover{background:var(--accent2)}
+        .solution-content{display:none;margin-top:14px}
+        .solution-content.visible{display:block}
+        .lib-badge{display:inline-block;background:rgba(245,158,11,.15);border:1px solid var(--accent);color:var(--accent2);padding:4px 12px;border-radius:14px;font-size:.82rem;font-family:monospace;margin:3px}
+        .lesson-end{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#fefce8,#fff7ed);border-radius:16px;margin-top:40px}
+        .lesson-end h3{color:#7c2d12;font-size:1.45rem}
+        .next-btn{display:inline-block;background:var(--accent);color:#1c1917;padding:13px 30px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:14px;transition:all .3s}
+        .next-btn:hover{background:var(--accent2);transform:translateX(-4px)}
+        @media(max-width:768px){.lesson-hero h2{font-size:1.45rem}.lesson-content{padding:20px 12px}}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>📦 المكتبات القياسية والملفات</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" data-i18n="nav-home">الرئيسية</a></li>
+                    <li><a href="mo9adima.html">الأساسيات</a></li>
+                    <li><a href="kainat.html">OOP</a></li>
+                    <li><a href="byanat.html">البيانات</a></li>
+                    <li><a href="mutaqaddim.html">متقدم</a></li>
+                </ul>
+                <select id="language-select" aria-label="اختيار اللغة">
+                    <option value="ar">العربية</option>
+                    <option value="en">English</option>
+                </select>
+            </nav>
+        </div>
+    </header>
+
+    <div class="lesson-hero">
+        <div class="container">
+            <h2>📦 المكتبات القياسية والتعامل مع الملفات</h2>
+            <p>بايثون يأتي ببطارياته الخاصة — مئات المكتبات الجاهزة دون أي تثبيت. تعلم أشهرها وكيف تتحكم في الملفات والمجلدات.</p>
+            <div class="objectives-box">
+                <span class="objective-tag">📁 الملفات (open/read/write)</span>
+                <span class="objective-tag">📂 os — النظام والمجلدات</span>
+                <span class="objective-tag">📅 datetime — التواريخ</span>
+                <span class="objective-tag">🎲 random — العشوائية</span>
+                <span class="objective-tag">🧮 math — الرياضيات</span>
+                <span class="objective-tag">🗃️ json — البيانات</span>
+                <span class="objective-tag">⏱️ time — التوقيت</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="lesson-nav-bar">
+        <ul>
+            <li><a href="#files">١. الملفات</a></li>
+            <li><a href="#os">٢. os</a></li>
+            <li><a href="#json">٣. json</a></li>
+            <li><a href="#datetime">٤. datetime</a></li>
+            <li><a href="#random">٥. random</a></li>
+            <li><a href="#math">٦. math</a></li>
+            <li><a href="#time">٧. time</a></li>
+            <li><a href="#collections">٨. collections</a></li>
+            <li><a href="#exercises">📝 تمارين</a></li>
+            <li><a href="#project">🚀 مشروع</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <ins class="adsbygoogle" style="display:block;margin:16px auto;max-width:900px;"
+             data-ad-client="ca-pub-6734955325699280" data-ad-slot="YOUR_AD_SLOT_ID"
+             data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
+        <div class="lesson-content">
+
+            <!-- ١ الملفات -->
+            <div class="lesson-section" id="files">
+                <h3>١. التعامل مع الملفات (File I/O)</h3>
+                <p>أي برنامج حقيقي يحتاج لحفظ البيانات وقراءتها — في الملفات. بايثون يجعل هذا سهلاً جداً.</p>
+
+                <h4>قراءة وكتابة الملفات</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — read / write</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-cmt"># ===== الكتابة =====</span>
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"hello.txt"</span>, <span class="c-str">"w"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">write</span>(<span class="c-str">"مرحباً بالعالم!\n"</span>)
+    <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">write</span>(<span class="c-str">"أنا أتعلم بايثون.\n"</span>)
+<span class="c-cmt"># with يغلق الملف تلقائياً — دائماً استخدمه</span>
+
+<span class="c-cmt"># ===== القراءة الكاملة =====</span>
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"hello.txt"</span>, <span class="c-str">"r"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    <span class="c-var">content</span> <span class="c-op">=</span> <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">read</span>()
+    <span class="c-fn">print</span>(<span class="c-var">content</span>)
+
+<span class="c-cmt"># ===== القراءة سطراً سطراً =====</span>
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"hello.txt"</span>, <span class="c-str">"r"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    <span class="c-kw">for</span> <span class="c-var">line</span> <span class="c-kw">in</span> <span class="c-var">f</span><span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-var">line</span><span class="c-op">.</span><span class="c-fn">strip</span>())   <span class="c-cmt"># strip() يزيل \n</span>
+
+<span class="c-cmt"># ===== الإضافة (Append) =====</span>
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"hello.txt"</span>, <span class="c-str">"a"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">write</span>(<span class="c-str">"سطر جديد مضاف!\n"</span>)  <span class="c-cmt"># لا يحذف المحتوى القديم</span></code></pre>
+                </div>
+
+                <div class="info-box">
+                    <span class="icon"><i class="fas fa-info-circle"></i></span>
+                    <div><strong>أوضاع الملف (modes):</strong>
+                        <code>"r"</code> قراءة فقط ·
+                        <code>"w"</code> كتابة (يمسح القديم) ·
+                        <code>"a"</code> إضافة للنهاية ·
+                        <code>"x"</code> إنشاء جديد (يفشل إن وُجد) ·
+                        <code>"rb"</code> / <code>"wb"</code> للملفات الثنائية
+                    </div>
+                </div>
+
+                <h4>التحقق من وجود الملف قبل القراءة</h4>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — safe file read</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> <span class="c-mod">os</span>
+
+<span class="c-kw">def</span> <span class="c-fn">read_file_safe</span>(<span class="c-var">path</span>)<span class="c-op">:</span>
+    <span class="c-kw">if</span> <span class="c-kw">not</span> <span class="c-mod">os</span><span class="c-op">.</span>path<span class="c-op">.</span><span class="c-fn">exists</span>(<span class="c-var">path</span>)<span class="c-op">:</span>
+        <span class="c-kw">return</span> <span class="c-kw">None</span>, <span class="c-str">f"الملف '{path}' غير موجود"</span>
+    <span class="c-kw">try</span><span class="c-op">:</span>
+        <span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-var">path</span>, <span class="c-str">"r"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+            <span class="c-kw">return</span> <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">read</span>(), <span class="c-kw">None</span>
+    <span class="c-kw">except</span> PermissionError<span class="c-op">:</span>
+        <span class="c-kw">return</span> <span class="c-kw">None</span>, <span class="c-str">"لا تملك صلاحية قراءة هذا الملف"</span>
+
+<span class="c-var">data</span>, <span class="c-var">err</span> <span class="c-op">=</span> <span class="c-fn">read_file_safe</span>(<span class="c-str">"notes.txt"</span>)
+<span class="c-kw">if</span> <span class="c-var">err</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"❌ {err}"</span>)
+<span class="c-kw">else</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">data</span>)</code></pre>
+                </div>
+
+                <!-- تمرين ١ -->
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>ما الوضع الصحيح لفتح ملف لإضافة محتوى جديد دون حذف القديم؟</p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>"w"</code> — write</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')"><code>"a"</code> — append</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>"r"</code> — read</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>"x"</code> — create</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ صحيح! <code>"a"</code> يضيف للنهاية دون حذف القديم. <code>"w"</code> يمسح كل شيء!</div>
+                    <div class="quiz-feedback no">❌ خطأ. الوضع الصحيح هو <code>"a"</code> (append) الذي يضيف للنهاية دون حذف المحتوى القديم.</div>
+                </div>
+            </div>
+
+            <!-- ٢ os -->
+            <div class="lesson-section" id="os">
+                <h3>٢. مكتبة os — التحكم في النظام</h3>
+                <p>مكتبة <code>os</code> تتيح التعامل مع الملفات والمجلدات ومتغيرات النظام بشكل مستقل عن نظام التشغيل.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — os</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> <span class="c-mod">os</span>
+
+<span class="c-cmt"># ===== المجلدات =====</span>
+<span class="c-fn">print</span>(<span class="c-mod">os</span><span class="c-op">.</span><span class="c-fn">getcwd</span>())             <span class="c-cmt"># المجلد الحالي</span>
+<span class="c-mod">os</span><span class="c-op">.</span><span class="c-fn">makedirs</span>(<span class="c-str">"data/output"</span>, exist_ok<span class="c-op">=</span><span class="c-kw">True</span>)  <span class="c-cmt"># إنشاء مجلدات متداخلة</span>
+<span class="c-mod">os</span><span class="c-op">.</span><span class="c-fn">rename</span>(<span class="c-str">"old_name.txt"</span>, <span class="c-str">"new_name.txt"</span>)   <span class="c-cmt"># إعادة التسمية</span>
+<span class="c-mod">os</span><span class="c-op">.</span><span class="c-fn">remove</span>(<span class="c-str">"temp.txt"</span>)                       <span class="c-cmt"># حذف ملف</span>
+
+<span class="c-cmt"># ===== قائمة الملفات =====</span>
+<span class="c-var">files</span> <span class="c-op">=</span> <span class="c-mod">os</span><span class="c-op">.</span><span class="c-fn">listdir</span>(<span class="c-str">"."</span>)       <span class="c-cmt"># كل محتوى المجلد الحالي</span>
+<span class="c-kw">for</span> <span class="c-var">f</span> <span class="c-kw">in</span> <span class="c-var">files</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-var">f</span>)
+
+<span class="c-cmt"># ===== معلومات الملف =====</span>
+<span class="c-var">info</span> <span class="c-op">=</span> <span class="c-mod">os</span><span class="c-op">.</span>path<span class="c-op">.</span><span class="c-fn">getsize</span>(<span class="c-str">"hello.txt"</span>)  <span class="c-cmt"># الحجم بالبايت</span>
+<span class="c-fn">print</span>(<span class="c-str">f"الحجم: {info} bytes"</span>)
+
+<span class="c-cmt"># ===== بناء مسارات آمنة =====</span>
+<span class="c-var">base</span> <span class="c-op">=</span> <span class="c-str">"C:/Users/Khalil"</span>
+<span class="c-var">path</span> <span class="c-op">=</span> <span class="c-mod">os</span><span class="c-op">.</span>path<span class="c-op">.</span><span class="c-fn">join</span>(<span class="c-var">base</span>, <span class="c-str">"Documents"</span>, <span class="c-str">"notes.txt"</span>)
+<span class="c-fn">print</span>(<span class="c-var">path</span>)   <span class="c-cmt"># C:/Users/Khalil/Documents/notes.txt</span>
+
+<span class="c-cmt"># ===== المسح الشامل بـ os.walk =====</span>
+<span class="c-kw">for</span> <span class="c-var">root</span>, <span class="c-var">dirs</span>, <span class="c-var">files</span> <span class="c-kw">in</span> <span class="c-mod">os</span><span class="c-op">.</span><span class="c-fn">walk</span>(<span class="c-str">"."</span>)<span class="c-op">:</span>
+    <span class="c-kw">for</span> <span class="c-var">file</span> <span class="c-kw">in</span> <span class="c-var">files</span><span class="c-op">:</span>
+        <span class="c-kw">if</span> <span class="c-var">file</span><span class="c-op">.</span><span class="c-fn">endswith</span>(<span class="c-str">".py"</span>)<span class="c-op">:</span>
+            <span class="c-fn">print</span>(<span class="c-mod">os</span><span class="c-op">.</span>path<span class="c-op">.</span><span class="c-fn">join</span>(<span class="c-var">root</span>, <span class="c-var">file</span>))</code></pre>
+                </div>
+            </div>
+
+            <!-- ٣ json -->
+            <div class="lesson-section" id="json">
+                <h3>٣. مكتبة json — حفظ البيانات هيكلياً</h3>
+                <p>JSON هو أشهر صيغة لتبادل البيانات في العالم. بايثون يقرؤه ويكتبه بسهولة — مثالي لحفظ إعدادات أو بيانات التطبيق.</p>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — json</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> <span class="c-mod">json</span>
+
+<span class="c-cmt"># ===== كتابة JSON =====</span>
+<span class="c-var">students</span> <span class="c-op">=</span> [
+    {<span class="c-str">"name"</span><span class="c-op">:</span> <span class="c-str">"خليل"</span>, <span class="c-str">"age"</span><span class="c-op">:</span> <span class="c-num">14</span>, <span class="c-str">"grades"</span><span class="c-op">:</span> [<span class="c-num">18</span>, <span class="c-num">16</span>, <span class="c-num">19</span>]},
+    {<span class="c-str">"name"</span><span class="c-op">:</span> <span class="c-str">"فاطمة"</span>, <span class="c-str">"age"</span><span class="c-op">:</span> <span class="c-num">15</span>, <span class="c-str">"grades"</span><span class="c-op">:</span> [<span class="c-num">19</span>, <span class="c-num">20</span>, <span class="c-num">17</span>]},
+]
+
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"students.json"</span>, <span class="c-str">"w"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    <span class="c-mod">json</span><span class="c-op">.</span><span class="c-fn">dump</span>(<span class="c-var">students</span>, <span class="c-var">f</span>, ensure_ascii<span class="c-op">=</span><span class="c-kw">False</span>, indent<span class="c-op">=</span><span class="c-num">2</span>)
+<span class="c-cmt"># ensure_ascii=False للعربية | indent=2 لجعله مقروءاً</span>
+
+<span class="c-cmt"># ===== قراءة JSON =====</span>
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"students.json"</span>, <span class="c-str">"r"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+    <span class="c-var">loaded</span> <span class="c-op">=</span> <span class="c-mod">json</span><span class="c-op">.</span><span class="c-fn">load</span>(<span class="c-var">f</span>)
+
+<span class="c-kw">for</span> <span class="c-var">s</span> <span class="c-kw">in</span> <span class="c-var">loaded</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"{s['name']}: معدل {sum(s['grades'])/len(s['grades']):.1f}"</span>)
+
+<span class="c-cmt"># ===== تحويل من/إلى نص =====</span>
+<span class="c-var">text</span> <span class="c-op">=</span> <span class="c-mod">json</span><span class="c-op">.</span><span class="c-fn">dumps</span>(<span class="c-var">students</span>[<span class="c-num">0</span>], ensure_ascii<span class="c-op">=</span><span class="c-kw">False</span>)
+<span class="c-fn">print</span>(<span class="c-var">text</span>)  <span class="c-cmt"># {"name": "خليل", "age": 14, ...}</span>
+
+<span class="c-var">obj</span>  <span class="c-op">=</span> <span class="c-mod">json</span><span class="c-op">.</span><span class="c-fn">loads</span>(<span class="c-var">text</span>)
+<span class="c-fn">print</span>(<span class="c-var">obj</span>[<span class="c-str">"name"</span>])  <span class="c-cmt"># خليل</span></code></pre>
+                </div>
+
+                <!-- تمرين json -->
+                <div class="quiz-box">
+                    <h4>🧠 سؤال سريع</h4>
+                    <p>ما الفرق بين <code>json.dump()</code> و <code>json.dumps()</code>؟</p>
+                    <div class="quiz-options">
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')">لا فرق بينهما</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'correct')"><code>dump()</code> يكتب لملف، <code>dumps()</code> يحول لنص (string)</div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>dumps()</code> أسرع من <code>dump()</code></div>
+                        <div class="quiz-opt" onclick="checkQuiz(this,'wrong')"><code>dump()</code> يدعم العربية فقط</div>
+                    </div>
+                    <div class="quiz-feedback ok">✅ ممتاز! الـ "s" في <code>dumps</code> تعني "string" — يرجع نصاً بدل الكتابة لملف.</div>
+                    <div class="quiz-feedback no">❌ خطأ. <code>dump()</code> يكتب مباشرة لملف، بينما <code>dumps()</code> يحول البيانات لنص JSON تستطيع استخدامه في أي مكان.</div>
+                </div>
+            </div>
+
+            <!-- ٤ datetime -->
+            <div class="lesson-section" id="datetime">
+                <h3>٤. مكتبة datetime — التواريخ والأوقات</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — datetime</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">from</span> <span class="c-mod">datetime</span> <span class="c-kw">import</span> datetime, date, timedelta
+
+<span class="c-cmt"># التاريخ والوقت الحالي</span>
+<span class="c-var">now</span>   <span class="c-op">=</span> datetime<span class="c-op">.</span><span class="c-fn">now</span>()
+<span class="c-var">today</span> <span class="c-op">=</span> date<span class="c-op">.</span><span class="c-fn">today</span>()
+<span class="c-fn">print</span>(<span class="c-var">now</span>)    <span class="c-cmt"># 2025-03-20 14:30:00.123</span>
+<span class="c-fn">print</span>(<span class="c-var">today</span>)  <span class="c-cmt"># 2025-03-20</span>
+
+<span class="c-cmt"># تنسيق التاريخ</span>
+<span class="c-fn">print</span>(<span class="c-var">now</span><span class="c-op">.</span><span class="c-fn">strftime</span>(<span class="c-str">"%d/%m/%Y %H:%M"</span>))   <span class="c-cmt"># 20/03/2025 14:30</span>
+<span class="c-fn">print</span>(<span class="c-var">now</span><span class="c-op">.</span><span class="c-fn">strftime</span>(<span class="c-str">"%A, %B %d %Y"</span>))    <span class="c-cmt"># Thursday, March 20 2025</span>
+
+<span class="c-cmt"># إنشاء تاريخ محدد</span>
+<span class="c-var">birthday</span> <span class="c-op">=</span> datetime(<span class="c-num">2011</span>, <span class="c-num">5</span>, <span class="c-num">15</span>)
+
+<span class="c-cmt"># حساب الفرق بين تاريخين</span>
+<span class="c-var">diff</span> <span class="c-op">=</span> datetime<span class="c-op">.</span><span class="c-fn">now</span>() <span class="c-op">-</span> <span class="c-var">birthday</span>
+<span class="c-fn">print</span>(<span class="c-str">f"عمرك {diff.days // 365} سنة و {diff.days % 365} يوم"</span>)
+
+<span class="c-cmt"># إضافة/طرح أيام</span>
+<span class="c-var">tomorrow</span>    <span class="c-op">=</span> today <span class="c-op">+</span> timedelta(days<span class="c-op">=</span><span class="c-num">1</span>)
+<span class="c-var">next_week</span>   <span class="c-op">=</span> today <span class="c-op">+</span> timedelta(weeks<span class="c-op">=</span><span class="c-num">1</span>)
+<span class="c-var">last_month</span>  <span class="c-op">=</span> today <span class="c-op">-</span> timedelta(days<span class="c-op">=</span><span class="c-num">30</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"غداً: {tomorrow} | الأسبوع القادم: {next_week}"</span>)
+
+<span class="c-cmt"># تحويل نص لتاريخ</span>
+<span class="c-var">date_str</span> <span class="c-op">=</span> <span class="c-str">"25/12/2025"</span>
+<span class="c-var">parsed</span>   <span class="c-op">=</span> datetime<span class="c-op">.</span><span class="c-fn">strptime</span>(<span class="c-var">date_str</span>, <span class="c-str">"%d/%m/%Y"</span>)
+<span class="c-fn">print</span>(<span class="c-var">parsed</span><span class="c-op">.</span>year, <span class="c-var">parsed</span><span class="c-op">.</span>month)   <span class="c-cmt"># 2025 12</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٥ random -->
+            <div class="lesson-section" id="random">
+                <h3>٥. مكتبة random — العشوائية</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — random</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> <span class="c-mod">random</span>
+
+<span class="c-cmt"># أرقام عشوائية</span>
+<span class="c-fn">print</span>(<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">randint</span>(<span class="c-num">1</span>, <span class="c-num">100</span>))   <span class="c-cmt"># عدد صحيح بين 1 و 100</span>
+<span class="c-fn">print</span>(<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">random</span>())          <span class="c-cmt"># عشري بين 0.0 و 1.0</span>
+<span class="c-fn">print</span>(<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">uniform</span>(<span class="c-num">1.5</span>, <span class="c-num">9.5</span>)) <span class="c-cmt"># عشري بين 1.5 و 9.5</span>
+
+<span class="c-cmt"># اختيار من قائمة</span>
+<span class="c-var">colors</span> <span class="c-op">=</span> [<span class="c-str">"أحمر"</span>, <span class="c-str">"أزرق"</span>, <span class="c-str">"أخضر"</span>, <span class="c-str">"أصفر"</span>]
+<span class="c-fn">print</span>(<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">choice</span>(<span class="c-var">colors</span>))         <span class="c-cmt"># عنصر واحد عشوائي</span>
+<span class="c-fn">print</span>(<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">choices</span>(<span class="c-var">colors</span>, k<span class="c-op">=</span><span class="c-num">3</span>))   <span class="c-cmt"># 3 عناصر (مع تكرار)</span>
+<span class="c-fn">print</span>(<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">sample</span>(<span class="c-var">colors</span>, k<span class="c-op">=</span><span class="c-num">3</span>))    <span class="c-cmt"># 3 عناصر (بدون تكرار)</span>
+
+<span class="c-cmt"># خلط قائمة</span>
+<span class="c-var">cards</span> <span class="c-op">=</span> [<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>, <span class="c-num">5</span>, <span class="c-num">6</span>, <span class="c-num">7</span>, <span class="c-num">8</span>, <span class="c-num">9</span>, <span class="c-num">10</span>]
+<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">shuffle</span>(<span class="c-var">cards</span>)
+<span class="c-fn">print</span>(<span class="c-var">cards</span>)
+
+<span class="c-cmt"># seed — للحصول على نفس النتائج دائماً</span>
+<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">seed</span>(<span class="c-num">42</span>)
+<span class="c-fn">print</span>(<span class="c-mod">random</span><span class="c-op">.</span><span class="c-fn">randint</span>(<span class="c-num">1</span>, <span class="c-num">100</span>))  <span class="c-cmt"># دائماً 52</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٦ math -->
+            <div class="lesson-section" id="math">
+                <h3>٦. مكتبة math — الرياضيات المتقدمة</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — math</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> <span class="c-mod">math</span>
+
+<span class="c-cmt"># ثوابت</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-var">pi</span>)    <span class="c-cmt"># 3.141592653589793</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-var">e</span>)     <span class="c-cmt"># 2.718281828459045</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-var">inf</span>)   <span class="c-cmt"># infinity</span>
+
+<span class="c-cmt"># دوال أساسية</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-fn">sqrt</span>(<span class="c-num">144</span>))      <span class="c-cmt"># 12.0  — الجذر التربيعي</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-fn">pow</span>(<span class="c-num">2</span>, <span class="c-num">10</span>))    <span class="c-cmt"># 1024.0 — قوة</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-fn">factorial</span>(<span class="c-num">6</span>))  <span class="c-cmt"># 720  — 6!</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-fn">gcd</span>(<span class="c-num">48</span>, <span class="c-num">18</span>))   <span class="c-cmt"># 6   — القاسم المشترك الأكبر</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-fn">floor</span>(<span class="c-num">4.7</span>))    <span class="c-cmt"># 4   — تقريب للأسفل</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-fn">ceil</span>(<span class="c-num">4.1</span>))     <span class="c-cmt"># 5   — تقريب للأعلى</span>
+<span class="c-fn">print</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-fn">log</span>(<span class="c-num">100</span>, <span class="c-num">10</span>))  <span class="c-cmt"># 2.0  — لوغاريتم</span>
+
+<span class="c-cmt"># حساب مساحة دائرة</span>
+<span class="c-kw">def</span> <span class="c-fn">circle_area</span>(<span class="c-var">r</span>)<span class="c-op">:</span>
+    <span class="c-kw">return</span> <span class="c-fn">round</span>(<span class="c-mod">math</span><span class="c-op">.</span><span class="c-var">pi</span> <span class="c-op">*</span> <span class="c-var">r</span> <span class="c-op">**</span> <span class="c-num">2</span>, <span class="c-num">4</span>)
+
+<span class="c-fn">print</span>(<span class="c-fn">circle_area</span>(<span class="c-num">5</span>))   <span class="c-cmt"># 78.5398</span></code></pre>
+                </div>
+            </div>
+
+            <!-- ٧ time -->
+            <div class="lesson-section" id="time">
+                <h3>٧. مكتبة time — قياس الأداء والانتظار</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — time</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> <span class="c-mod">time</span>
+
+<span class="c-cmt"># إيقاف مؤقت (Delay)</span>
+<span class="c-fn">print</span>(<span class="c-str">"جاري التحميل..."</span>)
+<span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">sleep</span>(<span class="c-num">2</span>)   <span class="c-cmt"># انتظر 2 ثانية</span>
+<span class="c-fn">print</span>(<span class="c-str">"✅ اكتمل!"</span>)
+
+<span class="c-cmt"># قياس وقت تنفيذ كود</span>
+<span class="c-var">start</span> <span class="c-op">=</span> <span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">perf_counter</span>()
+
+<span class="c-cmt"># الكود الذي تريد قياسه</span>
+<span class="c-var">total</span> <span class="c-op">=</span> <span class="c-fn">sum</span>(<span class="c-fn">range</span>(<span class="c-num">1_000_000</span>))
+
+<span class="c-var">end</span> <span class="c-op">=</span> <span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">perf_counter</span>()
+<span class="c-fn">print</span>(<span class="c-str">f"النتيجة: {total:,}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"الوقت : {end - start:.4f} ثانية"</span>)
+
+<span class="c-cmt"># مؤقت للتحميل التدريجي</span>
+<span class="c-kw">def</span> <span class="c-fn">loading_bar</span>(<span class="c-var">steps</span><span class="c-op">=</span><span class="c-num">10</span>)<span class="c-op">:</span>
+    <span class="c-kw">for</span> <span class="c-var">i</span> <span class="c-kw">in</span> <span class="c-fn">range</span>(<span class="c-var">steps</span> <span class="c-op">+</span> <span class="c-num">1</span>)<span class="c-op">:</span>
+        <span class="c-var">bar</span>     <span class="c-op">=</span> <span class="c-str">"█"</span> <span class="c-op">*</span> <span class="c-var">i</span> <span class="c-op">+</span> <span class="c-str">"░"</span> <span class="c-op">*</span> (<span class="c-var">steps</span> <span class="c-op">-</span> <span class="c-var">i</span>)
+        <span class="c-var">percent</span> <span class="c-op">=</span> <span class="c-var">i</span> <span class="c-op">*</span> <span class="c-num">10</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"\r[{bar}] {percent}%"</span>, end<span class="c-op">=</span><span class="c-str">""</span>)
+        <span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">sleep</span>(<span class="c-num">0.1</span>)
+    <span class="c-fn">print</span>()
+
+<span class="c-fn">loading_bar</span>()</code></pre>
+                </div>
+            </div>
+
+            <!-- ٨ collections -->
+            <div class="lesson-section" id="collections">
+                <h3>٨. مكتبة collections — هياكل بيانات متقدمة</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — collections</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">from</span> <span class="c-mod">collections</span> <span class="c-kw">import</span> Counter, defaultdict, deque, namedtuple
+
+<span class="c-cmt"># ===== Counter — عدّ العناصر =====</span>
+<span class="c-var">grades</span>  <span class="c-op">=</span> [<span class="c-str">"A"</span>, <span class="c-str">"B"</span>, <span class="c-str">"A"</span>, <span class="c-str">"C"</span>, <span class="c-str">"A"</span>, <span class="c-str">"B"</span>, <span class="c-str">"D"</span>, <span class="c-str">"A"</span>]
+<span class="c-var">counter</span> <span class="c-op">=</span> Counter(<span class="c-var">grades</span>)
+<span class="c-fn">print</span>(<span class="c-var">counter</span>)            <span class="c-cmt"># Counter({'A': 4, 'B': 2, 'C': 1, 'D': 1})</span>
+<span class="c-fn">print</span>(<span class="c-var">counter</span><span class="c-op">.</span><span class="c-fn">most_common</span>(<span class="c-num">2</span>))  <span class="c-cmt"># أكثر 2 تكراراً</span>
+
+<span class="c-cmt"># عدّ الكلمات في نص</span>
+<span class="c-var">text</span>   <span class="c-op">=</span> <span class="c-str">"بايثون سهل وبايثون ممتع وبايثون مفيد"</span>
+<span class="c-var">words</span>  <span class="c-op">=</span> Counter(<span class="c-var">text</span><span class="c-op">.</span><span class="c-fn">split</span>())
+<span class="c-fn">print</span>(<span class="c-var">words</span>)   <span class="c-cmt"># بايثون:3، سهل:1...</span>
+
+<span class="c-cmt"># ===== defaultdict — قاموس بقيمة افتراضية =====</span>
+<span class="c-var">students_by_city</span> <span class="c-op">=</span> defaultdict(<span class="c-fn">list</span>)
+<span class="c-var">data</span> <span class="c-op">=</span> [(<span class="c-str">"خليل"</span>,<span class="c-str">"مراكش"</span>),(<span class="c-str">"فاطمة"</span>,<span class="c-str">"الرباط"</span>),(<span class="c-str">"أحمد"</span>,<span class="c-str">"مراكش"</span>)]
+<span class="c-kw">for</span> <span class="c-var">name</span>, <span class="c-var">city</span> <span class="c-kw">in</span> <span class="c-var">data</span><span class="c-op">:</span>
+    <span class="c-var">students_by_city</span>[<span class="c-var">city</span>]<span class="c-op">.</span><span class="c-fn">append</span>(<span class="c-var">name</span>)
+<span class="c-fn">print</span>(<span class="c-fn">dict</span>(<span class="c-var">students_by_city</span>))
+<span class="c-cmt"># {'مراكش': ['خليل', 'أحمد'], 'الرباط': ['فاطمة']}</span>
+
+<span class="c-cmt"># ===== namedtuple — tuple بأسماء =====</span>
+Point <span class="c-op">=</span> namedtuple(<span class="c-str">"Point"</span>, [<span class="c-str">"x"</span>, <span class="c-str">"y"</span>])
+<span class="c-var">p</span> <span class="c-op">=</span> Point(<span class="c-num">3</span>, <span class="c-num">7</span>)
+<span class="c-fn">print</span>(<span class="c-var">p</span><span class="c-op">.</span>x, <span class="c-var">p</span><span class="c-op">.</span>y)   <span class="c-cmt"># 3 7</span>
+
+<span class="c-cmt"># ===== deque — قائمة ثنائية الاتجاه =====</span>
+<span class="c-var">dq</span> <span class="c-op">=</span> deque([<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>], maxlen<span class="c-op">=</span><span class="c-num">5</span>)
+<span class="c-var">dq</span><span class="c-op">.</span><span class="c-fn">appendleft</span>(<span class="c-num">0</span>)   <span class="c-cmt"># إضافة يسار</span>
+<span class="c-var">dq</span><span class="c-op">.</span><span class="c-fn">append</span>(<span class="c-num">4</span>)       <span class="c-cmt"># إضافة يمين</span>
+<span class="c-fn">print</span>(<span class="c-var">dq</span>)           <span class="c-cmt"># deque([0, 1, 2, 3, 4])</span></code></pre>
+                </div>
+            </div>
+
+            <!-- تمارين -->
+            <div class="lesson-section" id="exercises">
+                <h3>📝 تمارين تطبيقية</h3>
+
+                <div class="exercise-box">
+                    <h4>تمرين ١ — يوميات بـ JSON</h4>
+                    <p>اكتب برنامجاً يسمح للمستخدم بإضافة ملاحظات يومية تُحفظ في ملف JSON. يجب أن يحتوي كل إدخال على التاريخ والنص.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-kw">import</span> <span class="c-mod">json</span>, <span class="c-mod">os</span>
+<span class="c-kw">from</span> <span class="c-mod">datetime</span> <span class="c-kw">import</span> datetime
+
+<span class="c-var">FILE</span> <span class="c-op">=</span> <span class="c-str">"diary.json"</span>
+
+<span class="c-kw">def</span> <span class="c-fn">load_entries</span>()<span class="c-op">:</span>
+    <span class="c-kw">if</span> <span class="c-kw">not</span> <span class="c-mod">os</span><span class="c-op">.</span>path<span class="c-op">.</span><span class="c-fn">exists</span>(<span class="c-var">FILE</span>)<span class="c-op">:</span>
+        <span class="c-kw">return</span> []
+    <span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-var">FILE</span>, <span class="c-str">"r"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+        <span class="c-kw">return</span> <span class="c-mod">json</span><span class="c-op">.</span><span class="c-fn">load</span>(<span class="c-var">f</span>)
+
+<span class="c-kw">def</span> <span class="c-fn">save_entries</span>(<span class="c-var">entries</span>)<span class="c-op">:</span>
+    <span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-var">FILE</span>, <span class="c-str">"w"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+        <span class="c-mod">json</span><span class="c-op">.</span><span class="c-fn">dump</span>(<span class="c-var">entries</span>, <span class="c-var">f</span>, ensure_ascii<span class="c-op">=</span><span class="c-kw">False</span>, indent<span class="c-op">=</span><span class="c-num">2</span>)
+
+<span class="c-var">entries</span> <span class="c-op">=</span> <span class="c-fn">load_entries</span>()
+
+<span class="c-kw">while</span> <span class="c-kw">True</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">"\n1. إضافة ملاحظة  2. عرض الكل  3. خروج"</span>)
+    <span class="c-var">choice</span> <span class="c-op">=</span> <span class="c-fn">input</span>(<span class="c-str">"اختر: "</span>)
+    <span class="c-kw">if</span> <span class="c-var">choice</span> <span class="c-op">==</span> <span class="c-str">"1"</span><span class="c-op">:</span>
+        <span class="c-var">text</span> <span class="c-op">=</span> <span class="c-fn">input</span>(<span class="c-str">"اكتب ملاحظتك: "</span>)
+        <span class="c-var">entries</span><span class="c-op">.</span><span class="c-fn">append</span>({
+            <span class="c-str">"date"</span><span class="c-op">:</span> datetime<span class="c-op">.</span><span class="c-fn">now</span>()<span class="c-op">.</span><span class="c-fn">strftime</span>(<span class="c-str">"%Y-%m-%d %H:%M"</span>),
+            <span class="c-str">"text"</span><span class="c-op">:</span> <span class="c-var">text</span>
+        })
+        <span class="c-fn">save_entries</span>(<span class="c-var">entries</span>)
+        <span class="c-fn">print</span>(<span class="c-str">"✅ تم الحفظ"</span>)
+    <span class="c-kw">elif</span> <span class="c-var">choice</span> <span class="c-op">==</span> <span class="c-str">"2"</span><span class="c-op">:</span>
+        <span class="c-kw">for</span> <span class="c-var">e</span> <span class="c-kw">in</span> <span class="c-var">entries</span><span class="c-op">:</span>
+            <span class="c-fn">print</span>(<span class="c-str">f"📅 {e['date']}: {e['text']}"</span>)
+    <span class="c-kw">elif</span> <span class="c-var">choice</span> <span class="c-op">==</span> <span class="c-str">"3"</span><span class="c-op">:</span>
+        <span class="c-kw">break</span></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="exercise-box">
+                    <h4>تمرين ٢ — أكثر 5 كلمات تكراراً</h4>
+                    <p>اكتب برنامجاً يقرأ ملف نصي ويطبع أكثر 5 كلمات تكراراً فيه باستخدام <code>Counter</code>.</p>
+                    <button class="solution-btn" onclick="this.nextElementSibling.classList.toggle('visible')">👁 عرض الحل</button>
+                    <div class="solution-content">
+                        <div class="code-block">
+                            <div class="code-header"><span class="code-lang">Python — الحل</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                            <pre><code><span class="c-kw">from</span> <span class="c-mod">collections</span> <span class="c-kw">import</span> Counter
+<span class="c-kw">import</span> <span class="c-mod">re</span>
+
+<span class="c-kw">def</span> <span class="c-fn">top_words</span>(<span class="c-var">filename</span>, <span class="c-var">n</span><span class="c-op">=</span><span class="c-num">5</span>)<span class="c-op">:</span>
+    <span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-var">filename</span>, <span class="c-str">"r"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+        <span class="c-var">text</span> <span class="c-op">=</span> <span class="c-var">f</span><span class="c-op">.</span><span class="c-fn">read</span>()<span class="c-op">.</span><span class="c-fn">lower</span>()
+    <span class="c-cmt"># استخرج الكلمات فقط (بدون علامات ترقيم)</span>
+    <span class="c-var">words</span>   <span class="c-op">=</span> re<span class="c-op">.</span><span class="c-fn">findall</span>(<span class="c-str">r'\b\w+\b'</span>, <span class="c-var">text</span>)
+    <span class="c-var">counter</span> <span class="c-op">=</span> Counter(<span class="c-var">words</span>)
+    <span class="c-fn">print</span>(<span class="c-str">f"أكثر {n} كلمات تكراراً في '{filename}':"</span>)
+    <span class="c-kw">for</span> <span class="c-var">word</span>, <span class="c-var">count</span> <span class="c-kw">in</span> <span class="c-var">counter</span><span class="c-op">.</span><span class="c-fn">most_common</span>(<span class="c-var">n</span>)<span class="c-op">:</span>
+        <span class="c-fn">print</span>(<span class="c-str">f"  {word}: {count} مرة"</span>)
+
+<span class="c-fn">top_words</span>(<span class="c-str">"story.txt"</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- مشروع -->
+            <div class="lesson-section" id="project">
+                <h3>🚀 المشروع — مدير ملفات بسيط</h3>
+                <div class="code-block">
+                    <div class="code-header"><span class="code-lang">Python — file_manager.py</span><button class="copy-btn" onclick="copyCode(this)">نسخ</button></div>
+                    <pre><code><span class="c-kw">import</span> <span class="c-mod">os</span>, <span class="c-mod">json</span>, <span class="c-mod">time</span>
+<span class="c-kw">from</span> <span class="c-mod">datetime</span> <span class="c-kw">import</span> datetime
+
+<span class="c-kw">def</span> <span class="c-fn">scan_folder</span>(<span class="c-var">path</span><span class="c-op">=</span><span class="c-str">"."</span>)<span class="c-op">:</span>
+    <span class="c-var">result</span> <span class="c-op">=</span> []
+    <span class="c-kw">for</span> <span class="c-var">entry</span> <span class="c-kw">in</span> <span class="c-mod">os</span><span class="c-op">.</span><span class="c-fn">scandir</span>(<span class="c-var">path</span>)<span class="c-op">:</span>
+        <span class="c-var">info</span> <span class="c-op">=</span> <span class="c-var">entry</span><span class="c-op">.</span><span class="c-fn">stat</span>()
+        <span class="c-var">result</span><span class="c-op">.</span><span class="c-fn">append</span>({
+            <span class="c-str">"name"</span><span class="c-op">:</span>     <span class="c-var">entry</span><span class="c-op">.</span>name,
+            <span class="c-str">"type"</span><span class="c-op">:</span>     <span class="c-str">"📁"</span> <span class="c-kw">if</span> <span class="c-var">entry</span><span class="c-op">.</span><span class="c-fn">is_dir</span>() <span class="c-kw">else</span> <span class="c-str">"📄"</span>,
+            <span class="c-str">"size"</span><span class="c-op">:</span>     <span class="c-str">f"{info.st_size:,} bytes"</span>,
+            <span class="c-str">"modified"</span><span class="c-op">:</span> datetime<span class="c-op">.</span><span class="c-fn">fromtimestamp</span>(<span class="c-var">info</span><span class="c-op">.</span>st_mtime)
+                                   <span class="c-op">.</span><span class="c-fn">strftime</span>(<span class="c-str">"%Y-%m-%d %H:%M"</span>)
+        })
+    <span class="c-kw">return</span> <span class="c-fn">sorted</span>(<span class="c-var">result</span>, key<span class="c-op">=</span><span class="c-kw">lambda</span> x<span class="c-op">:</span> x[<span class="c-str">"type"</span>], reverse<span class="c-op">=</span><span class="c-kw">True</span>)
+
+<span class="c-kw">def</span> <span class="c-fn">save_report</span>(<span class="c-var">data</span>)<span class="c-op">:</span>
+    <span class="c-var">filename</span> <span class="c-op">=</span> <span class="c-str">f"report_{datetime.now().strftime('%Y%m%d_%H%M')}.json"</span>
+    <span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-var">filename</span>, <span class="c-str">"w"</span>, encoding<span class="c-op">=</span><span class="c-str">"utf-8"</span>) <span class="c-kw">as</span> <span class="c-var">f</span><span class="c-op">:</span>
+        <span class="c-mod">json</span><span class="c-op">.</span><span class="c-fn">dump</span>(<span class="c-var">data</span>, <span class="c-var">f</span>, ensure_ascii<span class="c-op">=</span><span class="c-kw">False</span>, indent<span class="c-op">=</span><span class="c-num">2</span>)
+    <span class="c-kw">return</span> <span class="c-var">filename</span>
+
+<span class="c-fn">print</span>(<span class="c-str">"📂 مسح المجلد الحالي..."</span>)
+<span class="c-var">start</span> <span class="c-op">=</span> <span class="c-mod">time</span><span class="c-op">.</span><span class="c-fn">perf_counter</span>()
+<span class="c-var">files</span> <span class="c-op">=</span> <span class="c-fn">scan_folder</span>()
+<span class="c-fn">print</span>(<span class="c-str">f"وُجد {len(files)} عنصر في {time.perf_counter()-start:.3f}s\n"</span>)
+
+<span class="c-kw">for</span> <span class="c-var">item</span> <span class="c-kw">in</span> <span class="c-var">files</span><span class="c-op">:</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"{item['type']} {item['name']:30} {item['size']:>15}  {item['modified']}"</span>)
+
+<span class="c-var">rep</span> <span class="c-op">=</span> <span class="c-fn">save_report</span>(<span class="c-var">files</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"\n✅ تم حفظ التقرير في: {rep}"</span>)</code></pre>
+                </div>
+            </div>
+
+            <div class="lesson-end">
+                <h3>🎉 أتقنت المكتبات القياسية!</h3>
+                <p>الآن تعرف كيف تتعامل مع الملفات وتستخدم os وjson وdatetime وrandom وmath وcollections.</p>
+                <a href="mutaqaddim.html" class="next-btn">الدرس التالي: المفاهيم المتقدمة ←</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 تعلم لغة بايثون. جميع الحقوق محفوظة.</p>
+            <p><a href="privacy.html">سياسة الخصوصية</a> | <a href="terms.html">شروط الاستخدام</a></p>
+        </div>
+    </footer>
+    <script src="i18n.js" defer></script>
+    <script>
+        function copyCode(btn){const c=btn.closest('.code-block').querySelector('code').innerText;navigator.clipboard.writeText(c).then(()=>{btn.textContent='تم ✓';setTimeout(()=>btn.textContent='نسخ',2000);});}
+        function checkQuiz(el,res){
+            const box=el.closest('.quiz-box');
+            box.querySelectorAll('.quiz-opt').forEach(o=>o.style.pointerEvents='none');
+            el.classList.add(res);
+            const fbs=box.querySelectorAll('.quiz-feedback');
+            fbs[0].classList.toggle('show',res==='correct');
+            fbs[1].classList.toggle('show',res==='wrong');
+        }
+        const sections=document.querySelectorAll('.lesson-section');
+        const navLinks=document.querySelectorAll('.lesson-nav-bar a');
+        window.addEventListener('scroll',()=>{let c='';sections.forEach(s=>{if(window.scrollY>=s.offsetTop-160)c=s.id;});navLinks.forEach(a=>{a.classList.remove('active');if(a.getAttribute('href')==='#'+c)a.classList.add('active');});});
+    </script>
+</body>
+</html>
