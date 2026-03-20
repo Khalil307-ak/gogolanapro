@@ -1,16 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="موقع تعلم لغة بايثون — دورات شاملة من البداية إلى الاحتراف في تطوير الويب وتحليل البيانات والذكاء الاصطناعي.">
+    <meta name="description" content="موقع تعلم لغة بايثون — 7 دورات شاملة من الصفر إلى الاحتراف: الأساسيات، OOP، تحليل البيانات، المكتبات، مفاهيم متقدمة، Regex، APIs.">
+    <meta name="keywords" content="تعلم بايثون، python بالعربية، دورة python، برمجة بايثون، تحليل بيانات">
     <meta name="google-adsense-account" content="ca-pub-6734955325699280">
-    <title data-i18n="idx-title">تعلم لغة بايثون</title>
+    <title data-i18n="idx-title">تعلم لغة بايثون — من الصفر إلى الاحتراف</title>
     <link rel="icon" href="gogolanapropng.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6734955325699280" crossorigin="anonymous"></script>
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-0J5PRKE4XZ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -18,15 +21,324 @@
         gtag('js', new Date());
         gtag('config', 'G-0J5PRKE4XZ');
     </script>
+    <style>
+        /* =============================================
+           تحسينات خاصة بالصفحة الرئيسية
+        ============================================= */
+
+        /* ---- شريط الأرقام الإحصائية ---- */
+        .stats-bar {
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            color: white;
+            padding: 28px 0;
+            text-align: center;
+        }
+        .stats-bar .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        .stat-item { }
+        .stat-item .stat-number {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #e94560;
+            line-height: 1;
+        }
+        .stat-item .stat-label {
+            font-size: 0.88rem;
+            color: #a8b2d8;
+            margin-top: 4px;
+        }
+
+        /* ---- مسار التعلم ---- */
+        .learning-path {
+            padding: 60px 0;
+            background: #f8f9ff;
+        }
+        .learning-path h2 {
+            text-align: center;
+            font-size: 1.9rem;
+            color: #0f3460;
+            margin-bottom: 8px;
+        }
+        .path-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 44px;
+            font-size: 1.05rem;
+        }
+        .path-track {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .path-step {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            position: relative;
+        }
+        .path-step:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            right: 23px;
+            top: 52px;
+            bottom: -20px;
+            width: 2px;
+            background: linear-gradient(to bottom, #e94560, #0f3460);
+        }
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            border: 3px solid white;
+            box-shadow: 0 4px 14px rgba(0,0,0,.15);
+            z-index: 1;
+        }
+        .step-icon.beginner  { background: linear-gradient(135deg,#e94560,#c73652); }
+        .step-icon.mid       { background: linear-gradient(135deg,#f59e0b,#d97706); }
+        .step-icon.advanced  { background: linear-gradient(135deg,#8b5cf6,#7c3aed); }
+        .step-icon.expert    { background: linear-gradient(135deg,#10b981,#059669); }
+        .step-card {
+            flex: 1;
+            background: white;
+            border-radius: 14px;
+            padding: 20px 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 16px rgba(0,0,0,.07);
+            border-right: 4px solid transparent;
+            transition: all .3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .step-card:hover {
+            transform: translateX(-4px);
+            box-shadow: 0 8px 28px rgba(0,0,0,.12);
+        }
+        .step-card.beginner  { border-right-color: #e94560; }
+        .step-card.mid       { border-right-color: #f59e0b; }
+        .step-card.advanced  { border-right-color: #8b5cf6; }
+        .step-card.expert    { border-right-color: #10b981; }
+        .step-level {
+            font-size: .75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 4px;
+        }
+        .step-card.beginner  .step-level { color: #e94560; }
+        .step-card.mid       .step-level { color: #f59e0b; }
+        .step-card.advanced  .step-level { color: #8b5cf6; }
+        .step-card.expert    .step-level { color: #10b981; }
+        .step-card h3 { font-size: 1.1rem; color: #0f3460; margin: 0 0 6px; }
+        .step-card p  { font-size: .9rem; color: #555; margin: 0 0 10px; line-height: 1.6; }
+        .step-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .step-tag {
+            background: #f0f4ff;
+            color: #0f3460;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: .78rem;
+        }
+        .step-duration {
+            float: left;
+            font-size: .8rem;
+            color: #999;
+            margin-top: -4px;
+        }
+
+        /* ---- بطاقات الدورات (الشبكة القديمة محسّنة) ---- */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 22px;
+            margin-top: 30px;
+        }
+        .course-card {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 3px 16px rgba(0,0,0,.07);
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 4px;
+        }
+        .course-card.c1::before { background: linear-gradient(90deg,#e94560,#c73652); }
+        .course-card.c2::before { background: linear-gradient(90deg,#58a6ff,#0969da); }
+        .course-card.c3::before { background: linear-gradient(90deg,#00d4aa,#0891b2); }
+        .course-card.c4::before { background: linear-gradient(90deg,#f59e0b,#d97706); }
+        .course-card.c5::before { background: linear-gradient(90deg,#8b5cf6,#7c3aed); }
+        .course-card.c6::before { background: linear-gradient(90deg,#06b6d4,#0e7490); }
+        .course-card.c7::before { background: linear-gradient(90deg,#10b981,#059669); }
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0,0,0,.12);
+        }
+        .course-emoji { font-size: 2.2rem; display: block; margin-bottom: 10px; }
+        .course-card h3 { font-size: 1.05rem; color: #0f3460; margin: 0 0 8px; }
+        .course-card p  { font-size: .88rem; color: #666; margin: 0 0 14px; line-height: 1.65; }
+        .course-badge {
+            display: inline-block;
+            font-size: .75rem;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        .badge-beginner { background: #fee2e2; color: #b91c1c; }
+        .badge-mid      { background: #fef9c3; color: #854d0e; }
+        .badge-advanced { background: #f3e8ff; color: #6b21a8; }
+        .badge-expert   { background: #dcfce7; color: #15803d; }
+        .course-arrow {
+            float: left;
+            color: #aaa;
+            transition: all .3s;
+            font-size: 1rem;
+            margin-top: 2px;
+        }
+        .course-card:hover .course-arrow { color: #e94560; transform: translateX(-4px); }
+
+        /* ---- قسم الميزات ---- */
+        .features-section {
+            padding: 60px 0;
+            background: white;
+        }
+        .features-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #0f3460;
+            margin-bottom: 40px;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 28px 20px;
+            border-radius: 14px;
+            background: #f8f9ff;
+            border: 2px solid #e8eeff;
+            transition: all .3s;
+        }
+        .feature-card:hover {
+            border-color: #e94560;
+            background: #fff5f7;
+            transform: translateY(-3px);
+        }
+        .feature-card .feat-icon {
+            font-size: 2.4rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+        .feature-card h4 { color: #0f3460; font-size: 1rem; margin: 0 0 8px; }
+        .feature-card p  { color: #666; font-size: .88rem; margin: 0; line-height: 1.6; }
+
+        /* ---- مثال كود في قسم about ---- */
+        .code-showcase {
+            background: #1e1e2e;
+            border-radius: 14px;
+            overflow: hidden;
+            margin: 30px 0;
+            direction: ltr;
+        }
+        .code-showcase .code-bar {
+            background: #2d2d44;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .code-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .code-dot.red   { background: #ff5f57; }
+        .code-dot.yellow{ background: #ffbd2e; }
+        .code-dot.green { background: #28c840; }
+        .code-filename { color: #888; font-size: .82rem; margin-right: auto; }
+        .code-showcase pre {
+            margin: 0;
+            padding: 24px;
+            color: #cdd6f4;
+            font-size: .93rem;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            line-height: 1.8;
+            overflow-x: auto;
+            text-align: left;
+        }
+        .ck { color: #cba6f7; }
+        .cs { color: #a6e3a1; }
+        .cn { color: #fab387; }
+        .cc { color: #6c7086; font-style: italic; }
+        .cf { color: #89b4fa; }
+
+        /* ---- about section تحسين ---- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .about-text p { line-height: 1.9; color: #444; margin-bottom: 16px; }
+        .about-logos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .about-logo-tag {
+            background: #f0f4ff;
+            border: 1px solid #dde5ff;
+            color: #0f3460;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: .88rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .stats-bar .container { gap: 24px; }
+            .stat-item .stat-number { font-size: 1.7rem; }
+            .path-step::before { right: 23px; }
+            .about-grid { grid-template-columns: 1fr; }
+            .courses-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
+
     <header class="animate__animated animate__slideInDown">
         <div class="container">
-            <h1 data-i18n="idx-site-title">تعلم لغة بايثون</h1>
+            <h1 data-i18n="idx-site-title">🐍 تعلم لغة بايثون</h1>
             <nav>
                 <ul>
-                    <li><a href="#home" data-i18n="nav-home">الرئيسية</a></li>
-                    <li><a href="#about" data-i18n="nav-about">حول</a></li>
+                    <li><a href="#home"    data-i18n="nav-home">الرئيسية</a></li>
+                    <li><a href="#about"   data-i18n="nav-about">حول</a></li>
                     <li><a href="#courses" data-i18n="nav-courses">الدورات</a></li>
                     <li><a href="#contact" data-i18n="nav-contact">اتصل بنا</a></li>
                 </ul>
@@ -39,13 +351,21 @@
     </header>
 
     <main>
-        <!-- قسم الترحيب -->
+
+        <!-- ============================
+             قسم الترحيب
+        ============================ -->
         <section id="home" class="hero animate__animated animate__fadeIn">
             <div class="container">
-                <h2 data-i18n="idx-home-welcome" class="animate__animated animate__bounceIn">مرحباً بكم في موقع تعلم لغة بايثون</h2>
-                <p data-i18n="idx-home-description">هنا ستجد كل الموارد والدورات اللازمة لتعلم لغة بايثون من البداية إلى الاحتراف.</p>
+                <h2 data-i18n="idx-home-welcome" class="animate__animated animate__bounceIn">
+                    مرحباً بكم في موقع تعلم لغة بايثون
+                </h2>
+                <p data-i18n="idx-home-description">
+                    هنا ستجد كل الموارد والدورات اللازمة لتعلم لغة بايثون من البداية إلى الاحتراف.
+                </p>
                 <div class="cta">
-                    <a href="#courses" class="cta-button animate__animated animate__pulse animate__infinite" data-i18n="idx-start-learning">ابدأ التعلم الآن</a>
+                    <a href="#path" class="cta-button animate__animated animate__pulse animate__infinite"
+                       data-i18n="idx-start-learning">ابدأ التعلم الآن</a>
                 </div>
                 <ins class="adsbygoogle"
                      style="display:block; margin-top: 20px;"
@@ -57,66 +377,371 @@
             </div>
         </section>
 
-        <!-- قسم حول بايثون -->
+        <!-- ============================
+             شريط الإحصاءات
+        ============================ -->
+        <div class="stats-bar">
+            <div class="container">
+                <div class="stat-item">
+                    <span class="stat-number">7</span>
+                    <span class="stat-label" data-i18n="idx-stat-courses">دورات شاملة</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">+60</span>
+                    <span class="stat-label" data-i18n="idx-stat-lessons">موضوعاً تعليمياً</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">+40</span>
+                    <span class="stat-label" data-i18n="idx-stat-exercises">تمريناً وتحدياً</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">مجاني</span>
+                    <span class="stat-label" data-i18n="idx-stat-free">100% بدون رسوم</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================
+             قسم حول بايثون
+        ============================ -->
         <section id="about" class="animate__animated animate__fadeInUp">
             <div class="container">
                 <h2 data-i18n="idx-about-title">حول بايثون</h2>
-                <p data-i18n="idx-about-description">بايثون هي لغة برمجة عالية المستوى، مشهورة بسهولتها وبساطتها. تُستخدم في تطوير البرمجيات، تحليل البيانات، الذكاء الاصطناعي، وتطوير الويب.</p>
-                <p data-i18n="idx-about-features">تتميز بايثون بمكتبات قوية مثل pandas وnumpy وtensorflow، مما يجعلها مثالية للمبتدئين والمحترفين على حد سواء.</p>
-                <div class="course-example animate__animated animate__zoomIn">
-                    <code>
-# مثال بسيط في بايثون
-print("مرحباً، العالم!")
-                    </code>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p data-i18n="idx-about-description">
+                            بايثون هي لغة برمجة عالية المستوى، مشهورة بسهولتها وبساطتها. تُستخدم في تطوير البرمجيات، تحليل البيانات، الذكاء الاصطناعي، وتطوير الويب.
+                        </p>
+                        <p data-i18n="idx-about-features">
+                            تتميز بايثون بمكتبات قوية مثل pandas وnumpy وtensorflow، مما يجعلها مثالية للمبتدئين والمحترفين على حد سواء.
+                        </p>
+                        <div class="about-logos">
+                            <span class="about-logo-tag">🌐 Web Dev</span>
+                            <span class="about-logo-tag">📊 Data Science</span>
+                            <span class="about-logo-tag">🤖 AI / ML</span>
+                            <span class="about-logo-tag">🔧 Automation</span>
+                            <span class="about-logo-tag">🎮 Game Dev</span>
+                            <span class="about-logo-tag">🔐 Cybersecurity</span>
+                        </div>
+                    </div>
+                    <div class="code-showcase">
+                        <div class="code-bar">
+                            <span class="code-dot red"></span>
+                            <span class="code-dot yellow"></span>
+                            <span class="code-dot green"></span>
+                            <span class="code-filename">hello.py</span>
+                        </div>
+                        <pre><span class="cc"># مرحباً ببايثون 🐍</span>
+
+<span class="ck">def</span> <span class="cf">greet</span>(name, times=<span class="cn">1</span>):
+    <span class="ck">for</span> _ <span class="ck">in</span> <span class="cf">range</span>(times):
+        <span class="cf">print</span>(<span class="cs">f"مرحباً {name}! 👋"</span>)
+
+<span class="cf">greet</span>(<span class="cs">"خليل"</span>, <span class="cn">3</span>)
+
+<span class="cc"># تحليل البيانات</span>
+<span class="ck">import</span> pandas <span class="ck">as</span> pd
+df = pd.<span class="cf">read_csv</span>(<span class="cs">"data.csv"</span>)
+<span class="cf">print</span>(df.<span class="cf">describe</span>())</pre>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- قسم الدورات -->
-        <section id="courses" class="animate__animated animate__fadeInUp">
+        <!-- ============================
+             قسم الميزات
+        ============================ -->
+        <section class="features-section">
+            <div class="container">
+                <h2 data-i18n="idx-features-title">لماذا تتعلم هنا؟</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feat-icon">📝</span>
+                        <h4 data-i18n="idx-feat1-title">أمثلة حقيقية</h4>
+                        <p data-i18n="idx-feat1-desc">كل درس مبني على مشاريع وأمثلة من الواقع — ليس مجرد نظرية.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feat-icon">🏆</span>
+                        <h4 data-i18n="idx-feat2-title">تمارين وتحديات</h4>
+                        <p data-i18n="idx-feat2-desc">تمارين تفاعلية وأسئلة بعد كل موضوع لاختبار فهمك.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feat-icon">📋</span>
+                        <h4 data-i18n="idx-feat3-title">كود قابل للنسخ</h4>
+                        <p data-i18n="idx-feat3-desc">كل مثال كود يمكن نسخه بضغطة زر وتشغيله مباشرة.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feat-icon">🌍</span>
+                        <h4 data-i18n="idx-feat4-title">عربي وإنجليزي</h4>
+                        <p data-i18n="idx-feat4-desc">الموقع متاح بالكامل باللغتين العربية والإنجليزية.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================
+             مسار التعلم
+        ============================ -->
+        <section id="path" class="learning-path">
+            <div class="container">
+                <h2 data-i18n="idx-path-title">🗺️ مسار التعلم الكامل</h2>
+                <p class="path-subtitle" data-i18n="idx-path-subtitle">اتبع هذا المسار خطوة بخطوة للوصول من المبتدئ إلى المحترف</p>
+
+                <div class="path-track">
+
+                    <!-- ١ -->
+                    <div class="path-step">
+                        <div class="step-icon beginner">🐍</div>
+                        <a href="mo9adima.html" class="step-card beginner">
+                            <span class="step-level" data-i18n="idx-level-beginner">مبتدئ</span>
+                            <h3 data-i18n="idx-course-intro">مقدمة إلى بايثون</h3>
+                            <p data-i18n="idx-course-intro-desc">المتغيرات، الشروط، الحلقات، الدوال، القوائم، القواميس، ومعالجة الأخطاء.</p>
+                            <div class="step-tags">
+                                <span class="step-tag">المتغيرات</span>
+                                <span class="step-tag">الشروط</span>
+                                <span class="step-tag">الحلقات</span>
+                                <span class="step-tag">الدوال</span>
+                                <span class="step-tag">القوائم</span>
+                            </div>
+                            <span class="step-duration" data-i18n="idx-dur-1">⏱ ~4 ساعات</span>
+                        </a>
+                    </div>
+
+                    <!-- ٢ -->
+                    <div class="path-step">
+                        <div class="step-icon beginner">🧩</div>
+                        <a href="kainat.html" class="step-card beginner">
+                            <span class="step-level" data-i18n="idx-level-beginner">مبتدئ متوسط</span>
+                            <h3 data-i18n="idx-course-oo">برمجة الكائنات (OOP)</h3>
+                            <p data-i18n="idx-course-oo-desc">الكلاسات، الوراثة، تعدد الأشكال، والتغليف — طريقة المحترفين في تنظيم الكود.</p>
+                            <div class="step-tags">
+                                <span class="step-tag">Classes</span>
+                                <span class="step-tag">Inheritance</span>
+                                <span class="step-tag">__init__</span>
+                                <span class="step-tag">super()</span>
+                            </div>
+                            <span class="step-duration" data-i18n="idx-dur-2">⏱ ~3 ساعات</span>
+                        </a>
+                    </div>
+
+                    <!-- ٣ -->
+                    <div class="path-step">
+                        <div class="step-icon mid">📦</div>
+                        <a href="maktaba.html" class="step-card mid">
+                            <span class="step-level" data-i18n="idx-level-mid">متوسط</span>
+                            <h3 data-i18n="idx-course-lib">المكتبات القياسية والملفات</h3>
+                            <p data-i18n="idx-course-lib-desc">os وjson وdatetime وrandom وmath وcollections — الأدوات الجاهزة مع بايثون.</p>
+                            <div class="step-tags">
+                                <span class="step-tag">os</span>
+                                <span class="step-tag">json</span>
+                                <span class="step-tag">datetime</span>
+                                <span class="step-tag">collections</span>
+                                <span class="step-tag">File I/O</span>
+                            </div>
+                            <span class="step-duration" data-i18n="idx-dur-3">⏱ ~3 ساعات</span>
+                        </a>
+                    </div>
+
+                    <!-- ٤ -->
+                    <div class="path-step">
+                        <div class="step-icon mid">🧠</div>
+                        <a href="mutaqaddim.html" class="step-card mid">
+                            <span class="step-level" data-i18n="idx-level-mid">متوسط متقدم</span>
+                            <h3 data-i18n="idx-course-adv">مفاهيم بايثون المتقدمة</h3>
+                            <p data-i18n="idx-course-adv-desc">Lambda وDecorators وGenerators و*args/**kwargs وComprehensions وType Hints.</p>
+                            <div class="step-tags">
+                                <span class="step-tag">Decorators</span>
+                                <span class="step-tag">Generators</span>
+                                <span class="step-tag">Lambda</span>
+                                <span class="step-tag">*args</span>
+                                <span class="step-tag">Type Hints</span>
+                            </div>
+                            <span class="step-duration" data-i18n="idx-dur-4">⏱ ~4 ساعات</span>
+                        </a>
+                    </div>
+
+                    <!-- ٥ -->
+                    <div class="path-step">
+                        <div class="step-icon advanced">📊</div>
+                        <a href="byanat.html" class="step-card advanced">
+                            <span class="step-level" data-i18n="idx-level-advanced">متقدم</span>
+                            <h3 data-i18n="idx-course-data">تحليل البيانات ببايثون</h3>
+                            <p data-i18n="idx-course-data-desc">pandas وnumpy وmatplotlib وseaborn — من قراءة CSV إلى رسم مخططات احترافية.</p>
+                            <div class="step-tags">
+                                <span class="step-tag">pandas</span>
+                                <span class="step-tag">numpy</span>
+                                <span class="step-tag">matplotlib</span>
+                                <span class="step-tag">seaborn</span>
+                            </div>
+                            <span class="step-duration" data-i18n="idx-dur-5">⏱ ~5 ساعات</span>
+                        </a>
+                    </div>
+
+                    <!-- ٦ -->
+                    <div class="path-step">
+                        <div class="step-icon advanced">🔍</div>
+                        <a href="regex.html" class="step-card advanced">
+                            <span class="step-level" data-i18n="idx-level-advanced">متقدم</span>
+                            <h3 data-i18n="idx-course-regex">التعابير النمطية (Regex)</h3>
+                            <p data-i18n="idx-course-regex-desc">ابحث واستخرج وبدّل الأنماط في النصوص — مع مختبر تفاعلي مدمج في الصفحة.</p>
+                            <div class="step-tags">
+                                <span class="step-tag">re.search</span>
+                                <span class="step-tag">findall</span>
+                                <span class="step-tag">Groups</span>
+                                <span class="step-tag">Flags</span>
+                            </div>
+                            <span class="step-duration" data-i18n="idx-dur-6">⏱ ~3 ساعات</span>
+                        </a>
+                    </div>
+
+                    <!-- ٧ -->
+                    <div class="path-step">
+                        <div class="step-icon expert">🌐</div>
+                        <a href="api.html" class="step-card expert">
+                            <span class="step-level" data-i18n="idx-level-expert">خبير</span>
+                            <h3 data-i18n="idx-course-api">APIs و Web Scraping</h3>
+                            <p data-i18n="idx-course-api-desc">requests وBeautifulSoup — اجلب بيانات الطقس والأسعار وأي شيء من الإنترنت.</p>
+                            <div class="step-tags">
+                                <span class="step-tag">requests</span>
+                                <span class="step-tag">BeautifulSoup</span>
+                                <span class="step-tag">REST API</span>
+                                <span class="step-tag">JSON</span>
+                            </div>
+                            <span class="step-duration" data-i18n="idx-dur-7">⏱ ~4 ساعات</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================
+             شبكة الدورات (نظرة سريعة)
+        ============================ -->
+        <section id="courses">
             <div class="container">
                 <h2 data-i18n="idx-courses-title">الدورات</h2>
+                <p style="color:#666;margin-bottom:0;" data-i18n="idx-courses-sub">انقر على أي دورة للبدء مباشرة</p>
                 <div class="courses-grid">
-                    <div class="course project-card animate__animated animate__zoomIn">
-                        <h3><a href="mo9adima.html" class="course-link" data-i18n="idx-course-intro">مقدمة إلى بايثون</a></h3>
-                        <p data-i18n="idx-course-intro-desc">دورة شاملة للمبتدئين، تغطي الأساسيات وكيفية البدء مع بايثون.</p>
-                    </div>
-                    <div class="course project-card animate__animated animate__zoomIn">
-                        <h3><a href="kainat.html" class="course-link" data-i18n="idx-course-oo">برمجة الكائنات (OOP)</a></h3>
-                        <p data-i18n="idx-course-oo-desc">دورة متقدمة تغطي البرمجة الكائنية وكيفية استخدامها في بايثون.</p>
-                    </div>
-                    <div class="course project-card animate__animated animate__zoomIn">
-                        <h3><a href="byanat.html" class="course-link" data-i18n="idx-course-data">تحليل البيانات ببايثون</a></h3>
-                        <p data-i18n="idx-course-data-desc">دورة متخصصة تغطي كيفية استخدام بايثون في تحليل البيانات.</p>
-                    </div>
+
+                    <a href="mo9adima.html" class="course-card c1 animate__animated animate__zoomIn">
+                        <span class="course-emoji">🐍</span>
+                        <h3 data-i18n="idx-course-intro">مقدمة إلى بايثون</h3>
+                        <p data-i18n="idx-course-intro-desc">المتغيرات، الشروط، الحلقات، الدوال، القوائم، القواميس، ومعالجة الأخطاء.</p>
+                        <span class="course-badge badge-beginner" data-i18n="idx-level-beginner">مبتدئ</span>
+                        <span class="course-arrow"><i class="fas fa-arrow-left"></i></span>
+                    </a>
+
+                    <a href="kainat.html" class="course-card c2 animate__animated animate__zoomIn">
+                        <span class="course-emoji">🧩</span>
+                        <h3 data-i18n="idx-course-oo">برمجة الكائنات (OOP)</h3>
+                        <p data-i18n="idx-course-oo-desc">الكلاسات، الوراثة، تعدد الأشكال، والتغليف — طريقة المحترفين.</p>
+                        <span class="course-badge badge-beginner" data-i18n="idx-level-beginner">مبتدئ متوسط</span>
+                        <span class="course-arrow"><i class="fas fa-arrow-left"></i></span>
+                    </a>
+
+                    <a href="maktaba.html" class="course-card c4 animate__animated animate__zoomIn">
+                        <span class="course-emoji">📦</span>
+                        <h3 data-i18n="idx-course-lib">المكتبات القياسية والملفات</h3>
+                        <p data-i18n="idx-course-lib-desc">os وjson وdatetime وrandom وmath والتعامل مع الملفات.</p>
+                        <span class="course-badge badge-mid" data-i18n="idx-level-mid">متوسط</span>
+                        <span class="course-arrow"><i class="fas fa-arrow-left"></i></span>
+                    </a>
+
+                    <a href="mutaqaddim.html" class="course-card c5 animate__animated animate__zoomIn">
+                        <span class="course-emoji">🧠</span>
+                        <h3 data-i18n="idx-course-adv">مفاهيم بايثون المتقدمة</h3>
+                        <p data-i18n="idx-course-adv-desc">Decorators وGenerators وLambda و*args/**kwargs وType Hints.</p>
+                        <span class="course-badge badge-mid" data-i18n="idx-level-mid">متوسط متقدم</span>
+                        <span class="course-arrow"><i class="fas fa-arrow-left"></i></span>
+                    </a>
+
+                    <a href="byanat.html" class="course-card c3 animate__animated animate__zoomIn">
+                        <span class="course-emoji">📊</span>
+                        <h3 data-i18n="idx-course-data">تحليل البيانات ببايثون</h3>
+                        <p data-i18n="idx-course-data-desc">pandas وnumpy وmatplotlib وseaborn مع مشاريع حقيقية.</p>
+                        <span class="course-badge badge-advanced" data-i18n="idx-level-advanced">متقدم</span>
+                        <span class="course-arrow"><i class="fas fa-arrow-left"></i></span>
+                    </a>
+
+                    <a href="regex.html" class="course-card c6 animate__animated animate__zoomIn">
+                        <span class="course-emoji">🔍</span>
+                        <h3 data-i18n="idx-course-regex">التعابير النمطية (Regex)</h3>
+                        <p data-i18n="idx-course-regex-desc">ابحث واستخرج وبدّل الأنماط — مع مختبر تفاعلي مدمج.</p>
+                        <span class="course-badge badge-advanced" data-i18n="idx-level-advanced">متقدم</span>
+                        <span class="course-arrow"><i class="fas fa-arrow-left"></i></span>
+                    </a>
+
+                    <a href="api.html" class="course-card c7 animate__animated animate__zoomIn">
+                        <span class="course-emoji">🌐</span>
+                        <h3 data-i18n="idx-course-api">APIs و Web Scraping</h3>
+                        <p data-i18n="idx-course-api-desc">اربط برنامجك بالعالم — requests وBeautifulSoup.</p>
+                        <span class="course-badge badge-expert" data-i18n="idx-level-expert">خبير</span>
+                        <span class="course-arrow"><i class="fas fa-arrow-left"></i></span>
+                    </a>
+
                 </div>
             </div>
         </section>
 
-        <!-- قسم التواصل -->
+        <!-- إعلان -->
+        <div style="max-width:900px;margin:0 auto;padding:0 20px;">
+            <ins class="adsbygoogle" style="display:block;"
+                 data-ad-client="ca-pub-6734955325699280"
+                 data-ad-slot="YOUR_AD_SLOT_ID"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <!-- ============================
+             قسم التواصل
+        ============================ -->
         <section id="contact" class="animate__animated animate__fadeInUp">
             <div class="container">
                 <h2 data-i18n="idx-contact-title">اتصل بنا</h2>
                 <p data-i18n="idx-contact-description">تواصلوا معنا عبر وسائل التواصل الاجتماعي أو أرسلوا رسالة!</p>
                 <ul class="social-media animate__animated animate__fadeIn">
-                    <li><a href="https://www.facebook.com/profile.php?id=100061615326332" target="_blank" rel="noopener noreferrer" aria-label="فيسبوك"><i class="fab fa-facebook-f"></i></a></li>
-                    <li><a href="https://x.com/Khalil1081506" target="_blank" rel="noopener noreferrer" aria-label="تويتر"><i class="fab fa-twitter"></i></a></li>
-                    <li><a href="https://www.instagram.com/kx_root" target="_blank" rel="noopener noreferrer" aria-label="إنستغرام"><i class="fab fa-instagram"></i></a></li>
-                    <li><a href="mailto:khalil.akram307@gmail.com" aria-label="بريد إلكتروني"><i class="fas fa-envelope"></i></a></li>
+                    <li>
+                        <a href="https://www.facebook.com/profile.php?id=100061615326332"
+                           target="_blank" rel="noopener noreferrer" aria-label="فيسبوك">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://x.com/Khalil1081506"
+                           target="_blank" rel="noopener noreferrer" aria-label="تويتر">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/kx_root"
+                           target="_blank" rel="noopener noreferrer" aria-label="إنستغرام">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:khalil.akram307@gmail.com" aria-label="بريد إلكتروني">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </li>
                 </ul>
-                <!-- نموذج التواصل عبر Formspree — غيّر YOUR_FORM_ID بالرابط الخاص بك -->
-                <form action="https://formspree.io/f/mdawjeoe" method="POST" class="animate__animated animate__zoomIn">
+
+                <!-- نموذج Formspree — غيّر YOUR_FORM_ID -->
+                <form action="https://formspree.io/f/mdawjeoe" method="POST"
+                      class="animate__animated animate__zoomIn">
                     <h3 data-i18n="idx-form-title">أرسل لنا رسالة</h3>
-                    <label for="name" data-i18n="idx-form-name">الاسم:</label>
-                    <input type="text" id="name" name="name" required aria-required="true">
-                    <label for="email" data-i18n="idx-form-email">البريد الإلكتروني:</label>
-                    <input type="email" id="email" name="email" required aria-required="true">
+                    <label for="name"    data-i18n="idx-form-name">الاسم:</label>
+                    <input  type="text"  id="name"    name="name"    required aria-required="true">
+                    <label for="email"   data-i18n="idx-form-email">البريد الإلكتروني:</label>
+                    <input  type="email" id="email"   name="email"   required aria-required="true">
                     <label for="message" data-i18n="idx-form-message">الرسالة:</label>
                     <textarea id="message" name="message" rows="4" required aria-required="true"></textarea>
                     <button type="submit" data-i18n="idx-form-submit">إرسال</button>
                 </form>
             </div>
         </section>
+
     </main>
 
     <footer class="animate__animated animate__fadeIn">
@@ -124,7 +749,7 @@ print("مرحباً، العالم!")
             <p data-i18n="footer-text">© 2025 تعلم لغة بايثون. جميع الحقوق محفوظة.</p>
             <p>
                 <a href="privacy.html" data-i18n="footer-privacy">سياسة الخصوصية</a> |
-                <a href="terms.html" data-i18n="footer-terms">شروط الاستخدام</a>
+                <a href="terms.html"   data-i18n="footer-terms">شروط الاستخدام</a>
             </p>
         </div>
     </footer>
@@ -132,3 +757,4 @@ print("مرحباً، العالم!")
     <script src="i18n.js" defer></script>
 </body>
 </html>
+
